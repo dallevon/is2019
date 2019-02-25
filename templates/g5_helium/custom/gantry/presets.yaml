@@ -9,10 +9,10 @@ preset0:
       background: '#ffffff'
       text-color: '#424753'
     accent:
-      color-1: '#4db2b3'
+      color-1: '#4887a4'
       color-2: '#8f4dae'
     link:
-      regular: '#4db2b3'
+      regular: '#4887a4'
       hover: '#424753'
     font:
       family-default: 'Raleway, Helvetica, Tahoma, Geneva, Arial, sans-serif'
@@ -49,9 +49,9 @@ preset0:
       background: '#312f38'
       text-color: '#ffffff'
     offcanvas:
-      background: '#4db2b3'
+      background: '#4887a4'
       text-color: '#eceeef'
-      toggle-color: '#4db2b3'
+      toggle-color: '#4887a4'
 
 preset1:
   image: 'gantry-admin://images/preset1.png'
