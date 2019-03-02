@@ -1,0 +1,30 @@
+@import 'dependencies';
+
+.user {
+  &-loginmodule {
+    &-actions {
+      .login & {
+        display: block;
+      }
+    }
+  }
+}
+
+#remember-me,
+#form-login-remember {
+  @include display(flex);
+  @include align-items(center);
+  .control-label {
+    margin: 0 0.5rem 0 0;
+    label {
+      margin: 0;
+    }
+  }
+}
+#remember {
+  margin: 0;
+}
+#modlgn-remember {
+  float: none;
+  margin: 0;
+}
