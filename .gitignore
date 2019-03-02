@@ -18,6 +18,8 @@
 /includes/*
 /installation/*
 /language/*
+!/language/overrides/
+/language/overrides/index.html
 /layouts/*
 /libraries/*
 /media/*
@@ -31,9 +33,13 @@
 /*.txt
 /robots.txt.dist
 
-# end of Joomla core
 /.vscode/*
 !/images/sources
+!/components/com_users
+/components/com_users/*
+!/components/com_users/controllers
+
+# end of Joomla core
 
 !/templates/g5_helium/
 /templates/g5_helium/*
