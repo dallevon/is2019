@@ -1,0 +1,22 @@
+{% extends '@nucleus/partials/particle.html.twig' %}
+{% set user = joomla.factory('user') %}
+{% set session = joomla.factory('session') %}
+{% block particle %}
+  {% if user.id == 0 %}
+    <a href="#" id="g-login" rel="nofollow" class="{{ particle.css.class }}">
+      {% if particle.content_u %}
+        {{particle.content_u|trans}}{% endif %}
+    </a>
+    {% else %}
+    {% set logoutlink = 'index.php?option=com_users&task=user.logout&'~'=1' %}
+    <a id="g-logout" href="{{logoutlink}}" rel="nofollow" class="{{ particle.css.class }}">
+      {% if particle.content_a %}
+        {{particle.content_a|trans}}{% endif %}
+    </a>
+    {% if particle.greeting %}
+      <span id="g-greeting">
+        {{particle.greeting_text|trans}}
+        {{user.name|raw}}</span>
+    {% endif %}
+  {% endif %}
+{% endblock %}

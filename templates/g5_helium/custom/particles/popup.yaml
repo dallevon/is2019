@@ -1,0 +1,58 @@
+name: Popup
+description: Opens a module in popup.
+type: particle
+
+form:
+  fields:
+    enabled:
+      type: input.checkbox
+      label: Enabled
+      description: Globally enable to the particles.
+      default: true
+
+    _info:
+      type: separator.note
+      class: alert alert-info
+      content: To edit the Module please use the <a href="index.php?option=com_modules" target="_blank" data-g-urltemplate="index.php?option=com_modules&view=module&task=module.edit&id=#ID#" href="#">Joomla's Module Manager <i class="fa fa-fw fa-external-link" aria-hidden="true"></i></a>
+      overridable: false
+
+    module_id:
+      type: gantry.module
+      label: Module Id
+      class: g-urltemplate input-small
+      picker_label: Pick a Module
+      description: Enter module Id to open in popup.
+      pattern: '\d+'
+      overridable: false
+
+    content_u:
+      type: input.text
+      label: Label for Guests
+      description: The text or language constant to be displayed for the login button.
+      placeholder: Login
+      default: IS_LOGIN
+
+    content_a:
+      type: input.text
+      label: Label for Authorized Users
+      description: The text or language constant to be displayed for the logout button.
+      placeholder: Logout
+      default: IS_LOGOUT
+
+    greeting:
+      type: input.checkbox
+      label: Show Greeting
+      description: Show Greeting for Authorized Users.
+      default: false
+
+    greeting_text:
+      type: input.text
+      label: Greeting prefix
+      description: Show Greeting before user's name.
+      default: IS_HELLO
+
+    css.class:
+      type: input.selectize
+      label: Button CSS Classes
+      description: CSS class names for the button.
+      default: button
