@@ -10,7 +10,7 @@ preset0:
       text-color: '#424753'
     accent:
       color-1: '#4887a4'
-      color-2: '#8f4dae'
+      color-2: '#bf4cb7'
     link:
       regular: '#4887a4'
       hover: '#424753'
@@ -38,7 +38,7 @@ preset0:
       background: '#f4f5f7'
       text-color: '#424753'
     testimonials:
-      background: '#8f4dae'
+      background: '#bf4cb7'
       background-image: 'gantry-media://testimonials/img01.jpg'
       background-overlay: 'enabled'
       text-color: '#eceeef'
