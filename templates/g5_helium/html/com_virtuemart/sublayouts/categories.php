@@ -23,84 +23,50 @@ $categories = $viewData['categories'];
 
 if ($categories) {
 
-$categories_per_row = !empty($viewData['categories_per_row'])? $viewData['categories_per_row']:VmConfig::get ( 'categories_per_row', 3 );
-if(empty($categories_per_row)) $categories_per_row = 3;
+  $categories_per_row = !empty($viewData['categories_per_row']) ? $viewData['categories_per_row'] : VmConfig::get('categories_per_row', 3);
+  if (empty($categories_per_row)) $categories_per_row = 3;
 
-// Category and Columns Counter
-$iCol = 1;
-$iCategory = 1;
+  // Category and Columns Counter
+  $iCol = 1;
+  $iCategory = 1;
 
-// Calculating Categories Per Row
-$category_cellwidth = ' width'.floor ( 100 / $categories_per_row );
+  // Calculating Categories Per Row
+  $category_cellwidth = floor(100 / $categories_per_row);
 
-// Separator
-$verticalseparator = " vertical-separator";
+  // Separator
 
-$ajaxUpdate = '';
-if(VmConfig::get ('ajax_category', false)){
-	$ajaxUpdate = 'data-dynamic-update="1"';
-}
-?>
+  $ajaxUpdate = '';
+  if (VmConfig::get('ajax_category', false)) {
+    $ajaxUpdate = 'data-dynamic-update="1"';
+  }
+  ?>
 
-<div class="category-view">
+<div class="category-view g-grid">
 
-<?php 
+  <?php 
 
-// Start the Output
-    foreach ( $categories as $category ) {
+    // Start the Output
+    foreach ($categories as $category) {
 
-	    // Show the horizontal seperator
-	    if ($iCol == 1 && $iCategory > $categories_per_row) { ?>
-	    <div class="horizontal-separator"></div>
-	    <?php }
+      // Category Link
+      $caturl = JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_category_id=' . $category->virtuemart_category_id, false);
+      ?>
 
-	    // this is an indicator wether a row needs to be opened or not
-	    if ($iCol == 1) { ?>
-  <div class="row">
-        <?php }
+  <div class="is-category g-block size-<?php echo $category_cellwidth; ?>">
+    <div class="is-spacer">
+      <h2>
+        <a href="<?php echo $caturl ?>" title="<?php echo vmText::_($category->category_name) ?>"
+          <?php echo $ajaxUpdate ?>>
+          <span
+            class="is-image-wrapper"><?php echo $category->images[0]->displayMediaThumb('class="browseCategoryImage"', false); ?></span>
+          <?php echo '<span class="button button-small">' . vmText::_(mb_convert_case($category->category_name, MB_CASE_TITLE, "UTF-8")) . '</span>' ?>
 
-        // Show the vertical separator
-        if ($iCategory == $categories_per_row or $iCategory % $categories_per_row == 0) {
-          $show_vertical_separator = ' ';
-        } else {
-          $show_vertical_separator = $verticalseparator;
-        }
-
-        // Category Link
-        $caturl = JRoute::_ ( 'index.php?option=com_virtuemart&view=category&virtuemart_category_id=' . $category->virtuemart_category_id , FALSE);
-
-          // Show Category ?>
-    <div class="category floatleft<?php echo $category_cellwidth . $show_vertical_separator ?>">
-      <div class="spacer">
-        <h2>
-          <a href="<?php echo $caturl ?>" title="<?php echo vmText::_($category->category_name) ?>" <?php echo $ajaxUpdate?> >
-          <?php echo vmText::_($category->category_name) ?>
-          <br />
-          <?php // if ($category->ids) {
-            echo $category->images[0]->displayMediaThumb('class="browseCategoryImage"',false);
-          //} ?>
-          </a>
-        </h2>
-      </div>
+        </a>
+      </h2>
     </div>
-	    <?php
-	    $iCategory ++;
+  </div>
 
-	    // Do we need to close the current row now?
-        if ($iCol == $categories_per_row) { ?>
-    <div class="clear"></div>
-	</div>
-		    <?php
-		    $iCol = 1;
-	    } else {
-		    $iCol ++;
-	    }
-    }
-	// Do we need a final closing row tag?
-	if ($iCol != 1) { ?>
-		<div class="clear"></div>
-	</div>
-	<?php
-	}
-	?></div><?php
- } ?>
+
+  <?php 
+  }
+}  ?>

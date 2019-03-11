@@ -11,161 +11,103 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
-$products_per_row = empty($viewData['products_per_row'])? 1:$viewData['products_per_row'] ;
+
+$user   = JFactory::getUser();
+$user_id = ($user->get('id'));
+$user_registered =  $user_id !== 0;  
+
+$products_per_row = empty($viewData['products_per_row']) ? 1 : $viewData['products_per_row'];
 $currency = $viewData['currency'];
 $showRating = $viewData['showRating'];
-$verticalseparator = " vertical-separator";
 echo shopFunctionsF::renderVmSubLayout('askrecomjs');
 
 $ItemidStr = '';
 $Itemid = shopFunctionsF::getLastVisitedItemId();
-if(!empty($Itemid)){
-	$ItemidStr = '&Itemid='.$Itemid;
+if (!empty($Itemid)) {
+  $ItemidStr = '&Itemid=' . $Itemid;
 }
 
 $dynamic = false;
 
-if (vRequest::getInt('dynamic',false) and vRequest::getInt('virtuemart_product_id',false)) {
-	$dynamic = true;
+if (vRequest::getInt('dynamic', false) and vRequest::getInt('virtuemart_product_id', false)) {
+  $dynamic = true;
 }
 
-foreach ($viewData['products'] as $type => $products ) {
+foreach ($viewData['products'] as $type => $products) {
 
-	$col = 1;
-	$nb = 1;
-	$row = 1;
-
-	if($dynamic){
-		$rowsHeight[$row]['product_s_desc'] = 1;
-		$rowsHeight[$row]['price'] = 1;
-		$rowsHeight[$row]['customfields'] = 1;
-		$col = 2;
-		$nb = 2;
-	} else {
-		$rowsHeight = shopFunctionsF::calculateProductRowsHeights($products,$currency,$products_per_row);
-
-		if( (!empty($type) and count($products)>0) or (count($viewData['products'])>1 and count($products)>0)){
-			$productTitle = vmText::_('COM_VIRTUEMART_'.strtoupper($type).'_PRODUCT'); ?>
-	<div class="<?php echo $type ?>-view">
-	  <h4><?php echo $productTitle ?></h4>
-			<?php // Start the Output
-		}
-	}
-
-	// Calculating Products Per Row
-	$cellwidth = ' width'.floor ( 100 / $products_per_row );
-
-	$BrowseTotalProducts = count($products);
-
-
-	foreach ( $products as $product ) {
-		if(!is_object($product) or empty($product->link)) {
-			vmdebug('$product is not object or link empty',$product);
-			continue;
-		}
-		// Show the horizontal seperator
-		if ($col == 1 && $nb > $products_per_row) { ?>
-	<div class="horizontal-separator"></div>
-		<?php }
-
-		// this is an indicator wether a row needs to be opened or not
-		if ($col == 1) { ?>
-	<div class="row">
-		<?php }
-
-		// Show the vertical seperator
-		if ($nb == $products_per_row or $nb % $products_per_row == 0) {
-			$show_vertical_separator = ' ';
-		} else {
-			$show_vertical_separator = $verticalseparator;
-		}
-
-    // Show Products ?>
-	<div class="product vm-col<?php echo ' vm-col-' . $products_per_row . $show_vertical_separator ?>">
-		<div class="spacer product-container" data-vm="product-container">
-			<div class="vm-product-media-container">
-
-					<a title="<?php echo $product->product_name ?>" href="<?php echo JRoute::_($product->link.$ItemidStr); ?>">
-						<?php
-						echo $product->images[0]->displayMediaThumb('class="browseProductImage"', false);
-						?>
-					</a>
-
-			</div>
-
-			<div class="vm-product-rating-container">
-				<?php echo shopFunctionsF::renderVmSubLayout('rating',array('showRating'=>$showRating, 'product'=>$product));
-				if ( VmConfig::get ('display_stock', 1)) { ?>
-					<span class="vmicon vm2-<?php echo $product->stock->stock_level ?>" title="<?php echo $product->stock->stock_tip ?>"></span>
-				<?php }
-				echo shopFunctionsF::renderVmSubLayout('stockhandle',array('product'=>$product));
-				?>
-			</div>
-
-
-				<div class="vm-product-descr-container-<?php echo $rowsHeight[$row]['product_s_desc'] ?>">
-					<h2><?php echo JHtml::link ($product->link.$ItemidStr, $product->product_name); ?></h2>
-					<?php if(!empty($rowsHeight[$row]['product_s_desc'])){
-					?>
-					<p class="product_s_desc">
-						<?php // Product Short Description
-						if (!empty($product->product_s_desc)) {
-							echo shopFunctionsF::limitStringByWord ($product->product_s_desc, 60, ' ...') ?>
-						<?php } ?>
-					</p>
-			<?php  } ?>
-				</div>
-
-
-			<?php //echo $rowsHeight[$row]['price'] ?>
-			<div class="vm3pr-<?php echo $rowsHeight[$row]['price'] ?>"> <?php
-				echo shopFunctionsF::renderVmSubLayout('prices',array('product'=>$product,'currency'=>$currency)); ?>
-				<div class="clear"></div>
-			</div>
-			<?php //echo $rowsHeight[$row]['customs'] ?>
-			<div class="vm3pr-<?php echo $rowsHeight[$row]['customfields'] ?>"> <?php
-				echo shopFunctionsF::renderVmSubLayout('addtocart',array('product'=>$product,'rowHeights'=>$rowsHeight[$row], 'position' => array('ontop', 'addtocart'))); ?>
-			</div>
-
-			<div class="vm-details-button">
-				<?php // Product Details Button
-				$link = empty($product->link)? $product->canonical:$product->link;
-				echo JHtml::link($link.$ItemidStr,vmText::_ ( 'COM_VIRTUEMART_PRODUCT_DETAILS' ), array ('title' => $product->product_name, 'class' => 'product-details' ) );
-				//echo JHtml::link ( JRoute::_ ( 'index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=' . $product->virtuemart_product_id . '&virtuemart_category_id=' . $product->virtuemart_category_id , FALSE), vmText::_ ( 'COM_VIRTUEMART_PRODUCT_DETAILS' ), array ('title' => $product->product_name, 'class' => 'product-details' ) );
-				?>
-			</div>
-		<?php if($dynamic){
-			echo vmJsApi::writeJS();
-		} ?>
-		</div>
-	</div>
-
-	<?php
-    $nb ++;
-
-      // Do we need to close the current row now?
-      if ($col == $products_per_row || $nb>$BrowseTotalProducts) { ?>
-    <div class="clear"></div>
-  </div>
-      <?php
-      	$col = 1;
-		$row++;
-    } else {
-      $col ++;
+  if ($dynamic) {
+    $rowsHeight[$row]['product_s_desc'] = 1;
+    $rowsHeight[$row]['price'] = 1;
+    $rowsHeight[$row]['customfields'] = 1;
+    $col = 2;
+    $nb = 2;
+  } else {
+    if ((!empty($type) and count($products) > 0) or (count($viewData['products']) > 1 and count($products) > 0)) {
+      $productTitle = vmText::_('COM_VIRTUEMART_' . strtoupper($type) . '_PRODUCT');
+      echo '<div class="' . $type . '-view">';
+      echo '<h4>' . $productTitle . '</h4>';
+      echo '</div >';
     }
   }
 
-      if( (!empty($type) and count($products)>0) or (count($viewData['products'])>1 and count($products)>0) ){
-        // Do we need a final closing row tag?
-        //if ($col != 1) {
-      ?>
-    <div class="clear"></div>
-  </div>
-    <?php
-    // }
-    }
-}
+  // Calculating Products Per Row
+  $cellwidth = floor(100 / $products_per_row);
 
-/*if(vRequest::getInt('dynamic')){
-	echo vmJsApi::writeJS();
-}*/ ?>
+  echo '<div class="g-grid is-product">';
+
+  foreach ($products as $product) {
+    if (!is_object($product) or empty($product->link)) {
+      vmdebug('$product is not object or link empty', $product);
+      continue;
+    }
+    echo '<div class="is-product g-block  size-' . $cellwidth . '">';
+      echo '<div class="is-spacer is-product-container" data-vm="product-container">';
+
+        echo '<div class="is-vm-product-media-container">';
+          echo '<a title="' . $product->product_name . '" href="' . JRoute::_($product->link . $ItemidStr) . '">';
+            echo '<span class="is-image-wrapper">';
+              echo $product->images[0]->displayMediaThumb('class="browseProductImage"', false);
+            echo '</span>';
+          echo '</a>';
+        echo '</div>';
+        
+        
+        
+        echo '<div class="is-vm-product-descr-container">' . '<h2>' . JHtml::link($product->link . $ItemidStr, $product->product_name) . '</h2>';
+        if (!empty($product->product_s_desc) && $product->product_parent_id != 0) {
+          echo shopFunctionsF::limitStringByWord($product->product_s_desc, 60, ' ...');
+        }
+        echo '</div>';
+        
+        echo shopFunctionsF::renderVmSubLayout('customfields',array('product'=>$product,'position'=>'normal', 'hideTitle'=>true));
+        
+        if ($user_registered) {
+          if (VmConfig::get('display_stock', 1)) {
+            echo '<div class="is-stock-level">';
+            echo '<div class="is-vmicon is-vm2-' . $product->stock->stock_level . '" title="' . $product->stock->stock_tip . '"></div>';
+            echo '<div class="is-stock-level-tip">'.$product->stock->stock_tip.'</div>';
+            echo shopFunctionsF::renderVmSubLayout('stockhandle', array('product' => $product));
+            echo '</div>';
+          }
+          echo shopFunctionsF::renderVmSubLayout('prices', array('product' => $product, 'currency' => $currency));
+        }
+        
+        echo '<div class="is-vm-details-button">';
+        $link = empty($product->link) ? $product->canonical : $product->link;
+        echo JHtml::link($link . $ItemidStr, vmText::_('COM_VIRTUEMART_PRODUCT_DETAILS'), array('title' => $product->product_name, 'class' => 'is-product-details button button-small'));
+        echo '</div>';
+
+
+    if ($dynamic) {
+      echo vmJsApi::writeJS();
+    }
+
+
+
+    echo '</div>';
+    echo '</div>';
+  }
+
+  echo '</div>';
+}
+ 
