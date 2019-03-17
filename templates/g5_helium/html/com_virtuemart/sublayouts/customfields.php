@@ -38,6 +38,10 @@ if (!empty($product->customfieldsSorted[$position])) {
 		if ($field->is_hidden || empty($field->display)) {
 			continue;
 		}
+		// if ($position == 'addtocart') {
+		// 	print_r($field);
+		// echo $position;
+		// };
 		//OSP http://forum.virtuemart.net/index.php?topic=99320.0
 		echo '<div class="is-product-field is-product-field-type-' . $field->field_type . '">';
 		if (!$hideTitle and !$customTitle and $field->custom_title != $custom_title and $field->show_title) {
