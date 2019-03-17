@@ -1,6 +1,11 @@
 <?php  // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+$app = JFactory::getApplication();
+$menu = $app->getMenu();
+$menuItem = $menu->getItems('link', 'index.php?option=com_virtuemart&view=cart', true);
+
+
 echo '<div class="vmCartModule ' . $params->get('moduleclass_sfx') . '" id="vmCartModule' . $params->get('moduleid_sfx') . '">';
 
 echo '<div class="hiddencontainer" style=" display: none; "><div class="vmcontainer"><div class="product_row">';
@@ -45,7 +50,14 @@ echo '<div class="total_products">' . $data->totalProductTxt . '</div>';
 
 echo '<div class="show_cart">';
 if ($data->totalProduct) {
-  echo $data->cart_show;
+  if (false && $data->dataValidated == true) {
+    $taskRoute = '&task=confirm';
+    $linkName = vmText::_('COM_VIRTUEMART_ORDER_CONFIRM_MNU');
+  } else {
+    $taskRoute = '';
+    $linkName = vmText::_('COM_VIRTUEMART_CART_SHOW');
+  }
+  echo '<a href="' . JRoute::_("index.php?option=com_virtuemart&view=cart&Itemid=" . $menuItem->id . $taskRoute, vmURI::useSSL()) . '" rel="nofollow" >' . $linkName . '</a>';
 }
 echo '</div>';
 

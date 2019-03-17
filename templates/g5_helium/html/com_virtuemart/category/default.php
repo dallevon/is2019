@@ -39,12 +39,13 @@ $j = 'jQuery(document).ready(function() {
 
 vmJsApi::addJScript('sendFormChange', $j);
 
+if (!$this->category->virtuemart_category_id) {
+  $jc = 'jQuery(document).ready(function() {
+    jQuery("body").trigger("updateVirtueMartCartModule");
+  })';
 
-$jc = 'jQuery(document).ready(function() {
-  jQuery("body").trigger("updateVirtueMartCartModule");
-})';
-
-vmJsApi::addJScript('updateCart', $jc);
+  vmJsApi::addJScript('updateCart', $jc);
+}
 
 
 if (vRequest::getInt('dynamic', false) and vRequest::getInt('virtuemart_product_id', false)) {

@@ -20,10 +20,16 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
+$app = JFactory::getApplication();
+$menu = $app->getMenu();
+$menuItem = $menu->getItems('link', 'index.php?option=com_virtuemart&view=cart', true);
+
+
+
 echo '<div class="is-cart-popup">';
 echo '<div class="is-cart-popup-links">';
 echo '<a class="is-continue_link button button-bevel button-outline button-xsmall" href="' . $this->continue_link . '" >' . vmText::_('COM_VIRTUEMART_CONTINUE_SHOPPING') . '</a>';
-echo '<a class="is-showcart button button-bevel button-outline button-xsmall" href="' . $this->cart_link . '">' . vmText::_('COM_VIRTUEMART_CART_SHOW') . '</a>';
+echo '<a class="is-showcart button button-bevel button-outline button-xsmall" href="' . $this->cart_link . '&Itemid=' . $menuItem->id . '">' . vmText::_('COM_VIRTUEMART_CART_SHOW') . '</a>';
 echo '</div>';
 
 if ($this->products) {
