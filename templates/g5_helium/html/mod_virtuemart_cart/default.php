@@ -1,90 +1,59 @@
 <?php  // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-// Ajax is displayed in vm_cart_products
-?>
+echo '<div class="vmCartModule ' . $params->get('moduleclass_sfx') . '" id="vmCartModule' . $params->get('moduleid_sfx') . '">';
 
-<!-- Virtuemart 2 Ajax Card -->
-<div class="vmCartModule <?php echo $params->get('moduleclass_sfx'); ?>" id="vmCartModule<?php echo $params->get('moduleid_sfx'); ?>">
+echo '<div class="hiddencontainer" style=" display: none; "><div class="vmcontainer"><div class="product_row">';
 
+echo '<span class="quantity"></span><span class="product_name"></span>';
 
-    <?php
-    if ($show_product_list) {
-      ?>
-    <div class="hiddencontainer" style=" display: none; ">
-        <div class="vmcontainer">
-            <div class="product_row">
-                <span class="quantity"></span>&nbsp;x&nbsp;<span class="product_name"></span>
+if ($show_price and $currencyDisplay->_priceConfig['salesPrice'][0]) {
+  echo '<div class="subtotal_with_tax"></div>';
+}
+echo '<div class="customProductData"></div>';
 
-                <?php if ($show_price and $currencyDisplay->_priceConfig['salesPrice'][0]) { ?>
-                <div class="subtotal_with_tax"></div>
-                <?php 
-              } ?>
-                <div class="customProductData"></div>
-            </div>
-        </div>
-    </div>
-    <div class="vm_cart_products">
-        <div class="vmcontainer">
-
-            <?php
-            foreach ($data->products as $product) {
-              ?>
-            <div class="product_row">
-                <span class="quantity">
-                    <?php echo  $product['quantity'] ?></span>&nbsp;x&nbsp;<span class="product_name">
-                    <?php echo  $product['product_name'] ?></span>
-                <?php if ($show_price and $currencyDisplay->_priceConfig['salesPrice'][0]) { ?>
-                <div class="subtotal_with_tax" style="float: right;">
-                    <?php echo $product['subtotal_with_tax'] ?>
-                </div>
-                <?php 
-              } ?>
-                <?php if (!empty($product['customProductData'])) { ?>
-                <div class="customProductData">
-                    <?php echo $product['customProductData'] ?>
-                </div><br>
-
-                <?php 
-              } ?>
-
-            </div>
-            <?php 
-          }
-          ?>
-        </div>
-    </div>
-    <?php 
-  } ?>
+echo '</div></div></div>';
 
 
+if ($show_product_list) {
+  echo '<div class="vm_cart_products"><div class="vmcontainer">';
 
+  foreach ($data->products as $product) {
+    echo '<div class="product_row">';
 
+    echo '<span class="quantity">' . $product['quantity'] . '</span><span class="product_name">' . $product['product_name'] . '</span>';
+    if ($show_price and $currencyDisplay->_priceConfig['salesPrice'][0]) {
+      echo '<div class="subtotal_with_tax">' . $product['subtotal_with_tax'] . '</div>';
+    }
+    if (!empty($product['customProductData'])) {
+      echo '<div class="customProductData">' . $product['customProductData'] . '</div>';
+    }
 
-
-    <div class="vmCartModule-total">
-        <?php if ($data->totalProduct and $show_price and $currencyDisplay->_priceConfig['salesPrice'][0]) { ?>
-        <?php echo $data->billTotal; ?>
-        <?php 
-      } ?>
-    </div>
-
-    <div class="vmCartModule-total_products total_products">
-        <?php echo  $data->totalProduct ?>
-    </div>
-    <div class="vmCartModule-show_cart">
-        <?php if ($data->totalProduct) echo  $data->cart_show; ?>
-    </div>
-    <?php
-    $view = vRequest::getCmd('view');
-    if ($view != 'cart' and $view != 'user') {
-      ?>
-    <div class="payments-signin-button"></div>
-    <?php
-
+    echo '</div>';
   }
-  ?>
-    <noscript>
-        <?php echo vmText::_('MOD_VIRTUEMART_CART_AJAX_CART_PLZ_JAVASCRIPT') ?>
-    </noscript>
-</div> 
+
+  echo '</div></div>';
+}
+
+echo '<div class="total">';
+if ($data->totalProduct and $show_price and $currencyDisplay->_priceConfig['salesPrice'][0]) {
+  echo $data->billTotal;
+}
+echo '</div>';
+
+echo '<div class="total_products">' . $data->totalProductTxt . '</div>';
+
+echo '<div class="show_cart">';
+if ($data->totalProduct) {
+  echo $data->cart_show;
+}
+echo '</div>';
+
+
+$view = vRequest::getCmd('view');
+if ($view != 'cart' and $view != 'user') {
+  echo '<div class="payments-signin-button"></div>';
+}
+echo '<noscript>' . vmText::_('MOD_VIRTUEMART_CART_AJAX_CART_PLZ_JAVASCRIPT') . '</noscript>';
+
+echo '</div>';

@@ -40,6 +40,13 @@ $j = 'jQuery(document).ready(function() {
 vmJsApi::addJScript('sendFormChange', $j);
 
 
+$jc = 'jQuery(document).ready(function() {
+  jQuery("body").trigger("updateVirtueMartCartModule");
+})';
+
+vmJsApi::addJScript('updateCart', $jc);
+
+
 if (vRequest::getInt('dynamic', false) and vRequest::getInt('virtuemart_product_id', false)) {
   if (!empty($this->products)) {
     if ($this->fallback) {
