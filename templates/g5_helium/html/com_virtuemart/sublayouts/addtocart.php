@@ -18,51 +18,52 @@
  */
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
+
 $product = $viewData['product'];
 
-if(isset($viewData['rowHeights'])){
+if (isset($viewData['rowHeights'])) {
 	$rowHeights = $viewData['rowHeights'];
 } else {
-	$rowHeights['customfields'] = TRUE;
+	$rowHeights['customfields'] = true;
 }
 
-if(isset($viewData['position'])){
+if (isset($viewData['position'])) {
 	$positions = $viewData['position'];
 } else {
 	$positions = 'addtocart';
 }
-if(!is_array($positions)) $positions = array($positions);
+if (!is_array($positions)) $positions = array($positions);
 
+$authorized = isset($viewData['authorized']) ?  $viewData['authorized'] : false;
+$in_stock = isset($viewData['in_stock']) ? $viewData['in_stock'] : 10;
 
 
 ?>
-	<div class="addtocart-area">
-		<form method="post" class="product js-recalculate" action="<?php echo JRoute::_ ('index.php?option=com_virtuemart',false); ?>" autocomplete="off" >
-			<div class="vm-customfields-wrap">
-				<?php
-				if(!empty($rowHeights['customfields'])) {
-					foreach($positions as $pos){
-						echo shopFunctionsF::renderVmSubLayout('customfields',array('product'=>$product,'position'=>$pos));
-					}
+<div class="is-addtocart-area">
+  <form method="post" class="product js-recalculate"
+    action="<?php echo JRoute::_('index.php?option=com_virtuemart', false); ?>" autocomplete="off">
+    <div class="is-vm-customfields-wrap">
+      <?php
+						if (!empty($rowHeights['customfields'])) {
+							foreach ($positions as $pos) {
+								echo shopFunctionsF::renderVmSubLayout('customfields', array('product' => $product, 'position' => $pos));
+							}
+						} ?>
+    </div>
+    <?php
+				if (!VmConfig::get('use_as_catalog', 0) && $authorized && $in_stock > 0) {
+					echo shopFunctionsF::renderVmSubLayout('addtocartbar', array('product' => $product));
 				} ?>
-			</div>			
-				<?php
-				if (!VmConfig::get('use_as_catalog', 0)  ) {
-					echo shopFunctionsF::renderVmSubLayout('addtocartbar',array('product'=>$product));
+    <input type="hidden" name="option" value="com_virtuemart" />
+    <input type="hidden" name="view" value="cart" />
+    <input type="hidden" name="virtuemart_product_id[]" value="<?php echo $product->virtuemart_product_id ?>" />
+    <input type="hidden" name="pname" value="<?php echo $product->product_name ?>" />
+    <input type="hidden" name="pid" value="<?php echo $product->virtuemart_product_id ?>" />
+    <?php
+				$itemId = vRequest::getInt('Itemid', false);
+				if ($itemId) {
+					echo '<input type="hidden" name="Itemid" value="' . $itemId . '"/>';
 				} ?>
-			<input type="hidden" name="option" value="com_virtuemart"/>
-			<input type="hidden" name="view" value="cart"/>
-			<input type="hidden" name="virtuemart_product_id[]" value="<?php echo $product->virtuemart_product_id ?>"/>
-			<input type="hidden" name="pname" value="<?php echo $product->product_name ?>"/>
-			<input type="hidden" name="pid" value="<?php echo $product->virtuemart_product_id ?>"/>
-			<?php
-			$itemId=vRequest::getInt('Itemid',false);
-			if($itemId){
-				echo '<input type="hidden" name="Itemid" value="'.$itemId.'"/>';
-			} ?>
-		</form>
+  </form>
 
-	</div>
-
-<?php // }
-?>
+</div>

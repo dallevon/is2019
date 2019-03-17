@@ -20,46 +20,49 @@
 defined('_JEXEC') or die('Restricted access');
 $product = $viewData['product'];
 
-if(isset($viewData['rowHeights'])){
+if (isset($viewData['rowHeights'])) {
 	$rowHeights = $viewData['rowHeights'];
 } else {
-	$rowHeights['customfields'] = TRUE;
+	$rowHeights['customfields'] = true;
 }
 
 $init = 1;
-if(isset($viewData['init'])){
+if (isset($viewData['init'])) {
 	$init = $viewData['init'];
 }
 
-if(!empty($product->min_order_level) and $init<$product->min_order_level){
+if (!empty($product->min_order_level) and $init < $product->min_order_level) {
 	$init = $product->min_order_level;
 }
 
-$step=1;
-if (!empty($product->step_order_level)){
-	$step=$product->step_order_level;
-	if(!empty($init)){
-		if($init<$step){
+$step = 1;
+if (!empty($product->step_order_level)) {
+	$step = $product->step_order_level;
+	if (!empty($init)) {
+		if ($init < $step) {
 			$init = $step;
 		} else {
-			$init = ceil($init/$step) * $step;
-
+			$init = ceil($init / $step) * $step;
 		}
 	}
-	if(empty($product->min_order_level) and !isset($viewData['init'])){
+	if (empty($product->min_order_level) and !isset($viewData['init'])) {
 		$init = $step;
 	}
 }
 
-$maxOrder= '';
-if (!empty($product->max_order_level)){
-	$maxOrder = ' max="'.$product->max_order_level.'" ';
+$in_stock = $product->product_in_stock - $product->product_ordered;
+
+$maxOrder = '';
+if (!empty($product->max_order_level)) {
+	$maxOrder = ' max="' . min($product->max_order_level, $in_stock) . '" ';
+} else {
+	$maxOrder = ' max="' . $in_stock . '" ';
 }
 
 $addtoCartButton = '';
-if(!VmConfig::get('use_as_catalog', 0)){
-	if(!$product->addToCartButton and $product->addToCartButton!==''){
-		$addtoCartButton = self::renderVmSubLayout('addtocartbtn',array('orderable'=>$product->orderable)); //shopFunctionsF::getAddToCartButton ($product->orderable);
+if (!VmConfig::get('use_as_catalog', 0)) {
+	if (!$product->addToCartButton and $product->addToCartButton !== '') {
+		$addtoCartButton = self::renderVmSubLayout('addtocartbtn', array('orderable' => $product->orderable)); //shopFunctionsF::getAddToCartButton ($product->orderable);
 	} else {
 		$addtoCartButton = $product->addToCartButton;
 	}
@@ -68,49 +71,38 @@ $position = 'addtocart';
 
 if ($product->min_order_level > 0) {
 	$minOrderLevel = $product->min_order_level;
-}
-else {
+} else {
 	$minOrderLevel = 1;
 }
 
 
-if (!VmConfig::get('use_as_catalog', 0)  ) { ?>
+if (!VmConfig::get('use_as_catalog', 0)) {
 
-    <div class="addtocart-bar">
-	<?php
+	echo '<div class="is-addtocart-bar">';
 	// Display the quantity box
-	$stockhandle = VmConfig::get('stockhandle_products', false) && $product->product_stockhandle ? $product->product_stockhandle : VmConfig::get('stockhandle','none');
-	if (($stockhandle == 'disableit' or $stockhandle == 'disableadd') and ($product->product_in_stock - $product->product_ordered) < $minOrderLevel) { ?>
-        <a href="<?php echo JRoute::_ ('index.php?option=com_virtuemart&view=productdetails&layout=notify&virtuemart_product_id=' . $product->virtuemart_product_id); ?>" class="notify"><?php echo vmText::_ ('COM_VIRTUEMART_CART_NOTIFY') ?></a><?php
+	$stockhandle = VmConfig::get('stockhandle_products', false) && $product->product_stockhandle ? $product->product_stockhandle : VmConfig::get('stockhandle', 'none');
+	if (($stockhandle == 'disableit' or $stockhandle == 'disableadd') and $in_stock < $minOrderLevel) {
+		echo '<a href="' . JRoute::_('index.php?option=com_virtuemart&view=productdetails&layout=notify&virtuemart_product_id=' . $product->virtuemart_product_id) . '" class="notify">' . vmText::_('COM_VIRTUEMART_CART_NOTIFY') . '</a>';
 	} else {
-		$tmpPrice = (float) $product->prices['costPrice'];
-		if (!( VmConfig::get('askprice', true) and empty($tmpPrice) ) ) {
+		$tmpPrice = (float)$product->prices['costPrice'];
+		if (!(VmConfig::get('askprice', true) and empty($tmpPrice))) {
 			$editable = 'hidden';
 			if ($product->orderable) {
 				$editable = 'text';
-			} ?>
-            <!-- <label for="quantity<?php echo $product->virtuemart_product_id; ?>" class="quantity_box"><?php echo vmText::_ ('COM_VIRTUEMART_CART_QUANTITY'); ?>: </label> -->
-            <span class="quantity-box">
-				<input type="<?php echo $editable ?>" class="quantity-input js-recalculate" name="quantity[]"
-                       data-errStr="<?php echo vmText::_ ('COM_VIRTUEMART_WRONG_AMOUNT_ADDED')?>"
-                       value="<?php echo $init; ?>" init="<?php echo $init; ?>" step="<?php echo $step; ?>" <?php echo $maxOrder; ?> />
-			</span>
-			<?php if ($product->orderable) { ?>
-                <span class="quantity-controls js-recalculate">
-				<input type="button" class="quantity-controls quantity-plus"/>
-				<input type="button" class="quantity-controls quantity-minus"/>
-			</span>
-			<?php }
+			}
 
-			if(!empty($addtoCartButton)){
-				?><span class="addtocart-button">
-				<?php echo $addtoCartButton ?>
-                </span> <?php
-			} ?>
-            <input type="hidden" name="virtuemart_product_id[]" value="<?php echo $product->virtuemart_product_id ?>"/>
-            <noscript><input type="hidden" name="task" value="add"/></noscript> <?php
+			echo '<span class="quantity-box"><input type="' . $editable . '" class="quantity-input js-recalculate" name="quantity[]" data-errStr="' . vmText::_('COM_VIRTUEMART_WRONG_AMOUNT_ADDED') . '" value="' . $init . '" init="' . $init . '" step="' . $step . '" ' . $maxOrder . ' /></span>';
+			if ($product->orderable) {
+				echo '<span class="quantity-controls js-recalculate"><button type="button" class="quantity-control quantity-plus"><span class=" fa fa-plus-circle fw"></span></button><button type="button" class="quantity-control quantity-minus"><span class="fa fa-minus-circle fw"></span></button></span>';
+			}
+
+			if (!empty($addtoCartButton)) {
+				echo '<span class="addtocart-button">' . $addtoCartButton . '</span>';
+			}
+			echo '<input type="hidden" name="virtuemart_product_id[]" value="' . $product->virtuemart_product_id . '" />';
+			echo '<noscript><input type="hidden" name="task" value="add" /></noscript>';
 		}
-	} ?>
+	}
 
-    </div><?php
-} ?>
+	echo '</div>';
+}
