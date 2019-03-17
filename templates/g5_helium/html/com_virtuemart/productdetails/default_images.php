@@ -19,67 +19,43 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-vmJsApi::loadPopUpLib();
-if(VmConfig::get('usefancy',1)){
-	if(VmConfig::get('add_thumb_use_descr', false)){
-		$u = 'descr';
-	} else {
-		$u = 'this.alt';
-	}
 
 $imageJS = '
 jQuery(document).ready(function() {
 	Virtuemart.updateImageEventListeners()
 });
 Virtuemart.updateImageEventListeners = function() {
-	jQuery("a[rel=vm-additional-images]").fancybox({
-		"titlePosition" 	: "inside",
-		"transitionIn"	:	"elastic",
-		"transitionOut"	:	"elastic"
-	});
-	jQuery(".additional-images a.product-image.image-0").removeAttr("rel");
-	jQuery(".additional-images img.product-image").click(function() {
-		jQuery(".additional-images a.product-image").attr("rel","vm-additional-images" );
-		jQuery(this).parent().children("a.product-image").removeAttr("rel");
-		var src = jQuery(this).parent().children("a.product-image").attr("href");
-		jQuery(".main-image img").attr("src",src);
-		jQuery(".main-image img").attr("alt",this.alt );
-		jQuery(".main-image a").attr("href",src );
-		jQuery(".main-image a").attr("title",this.alt );
-		jQuery(".main-image .vm-img-desc").html('.$u.');
-		}); 
-	}
-	';
-} else {
-	$imageJS = '
-	jQuery(document).ready(function() {
-		Virtuemart.updateImageEventListeners()
-	});
-	Virtuemart.updateImageEventListeners = function() {
-		jQuery("a[rel=vm-additional-images]").facebox();
-		var imgtitle = jQuery("span.vm-img-desc").text();
-		jQuery("#facebox span").html(imgtitle);
-	}
-	';
+	
+	jQuery(".is-additional-images a.is-product-image.image-0").removeAttr("rel");
+	jQuery(".is-additional-images img.is-product-image").click(function() {
+		jQuery(".is-additional-images a.is-product-image").attr("rel","is-vm-additional-images" );
+		jQuery(this).parent().children("a.is-product-image").removeAttr("rel");
+		var src = jQuery(this).parent().children("a.is-product-image").attr("href");
+		jQuery(".is-main-image img").attr("src",src);
+		jQuery(".is-main-image img").attr("alt",this.alt );
+		jQuery(".is-main-image a").attr("href",src );
+		jQuery(".is-main-image a").attr("title",this.alt );
+	}); 
 }
+';
 
-vmJsApi::addJScript('imagepopup',$imageJS);
+vmJsApi::addJScript('imageswap', $imageJS);
 
 if (!empty($this->product->images)) {
 	$image = $this->product->images[0];
 	?>
-	<div class="main-image">
-		<?php
+<div class="is-main-image">
+  <?php
 		$width = VmConfig::get('img_width_full', 0);
 		$height = VmConfig::get('img_height_full', 0);
-		if(!empty($width) or !empty($height)){
-			echo $image->displayMediaThumb("",true,"rel='vm-additional-images'", true, true, false, $width, $height);
+		if (!empty($width) or !empty($height)) {
+			echo $image->displayMediaThumb("", true, "rel='is-vm-additional-images'", false, false, false, $width, $height);
 		} else {
-			echo $image->displayMediaFull("",true,"rel='vm-additional-images'");
+			echo $image->displayMediaFull("", false, "rel='is-vm-additional-images'", false);
 		}
-		 ?>
-		<div class="clear"></div>
-	</div>
-	<?php
+		?>
+</div>
+<?php
+
 }
 ?>

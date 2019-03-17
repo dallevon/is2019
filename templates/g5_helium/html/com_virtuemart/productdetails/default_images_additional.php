@@ -18,30 +18,22 @@
  */
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
-?>
-<div class="additional-images">
-	<?php
-	$start_image = VmConfig::get('add_img_main', 1) ? 0 : 1;
-	for ($i = $start_image; $i < count($this->product->images); $i++) {
-		$image = $this->product->images[$i];
-		$descr = '';// $image->file_description;
-		?>
-		<div class="floatleft">
-			<?php
-			if(VmConfig::get('add_img_main', 1)) {
-				echo $image->displayMediaThumb('class="product-image" style="cursor: pointer" data-descr="'.$image->file_description.'"',false,'',true,$descr);
-				echo '<a href="'. $image->file_url .'"  class="product-image image-'. $i .'" style="display:none;" title="'. $image->file_meta .'" rel="vm-additional-images"></a>';
-			} else {
-				if(VmConfig::get('add_thumb_use_descr', false)) {
-					$image->file_meta = $image->file_description;
-				}
-				echo $image->displayMediaThumb('',true,"rel='vm-additional-images'",true,$descr);
-			}
-			?>
-		</div>
-	<?php
-	}
-	?>
-	<div class="clear"></div>
-</div>
 
+echo '<div class="is-additional-images">';
+$start_image = VmConfig::get('add_img_main', 1) ? 0 : 1;
+for ($i = $start_image; $i < count($this->product->images); $i++) {
+	$image = $this->product->images[$i];
+	$descr = ''; // $image->file_description;
+	echo '<div class="is-additional-image">';
+	if (VmConfig::get('add_img_main', 1)) {
+		echo $image->displayMediaThumb('class="is-product-image" style="cursor: pointer" data-descr="' . $image->file_description . '"', false, '', true, $descr);
+		echo '<a href="' . $image->file_url . '"  class="is-product-image image-' . $i . '" style="display:none;" title="' . $image->file_meta . '" rel="is-vm-additional-images"></a>';
+	} else {
+		if (VmConfig::get('add_thumb_use_descr', false)) {
+			$image->file_meta = $image->file_description;
+		}
+		echo $image->displayMediaThumb('', true, "rel='is-vm-additional-images'", true, $descr);
+	}
+	echo '</div>';
+}
+echo '</div>';
