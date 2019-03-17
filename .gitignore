@@ -4,6 +4,9 @@
 /administrator/help/*
 /administrator/includes/*
 /administrator/language/*
+!administrator/language/ru-RU/
+administrator/language/ru-RU/*
+!/administrator/language/ru-RU/ru-RU.com_virtuemart.ini
 /administrator/logs/*
 /administrator/manifests/*
 /administrator/modules/*
@@ -15,6 +18,8 @@
 /cli/*
 /components/*
 /images/*
+!/images/sources
+/images/sources/*.psd
 /includes/*
 /installation/*
 /language/*
