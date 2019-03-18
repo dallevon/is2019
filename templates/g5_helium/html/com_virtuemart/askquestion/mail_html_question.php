@@ -16,76 +16,111 @@ defined('_JEXEC') or die('');
  */
 ?>
 
+<?php
+$menuItemID = shopFunctionsF::getMenuItemId(vmLanguage::getLanguage()->getTag());
+$product_link = JURI::root() . 'index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=' . $this->product->virtuemart_product_id . '&Itemid=' . $menuItemID;
+?>
+
 <html>
-	<head>
-		<style type="text/css">
-			body, td, span, p, th { font-size: 12px; font-family: arial, helvetica, sans-serif; }
-			table, tr, td { border: 0; background:#fff;}
-			table.html-email {margin:10px auto;background:#fff; #dad8d8 1px;}
-			h2 { font-size: 1.6em; font-weight: normal; margin: 0px; padding: 0px; }
-			img {border: none;}
-			a {text-decoration: none; color: #000;}
-			a.product-details, a.product-details:visited {
-				border: solid #CAC9C9 1px;
-				border-radius: 4px;
-				-webkit-border-radius: 4px;
-				-moz-border-radius: 4px;
-				color: #555;
-				text-decoration: none;
-				padding: 3px 8px 2px 8px;
-			}
-			a.product-details:hover {color:#888;background: #f8f8f8;};
-		</style>
-	</head>
 
-	<body style="background: #F2F2F2;word-wrap: break-word;">
-	<div width="100%">
-		<table style="margin: auto; width: 600px; border: solid #dad8d8 1px" cellpadding="0" cellspacing="0"  >
-			<tr>
-				<td valign="top" align="center" style="padding: 15px 25px;">
+  <head>
+    <style type="text/css">
+    body,
+    td,
+    span,
+    p,
+    th {
+      font-size: 12px;
+      font-family: arial, helvetica, sans-serif;
+    }
 
-					<img src="<?php  echo JURI::root () . $this->vendor->images[0]->file_url ?>" />
+    table,
+    tr,
+    td {
+      border: 0;
+      background: #fff;
+    }
 
-					<table  border="0" cellpadding="0" cellspacing="0" class="html-email" width="100%">
+    table.html-email {
+      margin: 10px auto;
+      background: #fff;
+      #dad8d8 1px;
+    }
 
-						<tr>
-							<td align="center" style="border-bottom : 1px solid #dad8d8;">
-								<span style="font-size: 14px; font-weight: bold"><?php echo vmText::sprintf('COM_VIRTUEMART_QUESTION_MAIL_FROM', $this->user->name, $this->user->email); ?></span>
-								<br /><br /><?php echo $this->comment; ?><br /><br />
-							</td>
-						</tr>
+    h2 {
+      font-size: 1.6em;
+      font-weight: normal;
+      margin: 0px;
+      padding: 0px;
+    }
 
-						<tr>
-							<td align="center" style="border-bottom : 1px solid #dad8d8; padding: 15px;">
-								<table width="100%" cellpadding="0" cellspacing="0">
-									<tr>
-										<?php
-										$menuItemID = shopFunctionsF::getMenuItemId(vmLanguage::getLanguage()->getTag());
-										$product_link = JURI::root().'index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=' . $this->product->virtuemart_product_id . '&Itemid=' . $menuItemID;
-										?>
-										<td width="30%" align="center">
-											<a href="<?php  echo $product_link ?>">
-												<?php echo $this->product->images[0]->displayMediaThumb('',false,'',true,false,true); ?>
-											</a>
-										</td>
-										<td width="70%" valign="top">
-											<h2>
-												<?php  echo $this->product->product_name ?>
-												<?php if ($this->product->product_sku) echo ' ('.vmText::_('COM_VIRTUEMART_PRODUCT_SKU').' '.$this->product->product_sku .')' ; ?>
-											</h2>
-											<p style="margin: 15px 0; display:block;"><?php  echo $this->product->product_s_desc ?></p>
-											<a href="<?php  echo $product_link ?>" class="product-details"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_DETAILS') ; ?></a>
-										</td>
-									</tr>
-								</table>
-							</td>
-						</tr>
+    img {
+      border: none;
+    }
 
-					</table>
+    a {
+      text-decoration: none;
+      color: #000;
+    }
 
-				</td>
-			</tr>
-		</table>
-	</div>
-	</body>
+    a.product-details,
+    a.product-details:visited {
+      border: solid #CAC9C9 1px;
+      border-radius: 4px;
+      -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+      color: #555;
+      text-decoration: none;
+      padding: 3px 8px 2px 8px;
+    }
+
+    a.product-details:hover {
+      color: #888;
+      background: #f8f8f8;
+    }
+
+    ;
+
+    </style>
+  </head>
+
+  <body style="background: #F2F2F2;word-wrap: break-word;">
+    <div width="100%">
+      <table style="margin: auto; width: 600px; border: solid #dad8d8 1px" cellpadding="0" cellspacing="0">
+        <tr>
+          <td valign="top" align="center" style="padding: 15px 25px;">
+            <img src="<?php echo JURI::root() . $this->vendor->images[0]->file_url ?>" />
+            <table border="0" cellpadding="0" cellspacing="0" class="html-email" width="100%">
+
+              <tr>
+                <td align="center" style="padding: 15px 5px; border-bottom : 1px solid #dad8d8;">
+                  <span
+                    style="font-size: 14px; font-weight: bold"><?php echo vmText::sprintf('COM_VIRTUEMART_QUESTION_MAIL_FROM', $this->user->name, $this->user->email); ?></span>
+                </td>
+              </tr>
+              <tr>
+                <td align="center" style="padding: 15px 5px;">
+                  <h2><a
+                      href="<?php echo $product_link ?>"><?php echo $this->product->product_name ?>&nbsp;<small><?php echo $this->product->product_s_desc ?></small></a>
+                  </h2>
+                </td>
+              </tr>
+              <tr>
+                <td align="center" style="padding: 15px 5px; border-bottom : 1px solid #dad8d8;">
+                  <span style="font-size: 14px; font-weight: bold"><?php echo $this->comment; ?></span>
+                </td>
+              </tr>
+              <tr>
+                <td align="center" style="padding: 15px 5px; border-bottom : 1px solid #dad8d8;">
+                  <a
+                    href="<?php echo $product_link ?>"><?php echo $this->product->images[0]->displayMediaThumb('', false, '', true, false, true); ?></a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+
 </html>

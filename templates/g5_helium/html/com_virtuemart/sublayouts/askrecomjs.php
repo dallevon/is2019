@@ -16,18 +16,18 @@
  * @version $Id: default_showprices.php 8024 2014-06-12 15:08:59Z Milbo $
  */
 // Check to ensure this file is included in Joomla!
-defined ('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die('Restricted access');
 
 static $ask_recommened_loaded = false;
-if($ask_recommened_loaded) return '';
+if ($ask_recommened_loaded) return '';
 
 $product = $viewData['product'];
 
-if(VmConfig::get('usefancy',1)){
-	vmJsApi::addJScript( 'fancybox/jquery.fancybox-1.3.4.pack',false, false);
+if (VmConfig::get('usefancy', 1)) {
+	vmJsApi::addJScript('fancybox/jquery.fancybox-1.3.4.pack', false, false);
 	vmJsApi::css('jquery.fancybox-1.3.4');
-	$Modal ="
-		$('a.ask-a-question, a.printModal, a.recommened-to-friend, a.manuModal').click(function(event){
+	$Modal = "
+		$('a.is-ask-a-question-link, a.printModal, a.recommened-to-friend, a.manuModal').click(function(event){
 		  event.preventDefault();
 		  $.fancybox({
 			href: $(this).attr('href'),
@@ -38,10 +38,10 @@ if(VmConfig::get('usefancy',1)){
 		";
 } else {
 
-	vmJsApi::addJScript( 'facebox', false, false );
-	vmJsApi::css( 'facebox' );
-    $Modal ="
-    		$('a.ask-a-question, a.printModal, a.recommened-to-friend, a.manuModal').click(function(event){
+	vmJsApi::addJScript('facebox', false, false);
+	vmJsApi::css('facebox');
+	$Modal = "
+    		$('a.is-ask-a-question-link, a.printModal, a.recommened-to-friend, a.manuModal').click(function(event){
 		      event.preventDefault();
 		      $.facebox({
 		        ajax: $(this).attr('href'),
@@ -51,8 +51,8 @@ if(VmConfig::get('usefancy',1)){
     		";
 }
 
-vmJsApi::addJScript('popups',"
+vmJsApi::addJScript('popups', "
 	jQuery(document).ready(function($) {
-		".$Modal."
+		" . $Modal . "
 	});
 ");
