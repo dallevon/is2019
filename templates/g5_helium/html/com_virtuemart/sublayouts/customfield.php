@@ -325,7 +325,7 @@ class VirtueMartCustomFieldRenderer
 								$productPrices = $calculator->getProductPrices($productChild);
 								$priceStr =  ' (' . $currency->priceDisplay($productPrices['salesPrice']) . ')';
 							}
-							$tmp = array('id' => VmHtml::ensureUniqueId('radio' . $virtuemart_category_id . $productChild->virtuemart_product_id), 'value' => JRoute::_('index.php?option=com_virtuemart&view=' . $view . '&virtuemart_category_id=' . $virtuemart_category_id . '&virtuemart_product_id=' . $productChild->virtuemart_product_id, false), 'text' => '<img src="' . $productChildThumb . '" alt="' . $productChild->{$customfield->customfield_value} . '" />' . $productChild->{$customfield->customfield_value} . $priceStr, 'selected' => $productChild->virtuemart_product_id);
+							$tmp = array('id' => VmHtml::ensureUniqueId('radio' . $virtuemart_category_id . $productChild->virtuemart_product_id), 'value' => JRoute::_('index.php?option=com_virtuemart&view=' . $view . '&virtuemart_category_id=' . $virtuemart_category_id . '&virtuemart_product_id=' . $productChild->virtuemart_product_id, false), 'text' => $productChild->{$customfield->customfield_value} . $priceStr . '<img src="' . $productChildThumb . '" alt="' . $productChild->{$customfield->customfield_value} . '" />', 'selected' => $productChild->virtuemart_product_id);
 
 							$options[] = (object)$tmp;
 
