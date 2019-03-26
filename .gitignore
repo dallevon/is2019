@@ -1,6 +1,11 @@
 /.htaccess
 /administrator/cache/*
 /administrator/components/*
+!/administrator/components/com_virtuemart
+/administrator/components/com_virtuemart/*
+!/administrator/components/com_virtuemart/tables/
+/administrator/components/com_virtuemart/tables/*
+!/administrator/components/com_virtuemart/tables/userinfos.php
 /administrator/help/*
 /administrator/includes/*
 /administrator/language/*
@@ -17,6 +22,15 @@ administrator/language/ru-RU/*
 /cgi-bin/*
 /cli/*
 /components/*
+!/components/com_users
+/components/com_users/*
+!/components/com_users/controllers
+!/components/com_virtuemart
+/components/com_virtuemart/*
+!/components/com_virtuemart/controllers
+/components/com_virtuemart/controllers/*
+!/components/com_virtuemart/controllers/user.php
+
 /images/*
 !/images/sources
 /images/sources/*.psd
