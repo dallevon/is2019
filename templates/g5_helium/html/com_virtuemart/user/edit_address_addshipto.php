@@ -20,11 +20,10 @@ defined('_JEXEC') or die('Restricted access');
 ?>
 
 
-<fieldset>
-    <legend>
-	<?php echo '<span class="userfields_info">' .vmText::_('COM_VIRTUEMART_USER_FORM_SHIPTO_LBL').'</span>'; ?>
-    </legend>
-    <?php echo $this->lists['shipTo']; ?>
+<fieldset class="is-shipping-addresses-list">
+  <legend>
+    <?php echo '<span class="userfields_info">' . vmText::_('COM_VIRTUEMART_USER_FORM_SHIPTO_LBL') . '</span>'; ?>
+  </legend>
+  <?php echo $this->lists['shipTo']; ?>
 
 </fieldset>
-

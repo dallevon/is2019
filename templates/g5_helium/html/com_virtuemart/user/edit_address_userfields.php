@@ -19,107 +19,40 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-// Status Of Delimiter
-$closeDelimiter = false;
-$openTable = true;
+$user = JFactory::getUser();
+
 $hiddenFields = '';
 
-$i=0;
-//When only one Delimiter exists, set it to begin of the array
-//not an elegant solution, but works.
-$tmp = false;
-foreach($this->userFields['fields'] as $k=>$field){
-	if($field['type'] == 'delimiter') {
-	    $tmp = $field;
-	    $pos = $k;
-	    $i++;
-	}
-	if($i>1){
-	    $tmp = false;
-	    break;
-	}
-}
-
-if($tmp){
-    unset($this->userFields['fields'][$pos]);
-    array_unshift($this->userFields['fields'],$tmp);
-}
-
 // Output: Userfields
-foreach($this->userFields['fields'] as $field) {
+echo '<fieldset class="adminForm user-details">';
+foreach ($this->userFields['fields'] as $field) {
 
-	if($field['type'] == 'delimiter') {
-
-		// For Every New Delimiter
-		// We need to close the previous
-		// table and delimiter
-		if($closeDelimiter) { ?>
-			</table>
-		</fieldset>
-		<?php
-			$closeDelimiter = false;
-		} else if(!$openTable){ ?>
-            </table>
-			<?php
-		}
-
-        ?>
-        <fieldset>
-        <legend class="userfields_info"><?php echo $field['title'] ?></legend>
-
-        <?php
-        $closeDelimiter = true;
-        $openTable = true;
-
-	} elseif ($field['hidden'] == true) {
-
+	if ($field['hidden'] == true) {
 		// We collect all hidden fields
 		// and output them at the end
 		$hiddenFields .= $field['formcode'] . "\n";
-
-	} else {
-
-		// If we have a new delimiter
-		// we have to start a new table
-		if($openTable) {
-			$openTable = false;
-			?>
-
-			<table class="adminForm user-details">
-
-		<?php
-		}
-		$descr = empty($field['description'])? $field['title']:$field['description'];
-		// Output: Userfields
-		?>
-				<tr title="<?php echo strip_tags($descr) ?>">
-					<td class="key"  >
-						<label class="<?php echo $field['name'] ?>" for="<?php echo $field['name'] ?>_field">
-							<?php echo $field['title'] . ($field['required'] ? ' <span class="asterisk">*</span>' : '') ?>
-						</label>
-					</td>
-					<td>
-						<?php echo $field['formcode'] ?>
-					</td>
-				</tr>
-	<?php
 	}
 
+	$descr = empty($field['description']) ? $field['title'] : $field['description'];
+	// Output: Userfields
+	echo 		'<div title="' . strip_tags($descr) . '">';
+	echo '<label class="key ' . $field['name'] . '" for="' . $field['name'] . '_field">';
+	echo $field['title'] . ($field['required'] ? ' <span class="asterisk">*</span>' : '');
+	echo '</label>';
+	echo $field['formcode'];
+	echo '</div>';
 }
 
-if($closeDelimiter) { ?>
-    </table>
-    </fieldset>
-	<?php
-	$closeDelimiter = false;
-}
+echo 	'</fieldset>';
 
-// At the end we have to close the current
-// table and delimiter ?>
+// Output: Hidden Fields
+echo $hiddenFields;
 
-			</table>
-		</fieldset>
-
-<?php // Output: Hidden Fields
-echo $hiddenFields
-?>
+vmJsApi::addJScript('is-ContactName', "
+				jQuery(document).ready(function($) {
+					const contactName = $('#contact_name_field');
+					if(!contactName.val()) {
+						contactName.val('$user->name');
+					}
+				});
+			");
