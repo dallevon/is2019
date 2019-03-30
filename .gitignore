@@ -30,6 +30,12 @@ administrator/language/ru-RU/*
 !/components/com_virtuemart/controllers
 /components/com_virtuemart/controllers/*
 !/components/com_virtuemart/controllers/user.php
+!/components/com_virtuemart/assets
+/components/com_virtuemart/assets/*
+!/components/com_virtuemart/assets/js
+/components/com_virtuemart/assets/js/*
+!/components/com_virtuemart/assets/js/vmprices.js
+!/components/com_virtuemart/assets/js/dynupdate.js
 
 /images/*
 !/images/sources
