@@ -236,7 +236,7 @@ if (
 		echo '</td>';
 	} else {
 		echo '<td colspan="' . $first_colspan . '" style="align:left;vertical-align:top;">';
-		echo '<h4>' . vmText::_('COM_VIRTUEMART_CART_SELECTED_SHIPMENT') . '</h4>';
+		echo '<h3>' . vmText::_('COM_VIRTUEMART_CART_SELECTED_SHIPMENT') . '</h3>';
 		echo $this->cart->cartData['shipmentName'];
 		echo '<span class="floatright">' . $this->currencyDisplay->createPriceDiv('shipmentValue', '', $this->cart->cartPrices['shipmentValue'], false) . '</span>';
 		echo '</td>';
@@ -258,7 +258,7 @@ if (
 	echo '<tr class="sectiontableentry1" style="vertical-align:top;">';
 	if (!$this->cart->automaticSelectedPayment) {
 		echo '<td colspan="' . $first_colspan . '" style="align:left;vertical-align:top;">';
-		echo '<h4>' . vmText::_('COM_VIRTUEMART_CART_SELECTED_PAYMENT') . '</h4>';
+		echo '<h3>' . vmText::_('COM_VIRTUEMART_CART_SELECTED_PAYMENT') . '</h3>';
 		echo $this->cart->cartData['paymentName'] . '<br/>';
 		if (!empty($this->layoutName) && $this->layoutName == $this->cart->layout) {
 			if (VmConfig::get('oncheckout_opc', 0)) {
@@ -274,7 +274,7 @@ if (
 		echo '</td>';
 	} else {
 		echo '<td colspan="3" style="align:left;vertical-align:top;">';
-		echo '<h4>' . vmText::_('COM_VIRTUEMART_CART_SELECTED_PAYMENT') . '</h4>';
+		echo '<h3>' . vmText::_('COM_VIRTUEMART_CART_SELECTED_PAYMENT') . '</h3>';
 		echo $this->cart->cartData['paymentName'];
 		echo '</td>';
 	}
