@@ -21,27 +21,31 @@
 defined('_JEXEC') or die('Restricted access');
 /* TODO Chnage the footer place in helper or assets ???*/
 if (empty($this->vendor)) {
-		$vendorModel = VmModel::getModel('vendor');
-		$this->vendor = $vendorModel->getVendor();
+	$vendorModel = VmModel::getModel('vendor');
+	$this->vendor = $vendorModel->getVendor();
 }
 
 //$link = shopFunctionsF::getRootRoutedUrl('index.php?option=com_virtuemart');
-$link = JURI::root().'index.php?option=com_virtuemart';
+$link = JURI::root() . 'index.php?option=com_virtuemart';
 
 echo '<br/><br/>';
 //$link='<b>'.JHtml::_('link', JURI::root().$link, $this->vendor->vendor_name).'</b> ';
 
 //	echo vmText::_('COM_VIRTUEMART_MAIL_VENDOR_TITLE').$this->vendor->vendor_name.'<br/>';
 /* GENERAL FOOTER FOR ALL MAILS */
-	echo vmText::_('COM_VIRTUEMART_MAIL_FOOTER' ) . '<a href="'.$link.'">'.$this->vendor->vendor_name.'</a>';
-        echo '<br/>';
-	echo $this->vendor->vendor_name .'<br />'.$this->vendor->vendor_phone .' '.$this->vendor->vendor_store_name .'<br /> '.$this->vendor->vendor_store_desc.'<br />';
-?>	
- 
+echo vmText::_('COM_VIRTUEMART_MAIL_FOOTER') . '<a href="' . $link . '">' . $this->vendor->vendor_name . '</a>';
+echo '<br/>';
+echo $this->vendor->vendor_store_desc . '<br />';
+?>
+
 <?php if ($this->vendor->vendor_letter_footer == 1) { ?>
-<?php if ($this->vendor->vendor_letter_footer_line == 1) { ?><hr style="border-top: 1px solid #CCCCCC !important;" /><?php } ?>
+<?php if ($this->vendor->vendor_letter_footer_line == 1) { ?>
+<hr style="border-top: 1px solid #CCCCCC !important;" />
+<?php 
+} ?>
 <div id="vmdoc-footer" class="vmdoc-footer" style="font-size: <?php echo $this->vendor->vendor_letter_footer_font_size; ?>pt;">
-<?php echo $this->replaceVendorFields($this->vendor->vendor_letter_footer_html, $this->vendor); ?>
+    <?php echo $this->replaceVendorFields($this->vendor->vendor_letter_footer_html, $this->vendor); ?>
 </div>
 
-<?php } // END if footer ?>
+<?php 
+} ?> 

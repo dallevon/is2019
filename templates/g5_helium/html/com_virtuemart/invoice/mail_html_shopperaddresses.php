@@ -22,50 +22,52 @@
 defined('_JEXEC') or die('Restricted access');
 ?>
 <table class="html-email" cellspacing="0" cellpadding="5" border="0" width="100%" style="border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-size: 12px; margin: 0 auto;">
-	<tr>
-	<th width="50%" bgcolor="#EEEEEE" style="border: 1px solid #CCCCCC;">
-	    <?php echo vmText::_('COM_VIRTUEMART_USER_FORM_BILLTO_LBL'); ?>
-	</th>
-	<th width="50%" bgcolor="#EEEEEE" style="border: 1px solid #CCCCCC;">
-	    <?php echo vmText::_('COM_VIRTUEMART_USER_FORM_SHIPTO_LBL'); ?>
-	</th>
+    <tr>
+        <th width="50%" bgcolor="#EEEEEE" style="border: 1px solid #CCCCCC;">
+            <?php echo vmText::_('COM_VIRTUEMART_USER_FORM_BILLTO_LBL'); ?>
+        </th>
+        <th width="50%" bgcolor="#EEEEEE" style="border: 1px solid #CCCCCC;">
+            <?php echo vmText::_('COM_VIRTUEMART_USER_FORM_SHIPTO_LBL'); ?>
+        </th>
     </tr>
     <tr>
-	<td valign="top" width="50%" style="border: 1px solid #CCCCCC;">
+        <td valign="top" width="50%" style="border: 1px solid #CCCCCC;">
 
-	    <?php
+            <?php
 
-	    foreach ($this->userfields['fields'] as $field) {
-		if (!empty($field['value'])) {
-			?><!-- span class="titles"><?php echo $field['title'] ?></span -->
-	    	    <span class="values vm2<?php echo '-' . $field['name'] ?>" ><?php echo $field['value'] ?></span>
-			<?php if ($field['name'] != 'title' and $field['name'] != 'first_name' and $field['name'] != 'middle_name' and $field['name'] != 'zip') { ?>
-			    <br class="clear" />
-			    <?php
-			}
-		    }
-		 
-	    }
-	    ?>
+            foreach ($this->userfields['fields'] as $field) {
+              if (!empty($field['value'])) {
+                ?><span class="titles"><?php echo $field['title'] ?></span>
+            <span class="values vm2<?php echo '-' . $field['name'] ?>"><?php echo $field['value'] ?></span>
+            <?php if ($field['name'] != 'title' and $field['name'] != 'first_name' and $field['name'] != 'middle_name' and $field['name'] != 'zip') { ?>
+            <br class="clear" />
+            <?php
 
-	</td>
-	<td valign="top" width="50%" style="border: 1px solid #CCCCCC;">
-	    <?php
-	    foreach ($this->shipmentfields['fields'] as $field) {
+          }
+        }
+      }
+      ?>
+        </td>
+        <td valign="top" width="50%" style="border: 1px solid #CCCCCC;">
+            <?php
+            foreach ($this->shipmentfields['fields'] as $field) {
 
-		if (!empty($field['value'])) {
-			    ?><!-- span class="titles"><?php echo $field['title'] ?></span -->
-			    <span class="values vm2<?php echo '-' . $field['name'] ?>" ><?php echo $field['value'] ?></span>
-			    <?php if ($field['name'] != 'title' and $field['name'] != 'first_name' and $field['name'] != 'middle_name' and $field['name'] != 'zip') { ?>
-		    	    <br class="clear" />
-				<?php
-			    }
-			}
-	    }
+              if (!empty($field['value'])) {
+                ?><span class="titles"><?php echo $field['title'] ?>: </span>
+            <span class="values vm2<?php echo '-' . $field['name'] ?>"><?php echo $field['value'] ?></span>
+            <?php if ($field['name'] != 'title' and $field['name'] != 'first_name' and $field['name'] != 'middle_name' and $field['name'] != 'zip') { ?>
+            <br class="clear" />
+            <?php
 
-	    ?>
-	</td>
+          }
+        }
+      }
+
+      ?>
+        </td>
     </tr>
-		<tr><td valign="top" width="50%" style="padding:5px"></td><td valign="top" width="50%" style="padding:5px"></td></tr>
-</table>
-
+    <tr>
+        <td valign="top" width="50%" style="padding:5px"></td>
+        <td valign="top" width="50%" style="padding:5px"></td>
+    </tr>
+</table> 

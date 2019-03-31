@@ -21,18 +21,18 @@
 defined('_JEXEC') or die('Restricted access');
 /* TODO Chnage the footer place in helper or assets ???*/
 if (empty($this->vendor)) {
-		$vendorModel = VmModel::getModel('vendor');
-		$this->vendor = $vendorModel->getVendor();
+	$vendorModel = VmModel::getModel('vendor');
+	$this->vendor = $vendorModel->getVendor();
 }
 
-$link = JURI::root(). 'index.php?option=com_virtuemart' ;
+$link = JURI::root() . 'index.php?option=com_virtuemart';
+
 
 echo "\n\n";
-$link= JHtml::_('link', $link, $this->vendor->vendor_name) ;
+$link = JHtml::_('link', $link, $this->vendor->vendor_name);
 
 //	echo vmText::_('COM_VIRTUEMART_MAIL_VENDOR_TITLE').$this->vendor->vendor_name.'<br/>';
 /* GENERAL FOOTER FOR ALL MAILS */
-	echo vmText::_('COM_VIRTUEMART_MAIL_FOOTER' ) . $link;
-        echo "\n";
-	echo $this->vendor->vendor_name ."\n".$this->vendor->vendor_phone .' '.$this->vendor->vendor_store_name ."\n".strip_tags($this->vendor->vendor_store_desc)."\n".strip_tags(str_replace('<br />',"\n",$this->replaceVendorFields($this->vendor->vendor_letter_footer_html, $this->vendor)));
-
+echo vmText::_('COM_VIRTUEMART_MAIL_FOOTER') . $link;
+echo "\n";
+echo strip_tags($this->vendor->vendor_store_desc) . "\n" . strip_tags(str_replace('<br />', "\n", $this->replaceVendorFields($this->vendor->vendor_letter_footer_html, $this->vendor)));
