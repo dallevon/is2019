@@ -1,6 +1,5 @@
 <?php
 /**
- *
  * Enter address data for the cart, when anonymous users checkout
  *
  * @package	VirtueMart
@@ -17,13 +16,11 @@
  */
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
-?>
 
 
-<fieldset class="is-shipping-addresses-list">
-  <legend>
-    <?php echo '<span class="userfields_info">' . vmText::_('COM_VIRTUEMART_USER_FORM_SHIPTO_LBL') . '</span>'; ?>
-  </legend>
-  <?php echo $this->lists['shipTo']; ?>
-
-</fieldset>
+echo '<fieldset class="is-shipping-addresses-list">';
+echo '<legend>';
+echo '<span class="userfields_info">' . vmText::_('COM_VIRTUEMART_USER_FORM_SHIPTO_LBL') . '</span>';
+echo '</legend>';
+echo $this->lists['shipTo'];
+echo '</fieldset>';
