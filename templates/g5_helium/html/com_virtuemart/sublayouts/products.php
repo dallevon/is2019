@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 
 $user   = JFactory::getUser();
 $user_id = ($user->get('id'));
-$user_registered =  $user_id !== 0;  
+$user_registered =  $user_id !== 0;
 
 $products_per_row = empty($viewData['products_per_row']) ? 1 : $viewData['products_per_row'];
 $currency = $viewData['currency'];
@@ -61,42 +61,43 @@ foreach ($viewData['products'] as $type => $products) {
       continue;
     }
     echo '<div class="is-product g-block  size-' . $cellwidth . '">';
-      echo '<div class="is-spacer is-product-container" data-vm="product-container">';
+    echo '<div class="is-spacer is-product-container" data-vm="product-container">';
+    echo '<div class="is-product-wrapper">';
 
-        echo '<div class="is-vm-product-media-container">';
-          echo '<a title="' . $product->product_name . '" href="' . JRoute::_($product->link . $ItemidStr) . '">';
-            echo '<span class="is-image-wrapper">';
-              echo $product->images[0]->displayMediaThumb('class="browseProductImage"', false);
-            echo '</span>';
-          echo '</a>';
-        echo '</div>';
-        
-        
-        
-        echo '<div class="is-vm-product-descr-container">' . '<h2>' . JHtml::link($product->link . $ItemidStr, $product->product_name) . '</h2>';
-        if (!empty($product->product_s_desc) && $product->product_parent_id != 0) {
-          echo shopFunctionsF::limitStringByWord($product->product_s_desc, 60, ' ...');
-        }
-        echo '</div>';
-        
-        echo shopFunctionsF::renderVmSubLayout('customfields',array('product'=>$product,'position'=>'normal', 'hideTitle'=>true));
-        
-        if ($user_registered) {
-          if (VmConfig::get('display_stock', 1)) {
-            echo '<div class="is-stock-level">';
-            echo '<div class="is-vmicon is-vm2-' . $product->stock->stock_level . '" title="' . $product->stock->stock_tip . '"></div>';
-            echo '<div class="is-stock-level-tip">'.$product->stock->stock_tip.'</div>';
-            echo shopFunctionsF::renderVmSubLayout('stockhandle', array('product' => $product));
-            echo '</div>';
-          }
-          echo shopFunctionsF::renderVmSubLayout('prices', array('product' => $product, 'currency' => $currency));
-        }
-        
-        echo '<div class="is-vm-details-button">';
-        $link = empty($product->link) ? $product->canonical : $product->link;
-        echo JHtml::link($link . $ItemidStr, vmText::_('COM_VIRTUEMART_PRODUCT_DETAILS'), array('title' => $product->product_name, 'class' => 'is-product-details button button-small'));
-        echo '</div>';
+    echo '<div class="is-vm-product-media-container">';
+    echo '<a title="' . $product->product_name . '" href="' . JRoute::_($product->link . $ItemidStr) . '">';
+    echo '<span class="is-image-wrapper">';
+    echo $product->images[0]->displayMediaThumb('class="browseProductImage"', false);
+    echo '</span>';
+    echo '</a>';
+    echo '</div>';
 
+    echo '<div class="is-product-info-wrapper">';
+    echo '<div class="is-vm-product-descr-container">' . '<h2>' . JHtml::link($product->link . $ItemidStr, $product->product_name) . '</h2>';
+    if (!empty($product->product_s_desc) && $product->product_parent_id != 0) {
+      echo shopFunctionsF::limitStringByWord($product->product_s_desc, 60, ' ...');
+    }
+    echo '</div>';
+
+    echo shopFunctionsF::renderVmSubLayout('customfields', array('product' => $product, 'position' => 'normal', 'hideTitle' => true));
+
+    if ($user_registered) {
+      if (VmConfig::get('display_stock', 1)) {
+        echo '<div class="is-stock-level">';
+        echo '<div class="is-vmicon is-vm2-' . $product->stock->stock_level . '" title="' . $product->stock->stock_tip . '"></div>';
+        echo '<div class="is-stock-level-tip">' . $product->stock->stock_tip . '</div>';
+        echo shopFunctionsF::renderVmSubLayout('stockhandle', array('product' => $product));
+        echo '</div>';
+      }
+      echo shopFunctionsF::renderVmSubLayout('prices', array('product' => $product, 'currency' => $currency));
+    }
+
+    // echo '<div class="is-vm-details-button">';
+    // $link = empty($product->link) ? $product->canonical : $product->link;
+    // echo JHtml::link($link . $ItemidStr, vmText::_('COM_VIRTUEMART_PRODUCT_DETAILS'), array('title' => $product->product_name, 'class' => 'is-product-details button button-small'));
+    // echo '</div>';
+
+    echo '</div>';
 
     if ($dynamic) {
       echo vmJsApi::writeJS();
@@ -106,8 +107,8 @@ foreach ($viewData['products'] as $type => $products) {
 
     echo '</div>';
     echo '</div>';
+    echo '</div>';
   }
 
   echo '</div>';
 }
- 

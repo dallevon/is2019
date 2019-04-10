@@ -1,23 +1,23 @@
 <?php
 /**
-*
-* Layout for the shopping cart and the mail
-* shows the chosen adresses of the shopper
-* taken from the cart in the session
-*
-* @package	VirtueMart
-* @subpackage Cart
-* @author Max Milbers
-*
-* @link https://virtuemart.net
-* @copyright Copyright (c) 2004 - 2014 VirtueMart Team. All rights reserved.
-* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* VirtueMart is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-*
-*/
+ *
+ * Layout for the shopping cart and the mail
+ * shows the chosen adresses of the shopper
+ * taken from the cart in the session
+ *
+ * @package	VirtueMart
+ * @subpackage Cart
+ * @author Max Milbers
+ *
+ * @link https://virtuemart.net
+ * @copyright Copyright (c) 2004 - 2014 VirtueMart Team. All rights reserved.
+ * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * VirtueMart is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ *
+ */
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
@@ -89,3 +89,4 @@ echo '<a class="details button button-bevel button-outline button-xsmall" href="
 
 echo '</div>';
 echo '</div>';
+echo '<p class="alert alert-info">' . vmText::_('IS_BT_ADDRESS_SUFFIX') . '</p>';

@@ -1,20 +1,20 @@
 <?php
 /**
-*
-* Shows the products/categories of a category
-*
-* @package	VirtueMart
-* @subpackage
-* @author Max Milbers
-* @link https://virtuemart.net
-* @copyright Copyright (c) 2004 - 2014 VirtueMart Team. All rights reserved.
-* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
-* VirtueMart is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
+ *
+ * Shows the products/categories of a category
+ *
+ * @package	VirtueMart
+ * @subpackage
+ * @author Max Milbers
+ * @link https://virtuemart.net
+ * @copyright Copyright (c) 2004 - 2014 VirtueMart Team. All rights reserved.
+ * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * VirtueMart is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
  * @version $Id: default.php 6104 2012-06-13 14:15:29Z alatak $
-*/
+ */
 
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
@@ -41,9 +41,9 @@ if ($categories) {
   }
   ?>
 
-<div class="category-view g-grid">
+  <div class="category-view g-grid">
 
-  <?php 
+    <?php
 
     // Start the Output
     foreach ($categories as $category) {
@@ -52,21 +52,19 @@ if ($categories) {
       $caturl = JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_category_id=' . $category->virtuemart_category_id, false);
       ?>
 
-  <div class="is-category g-block size-<?php echo $category_cellwidth; ?>">
-    <div class="is-spacer">
-      <h2>
-        <a href="<?php echo $caturl ?>" title="<?php echo vmText::_($category->category_name) ?>"
-          <?php echo $ajaxUpdate ?>>
-          <span
-            class="is-image-wrapper"><?php echo $category->images[0]->displayMediaThumb('class="browseCategoryImage"', false); ?></span>
-          <?php echo '<span class="button button-small">' . vmText::_(mb_convert_case($category->category_name, MB_CASE_TITLE, "UTF-8")) . '</span>' ?>
+      <div class="is-category g-block size-<?php echo $category_cellwidth; ?>">
+        <div class="is-spacer">
+          <h2>
+            <a href="<?php echo $caturl ?>" title="<?php echo vmText::_($category->category_name) ?>" <?php echo $ajaxUpdate ?>>
+              <span class="is-image-wrapper"><?php echo $category->images[0]->displayMediaThumb('class="browseCategoryImage"', false); ?></span>
+              <?php echo '<span class="button button-2 button-bevel button-xsmall button-block button-outline">' . vmText::_(mb_convert_case($category->category_name, MB_CASE_TITLE, "UTF-8")) . '</span>' ?>
 
-        </a>
-      </h2>
-    </div>
-  </div>
+            </a>
+          </h2>
+        </div>
+      </div>
 
 
-  <?php 
+    <?php
   }
 }  ?>

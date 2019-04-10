@@ -84,38 +84,44 @@ foreach ($this->cart->products as $pkey => $prow) {
 		$step = 1;
 	}
 	$available = $prow->product_in_stock - $prow->product_ordered;
-	$over_available_message = vmText::sprintf('COM_VIRTUEMART_OVER_AVAILABLE_AMOUNT_ADDED', $available);
+	$over_available_message = '';
+	if ($available < 0) {
+		$available = 0;
+		$over_available_message = vmText::sprintf('COM_VIRTUEMART_STOCK_LEVEL_DISPLAY_OUT_TIP');
+	} else {
+		$over_available_message = vmText::sprintf('COM_VIRTUEMART_OVER_AVAILABLE_AMOUNT_ADDED', $available);
+	}
 	$wrong_amount_message = vmText::sprintf('COM_VIRTUEMART_WRONG_AMOUNT_ADDED', $step);
 
 	?>
 
-<input type="text" onblur="Virtuemart.checkQuantityInCart(this,<?php echo $step ?>,<?php echo $available ?>,'<?php echo  $wrong_amount_message ?>', '<?php echo $over_available_message; ?>');" onsubmit="Virtuemart.checkQuantityInCart(this,<?php echo $step ?>,<?php echo $available ?>,'<?php echo  $wrong_amount_message ?>', '<?php echo $over_available_message; ?>');" title="<?php echo vmText::_('COM_VIRTUEMART_CART_UPDATE') ?>" class="quantity-input js-recalculate" size="3" maxlength="4" name="quantity[<?php echo $pkey; ?>]" value="<?php echo $prow->quantity ?>" min="<?php echo $step; ?>" />
+	<input type="text" onblur="Virtuemart.checkQuantityInCart(this,<?php echo $step ?>,<?php echo $available ?>,'<?php echo  $wrong_amount_message ?>', '<?php echo $over_available_message; ?>');" onsubmit="Virtuemart.checkQuantityInCart(this,<?php echo $step ?>,<?php echo $available ?>,'<?php echo  $wrong_amount_message ?>', '<?php echo $over_available_message; ?>');" title="<?php echo vmText::_('COM_VIRTUEMART_CART_UPDATE') ?>" class="quantity-input js-recalculate" size="3" maxlength="4" name="quantity[<?php echo $pkey; ?>]" value="<?php echo $prow->quantity ?>" min="<?php echo $step; ?>" />
 
-<button type="submit" class="update-button fa fa-refresh button button-bevel button-outline button-xsmal" name="updatecart.<?php echo $pkey ?>" title="<?php echo vmText::_('COM_VIRTUEMART_CART_UPDATE') ?>" data-dynamic-update="1"></button>
-<button type="submit" class="delete-button fa fa-trash button button-bevel button-outline button-xsmal" name="delete.<?php echo $pkey ?>" title="<?php echo vmText::_('COM_VIRTUEMART_CART_DELETE') ?>"></button>
+	<button type="submit" class="update-button fa fa-refresh button button-bevel button-outline button-xsmal" name="updatecart.<?php echo $pkey ?>" title="<?php echo vmText::_('COM_VIRTUEMART_CART_UPDATE') ?>" data-dynamic-update="1"></button>
+	<button type="submit" class="delete-button fa fa-trash button button-bevel button-outline button-xsmal" name="delete.<?php echo $pkey ?>" title="<?php echo vmText::_('COM_VIRTUEMART_CART_DELETE') ?>"></button>
 
-<?php 
+	<?php
 
-echo '</td>';
+	echo '</td>';
 
 
-if (VmConfig::get('show_tax')) {
-	echo '<td class="vm-cart-item-tax"><span class="priceColor2">' . $this->currencyDisplay->createPriceDiv('taxAmount', '', $prow->prices, false, false, $prow->quantity, false, true) . '</span></td>';
-}
+	if (VmConfig::get('show_tax')) {
+		echo '<td class="vm-cart-item-tax"><span class="priceColor2">' . $this->currencyDisplay->createPriceDiv('taxAmount', '', $prow->prices, false, false, $prow->quantity, false, true) . '</span></td>';
+	}
 
-// echo '<td class="vm-cart-item-discount"><span class="priceColor2">' . $this->currencyDisplay->createPriceDiv('discountAmount', '', $prow->prices, false, false, $prow->quantity, false, true) . '</span></td>';
+	// echo '<td class="vm-cart-item-discount"><span class="priceColor2">' . $this->currencyDisplay->createPriceDiv('discountAmount', '', $prow->prices, false, false, $prow->quantity, false, true) . '</span></td>';
 
-echo '<td class="vm-cart-item-total">';
-if (VmConfig::get('checkout_show_origprice', 1) && !empty($prow->prices['basePriceWithTax']) && $prow->prices['basePriceWithTax'] != $prow->prices['salesPrice']) {
-	echo '<span class="line-through">' . $this->currencyDisplay->createPriceDiv('basePriceWithTax', '', $prow->prices, true, false, $prow->quantity) . '</span><br />';
-} elseif (VmConfig::get('checkout_show_origprice', 1) && empty($prow->prices['basePriceWithTax']) && !empty($prow->prices['basePriceVariant']) && $prow->prices['basePriceVariant'] != $prow->prices['salesPrice']) {
-	echo '<span class="line-through">' . $this->currencyDisplay->createPriceDiv('basePriceVariant', '', $prow->prices, true, false, $prow->quantity) . '</span><br />';
-}
-echo $this->currencyDisplay->createPriceDiv('salesPrice', '', $prow->prices, false, false, $prow->quantity);
-echo '</td>';
-echo '</tr>';
+	echo '<td class="vm-cart-item-total">';
+	if (VmConfig::get('checkout_show_origprice', 1) && !empty($prow->prices['basePriceWithTax']) && $prow->prices['basePriceWithTax'] != $prow->prices['salesPrice']) {
+		echo '<span class="line-through">' . $this->currencyDisplay->createPriceDiv('basePriceWithTax', '', $prow->prices, true, false, $prow->quantity) . '</span><br />';
+	} elseif (VmConfig::get('checkout_show_origprice', 1) && empty($prow->prices['basePriceWithTax']) && !empty($prow->prices['basePriceVariant']) && $prow->prices['basePriceVariant'] != $prow->prices['salesPrice']) {
+		echo '<span class="line-through">' . $this->currencyDisplay->createPriceDiv('basePriceVariant', '', $prow->prices, true, false, $prow->quantity) . '</span><br />';
+	}
+	echo $this->currencyDisplay->createPriceDiv('salesPrice', '', $prow->prices, false, false, $prow->quantity);
+	echo '</td>';
+	echo '</tr>';
 
-$i = ($i == 1) ? 2 : 1;
+	$i = ($i == 1) ? 2 : 1;
 }
 
 
