@@ -60,7 +60,7 @@ class UsersControllerReset extends UsersController
 			// The request failed.
 			// Go back to the request form.
 			$message = JText::sprintf('COM_USERS_RESET_REQUEST_FAILED', $model->getError());
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=reset', false), $message, 'notice');
+			$this->setRedirect(JRoute::_('index.php?option=com_users&view=reset', false), $message, 'error');
 
 			return false;
 		}
