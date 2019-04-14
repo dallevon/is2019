@@ -49,6 +49,9 @@ administrator/language/ru-RU/*
 /libraries/*
 /media/*
 /modules/*
+!/modules/mod_virtuemart_cart/
+/modules/mod_virtuemart_cart/*
+!/modules/mod_virtuemart_cart/assets
 /plugins/*
 /templates/*
 /tmp/*
@@ -79,6 +82,9 @@ administrator/language/ru-RU/*
 !/templates/g5_helium/custom/particles
 !/templates/g5_helium/custom/scss
 !templates/g5_helium/html
+!templates/g5_helium/js
+templates/g5_helium/js/*
+!templates/g5_helium/js/vm-helpers.js
 !/templates/g5_helium/images
 /templates/g5_helium/images/*
 !/templates/g5_helium/scss
