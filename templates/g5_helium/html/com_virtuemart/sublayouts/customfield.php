@@ -264,7 +264,7 @@ class VirtueMartCustomFieldRenderer
 
 					$uncatChildren = $productModel->getUncategorizedChildren($customfield->withParent);
 
-					$firstoption = array();
+					$firstoption = new stdClass();
 					$options = array();
 
 					$selected = vRequest::getInt('virtuemart_product_id', 0);
@@ -289,10 +289,16 @@ class VirtueMartCustomFieldRenderer
 
 					if (!$customfield->withParent) {
 						$productParent = $productModel->getProduct((int)$customfield->virtuemart_product_id, true);
-						$firstoption[0] = $emptyOption;
-						$firstoption[0]->text = $firstoption[0]->text . $productParent->product_name;
-						$firstoption[0]->value = JRoute::_('index.php?option=com_virtuemart&view=' . $view . '&virtuemart_category_id=' . $virtuemart_category_id . '&virtuemart_product_id=' . $customfield->virtuemart_product_id, false);
-						//$options[0] = array('value' => JRoute::_ ('index.php?option=com_virtuemart&view=productdetails&virtuemart_category_id=' . $virtuemart_category_id . '&virtuemart_product_id=' . $customfield->virtuemart_product_id,FALSE), 'text' => vmText::_ ('COM_VIRTUEMART_ADDTOCART_CHOOSE_VARIANT'));
+						$firstoption = $emptyOption;
+						$firstoption->name = '<strong>' . $productParent->product_name . '</strong>';
+						$user = JFactory::getUser();
+						$user_id = ($user->get('id'));
+						$user_registered = $user_id !== 0;
+						$firstoption->explanation = '';
+						if ($user_registered) {
+							$firstoption->explanation .= vmText::_('IS_COM_VIRTUEMART_EXPLANATION');
+						}
+						$firstoption->href = JRoute::_('index.php?option=com_virtuemart&view=' . $view . '&virtuemart_category_id=' . $virtuemart_category_id . '&virtuemart_product_id=' . $customfield->virtuemart_product_id, false);
 					}
 
 
@@ -325,7 +331,8 @@ class VirtueMartCustomFieldRenderer
 								$productPrices = $calculator->getProductPrices($productChild);
 								$priceStr =  ' (' . $currency->priceDisplay($productPrices['salesPrice']) . ')';
 							}
-							$tmp = array('id' => VmHtml::ensureUniqueId('radio' . $virtuemart_category_id . $productChild->virtuemart_product_id), 'value' => JRoute::_('index.php?option=com_virtuemart&view=' . $view . '&virtuemart_category_id=' . $virtuemart_category_id . '&virtuemart_product_id=' . $productChild->virtuemart_product_id, false), 'text' => $productChild->{$customfield->customfield_value} . $priceStr . '<img src="' . $productChildThumb . '" alt="' . $productChild->{$customfield->customfield_value} . '" />', 'selected' => $productChild->virtuemart_product_id);
+							$value = JRoute::_('index.php?option=com_virtuemart&view=' . $view . '&virtuemart_category_id=' . $virtuemart_category_id . '&virtuemart_product_id=' . $productChild->virtuemart_product_id, false);
+							$tmp = array('id' => VmHtml::ensureUniqueId('radio' . $virtuemart_category_id . $productChild->virtuemart_product_id), 'value' => $value, 'text' => '<span class="variant"><img src="' . $productChildThumb . '" alt="' . $productChild->{$customfield->customfield_value} . '" /><span>' . $productChild->{$customfield->customfield_value} . $priceStr . '</span></span>', 'selected' => $productChild->virtuemart_product_id);
 
 							$options[] = (object)$tmp;
 
@@ -364,7 +371,7 @@ class VirtueMartCustomFieldRenderer
 						unset($attribs['data-dynamic-update']);
 					}
 
-					$attribs[] = 'class="vm-chzn-select no-vm-bind avselection"' . $och;
+					$attribs = 'class="vm-chzn-select no-vm-bind avselection"' . $och;
 
 
 
@@ -378,11 +385,13 @@ class VirtueMartCustomFieldRenderer
 
 
 					usort($options, "cmp");
-					$options = array_merge($firstoption, $options);
 
 
 					$dynChilds++;
-					$customfield->display = JHtml::_('select.radiolist', $options, $customProductDataName . '[' . $customfield->virtuemart_customfield_id . ']', $attribs, 'value', 'text', $url, $idTag, false);
+
+					$firstoptionDisplay = '<h5 class="alert-info">' . $firstoption->text . '<a href="' . $firstoption->href . '" data-dynamic-update="1">' . $firstoption->name . '</a>' . $firstoption->explanation . '</h5>';
+
+					$customfield->display = $firstoptionDisplay . JHtml::_('select.radiolist', $options, $customProductDataName . '[' . $customfield->virtuemart_customfield_id . ']', $attribs, 'value', 'text', $url, $idTag, false);
 					// $customfield->display = $html;
 
 					// vmJsApi::addJScript('cvfind');

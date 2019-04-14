@@ -30,6 +30,12 @@ $user = JFactory::getUser();
 $user_id = ($user->get('id'));
 $user_registered = $user_id !== 0;
 
+$app = JFactory::getApplication();
+$path = JURI::base(true) . '/templates/' . $app->getTemplate() . '/';
+$document = JFactory::getDocument();
+$document->addScript($path . 'js/vm-helpers.js');
+
+
 
 echo shopFunctionsF::renderVmSubLayout('askrecomjs', array('product' => $this->product));
 
@@ -144,7 +150,7 @@ if ($user_registered) {
 		echo '<p><strong>' . vmText::sprintf('COM_VIRTUEMART_STOCK_QUANTITY_PRODUCT_IN_STOCK', $in_stock) . '</strong></p>';
 	} else {
 		// do nothing
-		// echo '<p><strong>' . vmText::_('COM_VIRTUEMART_STOCK_LEVEL_DISPLAY_OUT_TIP') . '</strong></p>';
+		echo '<p><strong>' . vmText::_('IS_STOCK_HANDLE_OUT_OFF_STOCK_MESSAGE') . '</strong></p>';
 	}
 	//In case you are not happy using everywhere the same price display fromat, just create your own layout
 	//in override /html/fields and use as first parameter the name of your file
@@ -172,7 +178,7 @@ echo '</div>';
 // Ask a question about this product
 if (VmConfig::get('ask_question', 0) == 1) {
 	$askquestion_url =  JRoute::_('index.php?option=com _ virtuemart&view=productdetails&task=askquestion&virtuemart_product_id=' . $this->product->virtuemart_product_id . '&virtuemart_category_id=' . $this->product->virtuemart_category_id  . '&tmpl=component', false);
-	echo '<div class="is-ask-a-question"><a class="is-ask-a-question-link-- button" target="new" href=".' . $askquestion_url . '" rel="nofollow">' . vmText::_('COM_VIRTUEMART_PRODUCT_ENQUIRY_LBL') . '</a></div>';
+	echo '<div class="is-ask-a-question"><a class="is-ask-a-question-link-- button button-outline button-xsmall button-bevel" target="new" href=".' . $askquestion_url . '" rel="nofollow">' . vmText::_('COM_VIRTUEMART_PRODUCT_ENQUIRY_LBL') . '</a></div>';
 }
 // Ask a question about this product END
 
