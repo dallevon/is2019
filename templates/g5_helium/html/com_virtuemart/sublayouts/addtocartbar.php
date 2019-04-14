@@ -98,29 +98,34 @@ if (!VmConfig::get('use_as_catalog', 0)) {
 		echo '<a href="' . JRoute::_('index.php?option=com_virtuemart&view=productdetails&layout=notify&virtuemart_product_id=' . $product->virtuemart_product_id) . '" class="notify">' . vmText::_('COM_VIRTUEMART_CART_NOTIFY') . '</a>';
 	} else {
 		$tmpPrice = (float)$product->prices['costPrice'];
-		if (!(VmConfig::get('askprice', true) and empty($tmpPrice))) {
-			$editable = 'hidden';
-			if ($product->orderable) {
-				$editable = 'text';
-			}
+		// if (!) {
+		// 	$editable = 'hidden';
+		// 	if ($product->orderable) {
+		// 	}
+		$editable = 'text';
 
-			if ($product->orderable && $allowMore) {
-				echo '<span class="quantity-box"><input type="' . $editable . '" class="quantity-input js-recalculate" name="quantity[]" data-errStr="' . vmText::_('COM_VIRTUEMART_WRONG_AMOUNT_ADDED') . '" value="' . $init . '" init="' . $init . '" step="' . $step . '" ' . $maxOrder . ' /></span>';
-				echo '<span class="quantity-controls js-recalculate"><button type="button" class="quantity-control quantity-plus"><span class=" fa fa-plus-circle fw"></span></button><button type="button" class="quantity-control quantity-minus"><span class="fa fa-minus-circle fw"></span></button></span>';
-			}
+		$disabled = ($product->orderable && $allowMore) || ((VmConfig::get('askprice', true) and empty($tmpPrice))) ? '' : 'disabled';
 
-			if (!empty($addtoCartButton)) {
-				echo '<span class="addtocart-button">' . $addtoCartButton . '</span>';
-			}
+		// if ($product->orderable && $allowMore) {
+		echo '<span class="quantity-controls js-recalculate"><button ' . $disabled . ' type="button" class="quantity-control quantity-minus"><span class="fa fa-minus-circle fw"></span></button></span>';
+		echo '<span class="quantity-box"><input ' . $disabled . ' type="' . $editable . '" class="quantity-input js-recalculate" name="quantity[]" data-errStr="' . vmText::_('COM_VIRTUEMART_WRONG_AMOUNT_ADDED') . '" value="' . $init . '" init="' . $init . '" step="' . $step . '" ' . $maxOrder . ' /></span>';
+		echo '<span class="quantity-controls js-recalculate"><button ' . $disabled . ' type="button" class="quantity-control quantity-plus" ><span class=" fa fa-plus-circle fw"></span></button></span>';
+
+		// }
+
+		// if (!empty($addtoCartButton)) {
+		// echo '<span class="addtocart-button">' . $addtoCartButton . '</span>';
+		echo $addtoCartButton;
+		// }
 
 
-			echo '<input type="hidden" name="virtuemart_product_id[]" value="' . $product->virtuemart_product_id . '" />';
-			echo '<noscript><input type="hidden" name="task" value="add" /></noscript>';
-		}
+		echo '<input type="hidden" name="virtuemart_product_id[]" value="' . $product->virtuemart_product_id . '" />';
+		echo '<noscript><input type="hidden" name="task" value="add" /></noscript>';
+		// }
 	}
 
 	echo '</div>';
-	if (!$allowMore) {
+	if (!$allowMore and $quantitiyInCart > 0) {
 		echo '<p class="nomore">' . vmText::_('IS_COM_VIRTUEMART_ALREADY_MAXEDOUT') . '</p>';
 	}
 }
