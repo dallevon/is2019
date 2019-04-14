@@ -1,6 +1,21 @@
 <?php  // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+// $s =   JFactory::getSession();
+// print_r($s->getCart());
+
+// $session = JFactory::getSession();
+// $cartSession = $session->get('vmcart', 0, 'vm');
+// if (!empty($cartSession)) {
+//   $sessionCart = (object)json_decode($cartSession, true);
+
+//   print_r($sessionCart);
+// }
+
+// $cart = VirtueMartCart::getCart();
+// // print_r($cart->cartProductsData);
+
+
 $app = JFactory::getApplication();
 $menu = $app->getMenu();
 $menuItem = $menu->getItems('link', 'index.php?option=com_virtuemart&view=cart', true);
@@ -40,25 +55,24 @@ if ($show_product_list) {
   echo '</div></div>';
 }
 
-echo '<div class="total">';
+$cartBillTotal = '<strong class="total">';
 if ($data->totalProduct and $show_price and $currencyDisplay->_priceConfig['salesPrice'][0]) {
-  echo $data->billTotal;
+  $cartBillTotal .= $data->billTotal;
 }
-echo '</div>';
+$cartBillTotal .= '</strong>';
 
-echo '<div class="total_products">' . $data->totalProductTxt . '</div>';
 
-echo '<div class="show_cart">';
-if ($data->totalProduct) {
-  if (false && $data->dataValidated == true) {
-    $taskRoute = '&task=confirm';
-    $linkName = vmText::_('COM_VIRTUEMART_ORDER_CONFIRM_MNU');
-  } else {
-    $taskRoute = '';
-    $linkName = vmText::_('COM_VIRTUEMART_CART_SHOW');
-  }
-  echo '<a href="' . JRoute::_("index.php?option=com_virtuemart&view=cart&Itemid=" . $menuItem->id . $taskRoute, vmURI::useSSL()) . '" rel="nofollow" >' . $linkName . '</a>';
+$linkIcon = 'fa-shopping-cart';
+$cartTotalProducts = '<strong class="total_products">' . ($data->totalProduct == 0 ? $data->totalProductTxt : $data->totalProduct) . '</strong>';
+
+
+echo '<div class="is-show_cart">';
+$taskRoute = '';
+$link = JRoute::_("index.php?option=com_virtuemart&view=cart&Itemid=" . $menuItem->id . $taskRoute, vmURI::useSSL());
+if ($data->totalProduct == 0) {
+  $linkIcon = 'fa-cart-arrow-down';
 }
+echo '<a href="' . $link . '" rel="nofollow"><span class="total_products-wrapper">' . $cartTotalProducts . '<span class="fa ' . $linkIcon . '"></span></span>' . $cartBillTotal . '</a>';
 echo '</div>';
 
 

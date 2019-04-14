@@ -21,30 +21,37 @@
 defined('_JEXEC') or die('Restricted access');
 
 vmJsApi::vmValidator();
-//vmdebug('my cart',$this->cart);
+
+vmJsApi::addJScript('styleButtons', "
+jQuery(document).ready(function($) {
+  $('.is-vm-continue-shopping .continue_link, #checkoutFormSubmit').addClass('button button-bevel button-small');
+}); ");
+
 ?>
 
 <div class="is-vm-cart-header-container">
-    <div class="is-vm-cart-header">
-        <h1><?php echo vmText::_('COM_VIRTUEMART_CART_TITLE'); ?></h1>
-        <div class="payments-signin-button"></div>
-    </div>
-    <?php if (VmConfig::get('oncheckout_show_steps', 1)) {
-      if ($this->checkout_task == 'checkout') {
-        echo '<div class="checkoutStep" id="checkoutStep1">' . vmText::_('COM_VIRTUEMART_USER_FORM_CART_STEP1') . '</div>';
-      } else { //if($this->checkout_task == 'confirm') {
-        echo '<div class="checkoutStep" id="checkoutStep4">' . vmText::_('COM_VIRTUEMART_USER_FORM_CART_STEP4') . '</div>';
-      }
-    }  ?>
-    <div class="is-vm-continue-shopping">
-        <?php  // Continue Shopping Button
-        if (!empty($this->continue_link_html)) {
-          echo $this->continue_link_html;
-        } ?>
-    </div>
+  <div class="is-vm-cart-header">
+    <h1><?php echo vmText::_(!empty($this->cart->products) ? 'COM_VIRTUEMART_CART_TITLE' : 'COM_VIRTUEMART_EMPTY_CART'); ?></h1>
+    <div class="payments-signin-button"></div>
+  </div>
+  <?php if (VmConfig::get('oncheckout_show_steps', 1)) {
+    if ($this->checkout_task == 'checkout') {
+      echo '<div class="checkoutStep" id="checkoutStep1">' . vmText::_('COM_VIRTUEMART_USER_FORM_CART_STEP1') . '</div>';
+    } else { //if($this->checkout_task == 'confirm') {
+      echo '<div class="checkoutStep" id="checkoutStep4">' . vmText::_('COM_VIRTUEMART_USER_FORM_CART_STEP4') . '</div>';
+    }
+  }  ?>
+  <div class="is-vm-continue-shopping">
+    <?php  // Continue Shopping Button
+    if (!empty($this->continue_link_html)) {
+      echo $this->continue_link_html;
+    } ?>
+  </div>
 </div>
 
-<div id="cart-view" class="cart-view">
+<?php if (!empty($this->cart->products)) { ?>
+
+  <div id="cart-view" class="cart-view">
     <?php
     $uri = vmUri::getCurrentUrlBy('get');
     $uri = str_replace(array('?tmpl=component', '&tmpl=component'), '', $uri);
@@ -58,43 +65,43 @@ vmJsApi::vmValidator();
     $taskRoute = '';
     ?>
     <form method="post" id="checkoutForm" name="checkoutForm" action="<?php echo JRoute::_('index.php?option=com_virtuemart&view=cart' . $taskRoute, $this->useXHTML, $this->useSSL); ?>">
-        <?php
-        if (!$this->isPdf and VmConfig::get('multixcart') == 'byselection') {
-          echo shopFunctions::renderVendorFullVendorList($this->cart->vendorId); ?>
+      <?php
+      if (!$this->isPdf and VmConfig::get('multixcart') == 'byselection') {
+        echo shopFunctions::renderVendorFullVendorList($this->cart->vendorId); ?>
         <input type="submit" name="updatecart" title="<?php echo vmText::_('COM_VIRTUEMART_SAVE'); ?>" value="<?php echo vmText::_('COM_VIRTUEMART_SAVE'); ?>" class="button" style="margin-left: 10px;" />
-        <?php 
-      }
+      <?php
+    }
 
-      echo $this->loadTemplate('address');
+    echo $this->loadTemplate('address');
 
-      // This displays the pricelist MUST be done with tables, because it is also used for the emails
-      echo $this->loadTemplate('pricelist');
+    // This displays the pricelist MUST be done with tables, because it is also used for the emails
+    echo $this->loadTemplate('pricelist');
 
-      if (!empty($this->checkoutAdvertise)) { ?>
+    if (!empty($this->checkoutAdvertise)) { ?>
         <div id="checkout-advertise-box">
-            <?php
-            foreach ($this->checkoutAdvertise as $checkoutAdvertise) {
-              ?>
+          <?php
+          foreach ($this->checkoutAdvertise as $checkoutAdvertise) {
+            ?>
             <div class="checkout-advertise">
-                <?php echo $checkoutAdvertise; ?>
+              <?php echo $checkoutAdvertise; ?>
             </div>
-            <?php
+          <?php
 
-          }
-          ?></div>
-        <?php
+        }
+        ?></div>
+      <?php
 
-      }
+    }
 
-      echo $this->loadTemplate('cartfields');
+    echo $this->loadTemplate('cartfields');
 
-      ?>
-        <div class="checkout-button-top"> <?php echo $this->checkout_link_html; ?></div>
+    ?>
+      <div class="checkout-button-top"> <?php echo $this->checkout_link_html; ?></div>
 
-        <input type='hidden' name='order_language' value='<?php echo $this->order_language; ?>' />
-        <input type='hidden' name='task' value='updatecart' />
-        <input type='hidden' name='option' value='com_virtuemart' />
-        <input type='hidden' name='view' value='cart' />
+      <input type='hidden' name='order_language' value='<?php echo $this->order_language; ?>' />
+      <input type='hidden' name='task' value='updatecart' />
+      <input type='hidden' name='option' value='com_virtuemart' />
+      <input type='hidden' name='view' value='cart' />
     </form>
 
 
@@ -114,8 +121,7 @@ vmJsApi::vmValidator();
 
     $orderDoneLink = JRoute::_('index.php?option=com_virtuemart&view=cart&task=orderdone');
 
-    vmJsApi::addJScript('vm-checkoutFormSubmit', "
-Virtuemart.bCheckoutButton = function(e) {
+    vmJsApi::addJScript('vm-checkoutFormSubmit', "Virtuemart.bCheckoutButton = function(e) {
 	e.preventDefault();
 	jQuery(this).vm2front('startVmLoading');
 	jQuery(this).attr('disabled', 'true');
@@ -166,6 +172,7 @@ jQuery(document).ready(function($) {
 
     $this->addCheckRequiredJs();
     ?><div style="display:none;" id="cart-js">
-        <?php echo vmJsApi::writeJS(); ?>
+      <?php echo vmJsApi::writeJS(); ?>
     </div>
-</div> 
+  </div>
+<?php } ?>
