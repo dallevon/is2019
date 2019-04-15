@@ -127,7 +127,7 @@ echo '<div class="is-vm-product-details-container vm-product-details-container">
 
 // Product Description
 if (!empty($this->product->product_desc)) {
-	echo '<div class="is-product-description"><span class="title">' . vmText::_('COM_VIRTUEMART_PRODUCT_DESC_TITLE') . '</span>' . $this->product->product_desc . '</div>';
+	echo '<div class="is-product-description"><span class="title">' . vmText::_('COM_VIRTUEMART_PRODUCT_DESC_TITLE') . ': </span>' . $this->product->product_desc . '</div>';
 } // Product Description END
 
 echo shopFunctionsF::renderVmSubLayout('customfields', array('product' => $this->product, 'position' => 'normal'));

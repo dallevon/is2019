@@ -69,6 +69,7 @@ class VirtueMartCustomFieldRenderer
 			$emptyOption = new stdClass();
 			$emptyOption->text = vmText::_('COM_VIRTUEMART_ADDTOCART_CHOOSE_VARIANT');
 			$emptyOption->value = 0;
+
 			switch ($type) {
 
 				case 'C':
@@ -265,6 +266,10 @@ class VirtueMartCustomFieldRenderer
 					$uncatChildren = $productModel->getUncategorizedChildren($customfield->withParent);
 
 					$firstoption = new stdClass();
+					$firstoption->text = '';
+					$firstoption->href = '';
+					$firstoption->name = '';
+					$firstoption->explanation = '';
 					$options = array();
 
 					$selected = vRequest::getInt('virtuemart_product_id', 0);
