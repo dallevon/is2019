@@ -76,7 +76,6 @@ customfield_value: значение 'product_s_desc'
    1. `virtuemart_product_id`= id соответствющего родительского товара в VirtueMart
    2. `virtuemart_custom_id`=9
    3. `customfield_value`='product_s_desc'
-   4. `customfield_params`=withParent="1"|parentOrderable="0"|
+   4. `customfield_params`=withParent="0"|parentOrderable="0"|
 
-**Для дочерних продуктов, в эту таблицу ничего не заносится
-**
+**Для дочерних продуктов, в эту таблицу ничего не заносится**
