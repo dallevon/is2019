@@ -227,7 +227,7 @@ foreach ($this->orderDetails['calc_rules'] as $rule) {
         <td align="right" style="border: 1px solid #CCCCCC;"><?php echo $this->currency->priceDisplay($this->orderDetails['details']['BT']->order_shipment + $this->orderDetails['details']['BT']->order_shipment_tax, $this->user_currency_id); ?></td>
     </tr>
 
-    <tr>
+    <tr style="display: none;">
         <td align="right" style="border: 1px solid #CCCCCC;" class="pricePad" colspan="5"><?php echo $this->orderDetails['paymentName'] ?></td>
         <?php if (VmConfig::get('show_tax')) { ?>
             <td align="right" style="border: 1px solid #CCCCCC;"><span class='priceColor2'><?php echo $this->currency->priceDisplay($this->orderDetails['details']['BT']->order_payment_tax, $this->user_currency_id) ?></span> </td>
