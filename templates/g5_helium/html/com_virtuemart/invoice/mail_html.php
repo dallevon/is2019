@@ -32,30 +32,41 @@ defined('_JEXEC') or die('Restricted access');
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title></title>
+	<style type="text/css">
+		.vmshipment_description {
+			display: block;
+			font-size: smaller;
+		}
+	</style>
 </head>
+
 <body bgcolor="#EEEEEE" style="margin: 0; padding: 15px; background-color:#EEEEEE; min-height:100%">
-	    <table bgcolor="#FFFFFF" width="600" cellpadding="10" cellspacing="0" align="center" style="border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-size: 12px; margin: 0 auto; border: 1px solid #CCCCCC">
-	    	<tr><td>
-			<?php
-// Shop desc for shopper and vendor
-			if ($this->recipient == 'shopper') {
-			    echo $this->loadTemplate('header');
-			}
-// Message for shopper or vendor
-			echo $this->loadTemplate($this->recipient);
-// render shipto billto adresses
-			echo $this->loadTemplate('shopperaddresses');
-// render price list
-			echo $this->loadTemplate('pricelist');
-// more infos
-			echo $this->loadTemplate($this->recipient . '_more');
-// end of mail
-			echo $this->loadTemplate('footer');
-			?>
-		    </td></tr>
-	    </table>
+	<table bgcolor="#FFFFFF" width="600" cellpadding="10" cellspacing="0" align="center" style="border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-size: 12px; margin: 0 auto; border: 1px solid #CCCCCC">
+		<tr>
+			<td>
+				<?php
+				// Shop desc for shopper and vendor
+				if ($this->recipient == 'shopper') {
+					echo $this->loadTemplate('header');
+				}
+				// Message for shopper or vendor
+				echo $this->loadTemplate($this->recipient);
+				// render shipto billto adresses
+				echo $this->loadTemplate('shopperaddresses');
+				// render price list
+				echo $this->loadTemplate('pricelist');
+				// more infos
+				echo $this->loadTemplate($this->recipient . '_more');
+				// end of mail
+				echo $this->loadTemplate('footer');
+				?>
+			</td>
+		</tr>
+	</table>
 </body>
+
 </html>
