@@ -317,8 +317,15 @@ class VirtueMartCustomFieldRenderer
 							$productChild = $productModel->getProduct((int)$child, true);
 
 							$productModel->addImages($productChild, 1);
-							$productChild->images[0]->createThumb(240, 480);
+
+							// print_r($productChild->images[0]);
 							$productChildThumb = $productChild->images[0]->getFileUrlThumb(240, 480);
+							$media_path = VMPATH_ROOT . DS . str_replace('/', DS, $productChildThumb);
+
+							if ((empty($productChildThumb) || !file_exists($media_path)) && is_a($productChild->images[0], 'VmImage')) {
+								$productChild->images[0]->createThumb(240, 480);
+								$productChildThumb = $productChild->images[0]->getFileUrlThumb(240, 480);
+							}
 
 							if (!$productChild) continue;
 							if (!isset($productChild->{$customfield->customfield_value})) {
