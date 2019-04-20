@@ -1,0 +1,57 @@
+body {
+	line-height: 1.5;
+
+	h1,
+	h2,
+	h3 {
+		&:first-child {
+			margin-top: 0;
+		}
+	}
+
+	h1,
+	h2 {
+		line-height: normal;
+	}
+	p {
+		margin-top: 0;
+	}
+}
+
+.invalid {
+	color: $error-color;
+}
+
+input.invalid {
+	border: 1px solid $error-color;
+}
+
+ul.list-icon {
+	padding: 0;
+	margin: 0 0 15px 0;
+	background: none;
+	li {
+		list-style: none;
+		&::before {
+			display: inline-block;
+			margin-right: 1rem;
+			vertical-align: middle;
+			font-family: FontAwesome;
+		}
+	}
+	&.discount li::before {
+		color: $accent-color-2;
+		content: '\f02c';
+	}
+	&.documents li::before {
+		color: $accent-color-1;
+		content: '\f15c';
+	}
+}
+
+.accent-1 {
+	color: $accent-color-1;
+}
+.accent-2 {
+	color: $accent-color-2;
+}

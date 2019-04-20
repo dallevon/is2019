@@ -18,3 +18,52 @@
 	line-height: normal;
 	font-size: $h3-font-size;
 }
+
+@mixin width($width: 100%, $mobileblock: true) {
+	width: $width;
+	@include breakpoint(small-mobile-range) {
+		@if $mobileblock {
+			display: block;
+			width: 100%;
+		}
+	}
+}
+
+@mixin float($float: none, $mobileblock: true) {
+	float: $float;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	@if $float == left {
+		margin-right: 1rem;
+	} @else if $float == right {
+		margin-left: 1rem;
+	}
+	@include breakpoint(small-mobile-range) {
+		@if $mobileblock {
+			display: block;
+			margin: 1rem auto;
+			float: none;
+		}
+	}
+}
+
+.width25 {
+	@include width(25%);
+}
+.width40 {
+	@include width(40%);
+}
+.width100 {
+	@include width(100%);
+	display: block;
+}
+.floatleft {
+	@include float(left);
+}
+.floatright {
+	@include float(right);
+}
+
+.alert-inline {
+	padding: 0.1rem 0.5rem !important;
+}
