@@ -38,6 +38,8 @@
 			@include justify-content(space-evenly);
 			li {
 				white-space: nowrap;
+				font-weight: $font-weight-semibold;
+				color: lighten($accent-color-1, 35);
 			}
 			.pagination {
 				&-prev,
@@ -91,7 +93,9 @@
 
 		.is-image-wrapper {
 			display: block;
+			box-sizing: border-box;
 			margin-bottom: 0.5rem;
+			border: solid 1px lighten($accent-color-1, 25%);
 		}
 	}
 	.is-product {
@@ -125,11 +129,19 @@
 	.is-product-neighbours {
 		min-width: 2rem;
 		font-size: 1.5rem;
-		@include flex-basis(25%);
+		@include flex-basis(15%);
 
 		@include breakpoint(no-mobile) {
+			@include flex-basis(25%);
 			min-width: 1.3rem;
 			font-size: inherit;
+		}
+
+		.product-name {
+			display: none;
+			@include breakpoint(large-desktop-range) {
+				display: inline;
+			}
 		}
 
 		&.is-previous-page {
@@ -142,17 +154,18 @@
 	}
 
 	.is-back-to-category {
-		@include flex-basis(50%);
+		@include flex-basis(70%);
+		@include breakpoint(no-mobile) {
+			@include flex-basis(50%);
+		}
 		text-align: center;
 
 		.button {
+			padding-left: 1rem;
+			padding-right: 1rem;
 			@include breakpoint(small-mobile-range) {
-				padding-left: 1.2rem;
-				padding-right: 1.2rem;
-			}
-			@include breakpoint(tablet-range) {
-				padding-left: 1.2rem;
-				padding-right: 1.2rem;
+				padding-left: 1rem;
+				padding-right: 1rem;
 			}
 			text-align: center;
 		}
@@ -222,6 +235,7 @@
 			.controls {
 				@include display(flex);
 				@include flex-wrap(nowrap);
+				padding-bottom: 1rem;
 				overflow: auto;
 
 				input {
@@ -229,19 +243,29 @@
 				}
 
 				label {
-					@include flex-basis(33%);
+					@include flex-basis(32%);
 					@include flex-shrink(0);
 					@include flex-grow(0);
+					font-size: 0.85rem;
 					@include breakpoint(no-mobile) {
-						@include flex-basis(25%);
+						@include flex-basis(24%);
+					}
+					@include breakpoint(large-desktop-range) {
+						font-size: 1rem;
 					}
 					padding: 0;
 					line-height: normal;
 					text-align: center;
 
-					img {
-						display: inline-block;
-						pointer-events: none;
+					.variant {
+						img {
+							display: inline-block;
+							pointer-events: none;
+						}
+						span {
+							display: block;
+							padding: 0.25rem 0.125rem;
+						}
 					}
 				}
 
@@ -263,13 +287,14 @@
 			@include align-items(center);
 			margin-top: 1rem;
 
-			@include breakpoint(no-mobile) {
+			@include breakpoint(large-desktop-range) {
 				@include flex-wrap(nowrap);
 				@include justify-content(flex-start);
 			}
 
 			.quantity-box {
-				width: 5rem;
+				width: 3rem;
+				@include flex-shrink(0);
 				input {
 					text-align: center;
 				}
@@ -307,8 +332,10 @@
 
 			.addtocart-button {
 				@include flex-basis(100%);
-				@include breakpoint(no-mobile) {
+				margin-top: 0.25rem;
+				@include breakpoint(large-desktop-range) {
 					@include flex-basis(auto);
+					margin-top: 0;
 				}
 			}
 		}

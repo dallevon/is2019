@@ -1,0 +1,42 @@
+#g-aside {
+	padding: $content-padding 0;
+	display: none;
+	@include breakpoint(no-mobile) {
+		display: block;
+	}
+
+	h3 {
+		margin-bottom: 0.5rem;
+	}
+}
+
+// VMmenu
+.VMmenu {
+	margin: 0;
+	padding: 0;
+	li {
+		list-style: none;
+		a {
+			padding-left: 1rem !important;
+			padding-right: 1rem !important;
+			.wrapper {
+				@include display(flex);
+				@include justify-content(flex-start);
+				@include align-items(center);
+
+				.title {
+					@include flex-basis(90%);
+				}
+				.fa {
+					@include flex-basis(10%);
+					font-size: 1rem;
+					text-align: right;
+				}
+			}
+		}
+		.button-outline {
+			padding-left: 1rem !important;
+			padding-right: 1rem !important;
+		}
+	}
+}

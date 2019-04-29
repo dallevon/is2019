@@ -1,23 +1,22 @@
-%item-container {
-	@include word-wrap(nowrap);
-}
-
-%dropdown-column {
-	width: 240px;
-}
-
 // Main Nav
 .g-main-nav {
-	.g-standard {
-		.g-dropdown {
-			@extend %dropdown-column;
-		}
-	}
-
 	.g-toplevel {
 		> li {
 			> .g-menu-item-container {
-				@extend %item-container;
+				white-space: nowrap;
+			}
+		}
+	}
+}
+
+// VMmenu
+
+.VMmenu {
+	li {
+		margin-bottom: 0.5rem;
+		&.VmOpen {
+			a {
+				box-shadow: 0 2px 0 fadeout($navigation-text-color, 80%);
 			}
 		}
 	}
