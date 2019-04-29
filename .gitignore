@@ -3,6 +3,9 @@
 /administrator/components/*
 !/administrator/components/com_virtuemart
 /administrator/components/com_virtuemart/*
+!administrator/components/com_virtuemart/models/
+administrator/components/com_virtuemart/models/*
+!administrator/components/com_virtuemart/models/product.php
 !/administrator/components/com_virtuemart/tables/
 /administrator/components/com_virtuemart/tables/*
 !/administrator/components/com_virtuemart/tables/userinfos.php
@@ -85,6 +88,7 @@ administrator/language/ru-RU/*
 !templates/g5_helium/js
 templates/g5_helium/js/*
 !templates/g5_helium/js/vm-helpers.js
+!templates/g5_helium/js/owl.carousel.min.js
 !/templates/g5_helium/images
 /templates/g5_helium/images/*
 !/templates/g5_helium/scss
