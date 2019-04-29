@@ -2,23 +2,28 @@
 defined('_JEXEC') or die('Restricted access');
 $categoryModel->addImages($categories);
 $categories_per_row = vmConfig::get('categories_per_row');
-$col_width = floor ( 100 / $categories_per_row);
+$col_width = floor(100 / $categories_per_row);
+$itemId = 165; // Dummy child of Catalog menu item
+
 ?>
 
-<ul class="vm-categories-wall <?php echo $class_sfx ?>">
-  <?php foreach ($categories as $category) : ?>
-  <?php
-  $caturl = JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_category_id='.$category->virtuemart_category_id);
-  $catname = $category->category_name ;
-  ?>
-  <li class="vm-categories-wall-catwrapper floatleft width<?php echo $col_width; ?>">
-  	<div class="vm-categories-wall-spacer center">
-      <a href="<?php echo $caturl; ?>">
-        <?php echo $category->images[0]->displayMediaThumb('class="vm-categories-wall-img"',false) ?>
-    		<div class="vm-categories-wall-catname"><?php echo $catname; ?></div>
-      </a>
-  	</div>
-  </li>
-  <?php endforeach; ?>
-  <li class="clear"></li>
-</ul>
+<div class="is-category-view <?php echo $class_sfx ?>">
+  <div class="category-view g-grid">
+    <?php foreach ($categories as $category) : ?>
+      <?php
+      $caturl = JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_category_id=' . $category->virtuemart_category_id . '&Itemid=' . $itemId);
+      $catname = vmText::_(mb_convert_case($category->category_name, MB_CASE_TITLE, "UTF-8"));;
+      ?>
+      <div class="is-category g-block size-<?php echo $col_width; ?>">
+        <div class="is-spacer">
+          <h2>
+            <a href="<?php echo $caturl; ?>" title="<?php echo $category->category_name; ?> ">
+              <span class="is-image-wrapper "><?php echo $category->images[0]->displayMediaThumb('class="browseCategoryImage"', false) ?></span>
+              <span class="button button-2 button-bevel button-xsmall button-block button-outline"><?php echo $catname; ?></span>
+            </a>
+          </h2>
+        </div>
+      </div>
+    <?php endforeach; ?>
+  </div>
+</div>

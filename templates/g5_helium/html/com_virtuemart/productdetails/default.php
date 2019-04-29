@@ -34,6 +34,7 @@ $app = JFactory::getApplication();
 $path = JURI::base(true) . '/templates/' . $app->getTemplate() . '/';
 $document = JFactory::getDocument();
 $document->addScript($path . 'js/vm-helpers.js');
+$document->addScript($path . 'js/owl.carousel.min.js');
 
 
 
@@ -53,14 +54,14 @@ if (VmConfig::get('product_navigation', 1)) {
 	echo '<div class="is-product-neighbours is-previous-page">';
 	if (!empty($this->product->neighbours['previous'][0])) {
 		$prev_link = JRoute::_('index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=' . $this->product->neighbours['previous'][0]['virtuemart_product_id'] . '&virtuemart_category_id=' . $this->product->virtuemart_category_id, false);
-		echo '<a href="' . $prev_link . '" rel="prev" class="is-previous-page-link" data-dynamic-update="1"><i class="fa fa-arrow-left fa-fw"></i><span class="hidden-phone">' . $this->product->neighbours['previous'][0]['product_name'] . '</span></a>';
+		echo '<a href="' . $prev_link . '" rel="prev" class="is-previous-page-link" data-dynamic-update="1"><i class="fa fa-arrow-left fa-fw"></i><span class="product-name">' . $this->product->neighbours['previous'][0]['product_name'] . '</span></a>';
 		// echo JHtml::_('link', $prev_link, $this->product->neighbours['previous'][0]['product_name'], array('rel' => 'prev', 'class' => 'previous-page fa fa-arrow-left', 'data-dynamic-update' => '1'));
 	}
 	echo '</div>';
 	echo '<div class="is-product-neighbours is-next-page">';
 	if (!empty($this->product->neighbours['next'][0])) {
 		$next_link = JRoute::_('index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=' . $this->product->neighbours['next'][0]['virtuemart_product_id'] . '&virtuemart_category_id=' . $this->product->virtuemart_category_id, false);
-		echo '<a href="' . $next_link . '" rel="next" class="is-next-page-link" data-dynamic-update="1"><span class="hidden-phone">' . $this->product->neighbours['next'][0]['product_name'] . '</span><i class="fa fa-arrow-right fa-fw"></i></a>';
+		echo '<a href="' . $next_link . '" rel="next" class="is-next-page-link" data-dynamic-update="1"><span class="product-name">' . $this->product->neighbours['next'][0]['product_name'] . '</span><i class="fa fa-arrow-right fa-fw"></i></a>';
 		// echo JHtml::_('link', $next_link, $this->product->neighbours['next'][0]['product_name'], array('rel' => 'next', 'class' => 'next-page', 'data-dynamic-update' => '1'));
 	}
 	echo '</div>';
@@ -75,7 +76,7 @@ if ($this->product->virtuemart_category_id) {
 	$catURL =  JRoute::_('index.php?option=com_virtuemart');
 	$categoryName = vmText::_('COM_VIRTUEMART_SHOP_HOME');
 }
-echo '<div class="is-back-to-category"><a href="' . $catURL . '" class="is-back-to-product-category button button-bevel button-small" title="' . $categoryName . '">' . vmText::sprintf('COM_VIRTUEMART_CATEGORY_BACK_TO', $categoryName) . '</a></div>';
+echo '<div class="is-back-to-category"><a href="' . $catURL . '" class="is-back-to-product-category button button-bevel button-xsmall" title="' . $categoryName . '">' . vmText::sprintf('COM_VIRTUEMART_CATEGORY_BACK_TO', $categoryName) . '</a></div>';
 
 echo '</div>';
 // Product Header END
@@ -252,6 +253,18 @@ Virtuemart.recalculate = true;	//Activate this line to recalculate your product 
 
 	vmJsApi::addJScript('vmPreloader', $j);
 }
+
+$j = "jQuery(document).ready(function($) {
+	$(document).ready(function () {
+		$('.is-product-field-type-A .controls').addClass('owl-carousel owl-theme').owlCarousel({
+			items: 4,
+			nav: !0,
+			autoplay: true
+
+		});
+	});
+});";
+// vmJsApi::addJScript('childProductsCarousel', $j);
 
 echo vmJsApi::writeJS();
 

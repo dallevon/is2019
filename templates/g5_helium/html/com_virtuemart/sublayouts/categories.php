@@ -20,6 +20,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 $categories = $viewData['categories'];
+$itemId = 165; // Dummy child of Catalog menu item
 
 if ($categories) {
 
@@ -49,7 +50,7 @@ if ($categories) {
     foreach ($categories as $category) {
 
       // Category Link
-      $caturl = JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_category_id=' . $category->virtuemart_category_id, false);
+      $caturl = JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_category_id=' . $category->virtuemart_category_id . '&Itemid=' . $itemId, false);
       ?>
 
       <div class="is-category g-block size-<?php echo $category_cellwidth; ?>">

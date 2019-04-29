@@ -25,7 +25,7 @@ if (!function_exists('cleanUpCustomFieldDisplay')) {
 			case 'S': {
 					switch ($field->virtuemart_custom_id) {
 						case 3:
-							return '<span class="composition">' . preg_replace('/^[A-Z]-/', '', $field->display) . '</span>';
+							return '<span class="composition">' . preg_replace('/^[A-Z,\/]+\s*-?\s*/', '', $field->display) . '</span>';
 
 						default:
 							return $field->display;

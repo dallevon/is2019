@@ -271,6 +271,7 @@ class VirtueMartCustomFieldRenderer
 					$firstoption->name = '';
 					$firstoption->explanation = '';
 					$options = array();
+					$count = 0;
 
 					$selected = vRequest::getInt('virtuemart_product_id', 0);
 					$selectedFound = false;
@@ -302,6 +303,10 @@ class VirtueMartCustomFieldRenderer
 						$firstoption->explanation = '';
 						if ($user_registered) {
 							$firstoption->explanation .= vmText::_('IS_COM_VIRTUEMART_EXPLANATION');
+						}
+						$count = count($uncatChildren);
+						if ($count > 0) {
+							$firstoption->explanation .= vmText::sprintf('IS_VIRTUEMART_TOTAL_COLORS', $count);
 						}
 						$firstoption->href = JRoute::_('index.php?option=com_virtuemart&view=' . $view . '&virtuemart_category_id=' . $virtuemart_category_id . '&virtuemart_product_id=' . $customfield->virtuemart_product_id, false);
 					}

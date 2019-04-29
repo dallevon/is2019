@@ -41,6 +41,10 @@ $in_stock = isset($viewData['in_stock']) ? $viewData['in_stock'] : 10;
 ?>
 <div class="is-addtocart-area">
 	<form method="post" class="product js-recalculate" action="<?php echo JRoute::_('index.php?option=com_virtuemart', false); ?>" autocomplete="off" data-error-message="<?php echo vmText::_('COM_VIRTUEMART_OVER_AVAILABLE_AMOUNT_ADDED'); ?>">
+		<?php
+		if (!VmConfig::get('use_as_catalog', 0) && $authorized) {
+			echo shopFunctionsF::renderVmSubLayout('addtocartbar', array('product' => $product));
+		} ?>
 		<div class="is-vm-customfields-wrap">
 			<?php
 			if (!empty($rowHeights['customfields'])) {
@@ -49,10 +53,7 @@ $in_stock = isset($viewData['in_stock']) ? $viewData['in_stock'] : 10;
 				}
 			} ?>
 		</div>
-		<?php
-		if (!VmConfig::get('use_as_catalog', 0) && $authorized) {
-			echo shopFunctionsF::renderVmSubLayout('addtocartbar', array('product' => $product));
-		} ?>
+
 		<input type="hidden" name="option" value="com_virtuemart" />
 		<input type="hidden" name="view" value="cart" />
 		<input type="hidden" name="virtuemart_product_id[]" value="<?php echo $product->virtuemart_product_id ?>" />
