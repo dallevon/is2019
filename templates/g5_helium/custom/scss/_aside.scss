@@ -1,42 +1,46 @@
 #g-aside {
 	padding: $content-padding 0;
-	display: none;
-	@include breakpoint(no-mobile) {
-		display: block;
+
+	.g-content {
+		.platform-content {
+			margin-top: 0;
+			margin-bottom: 0;
+			padding-top: 0;
+			padding-bottom: 0;
+		}
 	}
 
 	h3 {
 		margin-bottom: 0.5rem;
 	}
-}
+	// VMmenu
+	.VMmenu {
+		margin: 0;
+		padding: 0;
+		li {
+			list-style: none;
+			a {
+				padding-left: 1rem;
+				padding-right: 1rem;
+				.wrapper {
+					@include display(flex);
+					@include justify-content(flex-start);
+					@include align-items(center);
 
-// VMmenu
-.VMmenu {
-	margin: 0;
-	padding: 0;
-	li {
-		list-style: none;
-		a {
-			padding-left: 1rem !important;
-			padding-right: 1rem !important;
-			.wrapper {
-				@include display(flex);
-				@include justify-content(flex-start);
-				@include align-items(center);
-
-				.title {
-					@include flex-basis(90%);
-				}
-				.fa {
-					@include flex-basis(10%);
-					font-size: 1rem;
-					text-align: right;
+					.title {
+						@include flex-basis(90%);
+					}
+					.fa {
+						@include flex-basis(10%);
+						font-size: 1rem;
+						text-align: right;
+					}
 				}
 			}
-		}
-		.button-outline {
-			padding-left: 1rem !important;
-			padding-right: 1rem !important;
+			.button-outline {
+				padding-left: 1rem;
+				padding-right: 1rem;
+			}
 		}
 	}
 }
