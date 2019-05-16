@@ -67,7 +67,7 @@ if (vRequest::getInt('dynamic', false) and vRequest::getInt('virtuemart_product_
 ?>
 
 <div class="is-category-view">
-  <?php if ($this->show_store_desc and !empty($this->vendor->vendor_store_desc) and !$this->category->virtuemart_category_id) : ?>
+  <?php if ($this->show_store_desc and !empty($this->vendor->vendor_store_desc) and $this->category->virtuemart_category_id == 0 and empty($this->keyword)) : ?>
     <div class="is-vendor-store-desc hidden-phone">
       <?php echo $this->vendor->vendor_store_desc; ?>
     </div>
@@ -97,7 +97,7 @@ if (vRequest::getInt('dynamic', false) and vRequest::getInt('virtuemart_product_
 
   <?php if (($this->category->virtuemart_category_id and !empty($this->products)) or ($this->showsearch or $this->keyword !== false)) { ?>
     <div class="is-browse-view">
-      <?php if ($this->showsearch or $this->keyword !== false) {
+      <?php if (($this->showsearch and $this->keyword !== false)) {
         //id taken in the view.html.php could be modified
         $category_id  = vRequest::getInt('virtuemart_category_id', 0); ?>
 
@@ -137,7 +137,7 @@ if (vRequest::getInt('dynamic', false) and vRequest::getInt('virtuemart_product_
               <input name="keyword" class="inputbox" type="text" size="40" value="<?php echo $this->keyword ?>" />
               <input type="submit" value="<?php echo vmText::_('COM_VIRTUEMART_SEARCH') ?>" class="button" onclick="this.form.keyword.focus();" />
               <?php  ?>
-              <span class="vm-search-descr"> <?php echo vmText::_('COM_VM_SEARCH_DESC') ?></span>
+              <span class="vm-search-descr"><?php echo vmText::_('COM_VM_SEARCH_DESC') ?></span>
             </div>
 
             <!-- input type="hidden" name="showsearch" value="true"/ -->
@@ -153,7 +153,7 @@ if (vRequest::getInt('dynamic', false) and vRequest::getInt('virtuemart_product_
 
       <?php  // Show child categories
 
-      if (!empty($this->orderByList)) : ?>
+      if (!empty($this->orderByList) and !empty($this->products)) : ?>
         <div class="orderby-displaynumber">
           <div class="vm-order-list">
             <?php echo $this->orderByList['orderby']; ?>
@@ -164,10 +164,13 @@ if (vRequest::getInt('dynamic', false) and vRequest::getInt('virtuemart_product_
           </div>
         </div> <!-- end of orderby-displaynumber -->
       <?php endif; ?>
-      <div class="vm-pagination vm-pagination-top">
-        <?php echo $this->vmPagination->getPagesLinks(); ?>
-        <span class="vm-page-counter"><?php echo $this->vmPagination->getPagesCounter(); ?></span>
-      </div>
+      <?php if (!empty($this->products)) : ?>
+        <div class="vm-pagination vm-pagination-top">
+          <?php echo $this->vmPagination->getPagesLinks(); ?>
+          <span class="vm-page-counter"><?php echo $this->vmPagination->getPagesCounter(); ?></span>
+        </div>
+      <?php endif; ?>
+
       <?php if (!empty($this->category->category_name)) { ?>
 
         <h1>
@@ -187,6 +190,10 @@ if (vRequest::getInt('dynamic', false) and vRequest::getInt('virtuemart_product_
           vmdebug('Refallback');
         }
 
+        if ($this->keyword !== false) {
+          echo '<p class="alert alert-success">' . vmText::_('IS_COM_VIRTUEMART_RESULT') . ' : ( ' . $this->keyword . ' )</p>';
+        }
+
         echo shopFunctionsF::renderVmSubLayout($this->productsLayout, array('products' => $this->products, 'currency' => $this->currency, 'products_per_row' => $this->perRow, 'showRating' => $this->showRating));
 
         if (!empty($this->orderByList)) { ?>
@@ -194,7 +201,7 @@ if (vRequest::getInt('dynamic', false) and vRequest::getInt('virtuemart_product_
         <?php
       }
     } elseif ($this->keyword !== false) {
-      echo vmText::_('COM_VIRTUEMART_NO_RESULT') . ($this->keyword ? ' : (' . $this->keyword . ')' : '');
+      echo '<p class="alert alert-error">' . vmText::_('COM_VIRTUEMART_NO_RESULT') . ($this->keyword ? ' : ( ' . $this->keyword . ' )' : '') . '</p>';
     }
     ?>
     </div>
