@@ -84,6 +84,7 @@ administrator/language/ru-RU/*
 !/templates/g5_helium/custom/gantry
 !/templates/g5_helium/custom/particles
 !/templates/g5_helium/custom/scss
+!/templates/g5_helium/custom/engine
 !templates/g5_helium/html
 !templates/g5_helium/js
 templates/g5_helium/js/*

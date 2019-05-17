@@ -5,6 +5,14 @@
 			> .g-menu-item-container {
 				white-space: nowrap;
 			}
+			&.g-parent {
+				.g-menu-parent-indicator {
+					&:after {
+						font-family: 'Font Awesome 5 Free';
+						font-weight: 900 !important;
+					}
+				}
+			}
 		}
 	}
 }
