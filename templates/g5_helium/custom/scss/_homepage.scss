@@ -68,14 +68,109 @@
 				}
       } */
 
-			.g-owlcarousel .owl-dots {
-				bottom: 0;
-				.owl-dot {
-					width: 0.75rem;
-					height: 0.75rem;
-					@include breakpoint(small-mobile-range) {
-						width: 0.35rem;
-						height: 0.35rem;
+			.g-owlcarousel {
+				.owl-dots {
+					top: 5%;
+					right: 0;
+					width: auto;
+					text-align: right;
+					.owl-dot {
+						width: 0.75rem;
+						height: 0.75rem;
+						@include breakpoint(small-mobile-range) {
+							width: 0.35rem;
+							height: 0.35rem;
+						}
+					}
+				}
+				.g-owlcarousel-item-content-container {
+					width: auto;
+					.g-owlcarousel-item-content-wrapper {
+						display: block;
+						margin: 0;
+						padding: 0;
+					}
+					.g-owlcarousel-item-content {
+						margin: 0;
+						padding: 0.5rem 1rem;
+						text-align: left;
+					}
+					.g-owlcarousel-item-title,
+					.g-owlcarousel-item-desc {
+						margin: 0;
+						padding: 0;
+						text-align: left;
+
+						span {
+							display: inline-block;
+
+							@include breakpoint(no-mobile) {
+								display: block;
+							}
+						}
+					}
+					.g-owlcarousel-item-title {
+						line-height: 1;
+						text-transform: uppercase;
+						font-size: 5vw;
+						font-weight: 900;
+						color: $white;
+						text-shadow: 0 0 5px darken($navigation-background, 25%);
+						span {
+							display: block;
+						}
+					}
+					.g-owlcarousel-item {
+						&-link {
+							padding: 0;
+							text-align: left;
+							z-index: 1;
+						}
+						&-button {
+							padding: 0.75rem 2.125rem;
+							font-size: 1rem;
+							box-shadow: 0 0 5px $white;
+							@include breakpoint(mobile-only) {
+								display: initial;
+								font-size: 0.6rem;
+							}
+							@include breakpoint(small-mobile-range) {
+								display: none;
+							}
+						}
+					}
+				}
+				.own-production {
+					.g-owlcarousel-item-desc {
+						box-sizing: border-box;
+						display: inline-block;
+						margin: 0.25rem 0 0.75rem -0.75rem;
+						padding: 0.25rem 1rem;
+						line-height: normal;
+						border-radius: 5px;
+						background: rgba(0, 0, 0, 0.25);
+						color: $white;
+						font-size: 3vw;
+						font-weight: bold;
+						text-shadow: 0 0 10px rgba(0, 0, 0, 0.75);
+						@include breakpoint(small-mobile-range) {
+							padding: 0.25rem 0.5rem;
+							font-size: 4vw;
+						}
+					}
+				}
+				.awards {
+					.g-owlcarousel-item-title {
+						box-sizing: border-box;
+						position: absolute;
+						bottom: 0;
+						width: 100%;
+						margin: 0 -1rem;
+						padding: 0.25rem;
+						text-align: center;
+						text-transform: lowercase;
+						font-weight: bold;
+						background: rgba(0, 0, 0, 0.25);
 					}
 				}
 			}
