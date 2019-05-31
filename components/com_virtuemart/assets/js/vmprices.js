@@ -264,7 +264,7 @@ Virtuemart.checkQuantity = function(e) {
 	const eventTargetType = $eventTarget.attr('type');
 	let valid = false;
 
-	if (['submit', 'text', 'number'].includes(eventTargetType)) {
+	if (['submit', 'text', 'number'].indexOf(eventTargetType) !== -1) {
 		let $inputField = $eventTarget;
 		let quantity = 0;
 		let step = 1;
