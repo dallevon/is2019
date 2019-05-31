@@ -1,7 +1,17 @@
 #g-aside {
 	padding: $content-padding 0;
 
+	@include breakpoint(mobile-only) {
+		padding-bottom: 0;
+	}
+
 	.g-content {
+		@include breakpoint(mobile-only) {
+			margin-top: 0;
+			margin-bottom: 0;
+			padding-top: 0;
+			padding-bottom: 0;
+		}
 		.platform-content {
 			margin-top: 0;
 			margin-bottom: 0;
@@ -41,6 +51,16 @@
 				padding-left: 1rem;
 				padding-right: 1rem;
 			}
+		}
+	}
+
+	// Catalog link
+	.catalog-link {
+		@include breakpoint(no-mobile) {
+			margin-bottom: 1rem;
+		}
+		a {
+			margin: 0;
 		}
 	}
 }

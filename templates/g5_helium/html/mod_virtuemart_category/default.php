@@ -23,7 +23,7 @@ jQuery(document).ready(function() {
 
 $document = JFactory::getDocument();
 $document->addScriptDeclaration($js);
-$itemId = 165; // Dummy child of Catalog menu item
+$itemId = 131; // Catalog menu item
 ?>
 
 <ul class="VMmenu<?php echo $class_sfx ?>" id="<?php echo "VMmenu" . $ID ?>">

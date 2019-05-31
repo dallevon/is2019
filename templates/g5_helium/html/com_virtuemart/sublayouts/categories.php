@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * Shows the products/categories of a category
@@ -20,7 +21,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 $categories = $viewData['categories'];
-$itemId = 165; // Dummy child of Catalog menu item
+$itemId = 131; // Catalog menu item
 
 if ($categories) {
 
@@ -53,7 +54,7 @@ if ($categories) {
       $caturl = JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_category_id=' . $category->virtuemart_category_id . '&Itemid=' . $itemId, false);
       ?>
 
-      <div class="is-category g-block size-<?php echo $category_cellwidth; ?>">
+      <div class="is-category g-block size-is size-<?php echo $category_cellwidth; ?>">
         <div class="is-spacer">
           <h2>
             <a href="<?php echo $caturl ?>" title="<?php echo vmText::_($category->category_name) ?>" <?php echo $ajaxUpdate ?>>
@@ -67,5 +68,5 @@ if ($categories) {
 
 
     <?php
-  }
-}  ?>
+    }
+  }  ?>

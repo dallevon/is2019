@@ -33,7 +33,7 @@ if (empty($menuItem)) {
 echo '<div class="is-cart-popup">';
 echo '<div class="is-cart-popup-links">';
 echo '<a class="is-continue_link button button-bevel button-outline button-xsmall" href="' . $this->continue_link . '" >' . vmText::_('COM_VIRTUEMART_CONTINUE_SHOPPING') . '</a>';
-echo '<a class="is-showcart button button-bevel button-outline button-xsmall" href="' . $this->cart_link . '&Itemid=' . $menuItemId . '">' . vmText::_('COM_VIRTUEMART_CART_SHOW') . '</a>';
+echo '<a class="is-showcart button button-bevel button-outline button-xsmall" href="' . $this->cart_link . '">' . vmText::_('COM_VIRTUEMART_CART_SHOW') . '</a>';
 echo '</div>';
 
 if ($this->products) {

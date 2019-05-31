@@ -26,11 +26,15 @@ input.invalid {
 	border: 1px solid $error-color;
 }
 
+
+/*
+//levon original ul style
 ul.list-icon {
 	padding: 0;
 	margin: 0 0 15px 0;
 	background: none;
 	li {
+      	padding-left: 1rem;
 		list-style: none;
 		&::before {
 			display: inline-block;
@@ -48,11 +52,62 @@ ul.list-icon {
 		color: $accent-color-1;
 		content: '\f15c';
 	}
+	&.sp li::before {
+		color: $accent-color-1;
+		content: '\f2b5';
+	}
 }
+*/
+
+// danya try version
+ul.list-icon {
+		text-indent: -19px;
+      	margin-left: 20px;
+      	padding-left: 40px;
+	margin: 0 0 15px 0;
+	background: none;
+	li {
+      	margin-bottom: 0.5rem;
+      	line-height: normal;
+		list-style: none;
+		&::before {
+			display: inline-block;
+			margin-right: 1rem;
+			vertical-align: middle;
+			font-family: 'Font Awesome 5 Free';
+			font-weight: 900;
+		}
+	}
+	&.discount li::before {
+		color: $accent-color-2;
+		content: '\f02c';
+	}
+	&.documents li::before {
+		color: $accent-color-1;
+		content: '\f15c';
+	}
+	&.sp li::before {
+		color: $accent-color-1;
+		content: '\f2b5';
+	}
+     &.partners  {
+        text-indent: 0px;
+      	margin-left: 60px;
+      	padding-left: 60px;
+        margin-left: 20px;
+    }
+      
+    
+    
+}
+//end danya version
 
 .accent-1 {
 	color: $accent-color-1;
 }
 .accent-2 {
 	color: $accent-color-2;
+}
+.learn-price {
+	text-decoration: underline;
 }

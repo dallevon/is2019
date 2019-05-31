@@ -1,31 +1,406 @@
 @import 'dependencies';
+@import 'utilities';
+@import 'typography';
+@import 'mainnav';
+@import 'offcanvas';
+@import 'aside';
+@import 'homepage';
+@import 'virtuemart';
 
-.user {
-  &-loginmodule {
-    &-actions {
-      .login & {
-        display: block;
-      }
-    }
-  }
+// System Message
+#system-message {
+	p {
+		margin: 0;
+	}
+}
+// > System Message
+
+// Layout Sections overrides
+#g-mainbar {
+	padding: 1rem 0;
+}
+// Navigation
+#g-navigation {
+	@include display(flex);
+	@include flex-direction(column-reverse);
+	@include breakpoint(no-mobile) {
+		display: block;
+	}
+
+	& > div:nth-child(1) {
+		background-color: darken($box1-background, 8%);
+	}
+	& > div:nth-child(3) {
+		.g-content {
+			@include breakpoint(no-mobile) {
+				margin-top: 0;
+				margin-bottom: 0;
+			}
+		}
+	}
+
+	.main-menu {
+		.g-content {
+			@include breakpoint(tablet-range) {
+				margin-left: 0;
+				margin-right: 0;
+				padding-left: 0;
+				padding-right: 0;
+			}
+		}
+	}
+
+	// .is-social {
+	// 	.g-content {
+	// 		padding-top: 0;
+	// 		padding-bottom: 0;
+	// 		@include breakpoint(no-mobile) {
+	// 			padding-top: $content-padding;
+	// 			padding-bottom: $content-padding;
+	// 		}
+	// 		.g-social {
+	// 			text-align: center;
+	// 			line-height: normal;
+	// 		}
+	// 	}
+	// }
+
+	.loginlink {
+		position: absolute;
+		right: 1rem;
+		top: 0;
+
+		@include breakpoint(no-mobile) {
+			position: static;
+		}
+		.g-particle {
+			text-align: right;
+		}
+		.g-toplevel {
+			line-height: normal;
+			@include breakpoint(no-mobile) {
+				line-height: 3.125;
+			}
+			.fa {
+				.g-menu-item-content {
+					display: none;
+					font-family: get-font-family($font-family-title);
+
+					@include breakpoint(desktop-only) {
+						display: inline-block;
+					}
+				}
+				&.fa-sign-out-alt-after::after {
+					content: '\f2f5';
+				}
+				&::before,
+				&::after {
+					font-size: 1.25rem;
+					@include breakpoint(desktop-only) {
+						font-size: 1rem;
+					}
+				}
+			}
+		}
+	}
+
+	form {
+		margin: 0;
+		input {
+			margin: 0;
+			text-align: center;
+		}
+	}
+
+	.shop-information {
+		.g-content {
+			padding-bottom: 0;
+			@include breakpoint(no-mobile) {
+				padding-bottom: $content-padding;
+			}
+		}
+		.custom {
+			@include display(flex);
+			@include flex-wrap(wrap);
+			@include align-items(center);
+			@include justify-content(space-evenly);
+			&--delivery,
+			&--minorder {
+				@include display(flex);
+				@include align-items(center);
+				padding: 0 0.25rem;
+			}
+			.fa,
+			.fas {
+				font-size: 1.25rem;
+				margin-right: 0.5rem;
+			}
+		}
+	}
+}
+// > Navigation
+
+// Footer
+#g-footer {
+	padding-top: $content-padding;
+	padding-bottom: $content-padding;
+	.g-grid:first-child {
+		@include breakpoint(no-mobile) {
+			@include flex-wrap(nowrap);
+		}
+	}
+	.g-grid:last-child {
+		align-items: center;
+	}
+	.g-horizontalmenu {
+		padding: 0;
+		text-align: center;
+		a {
+			margin: 0;
+			padding: 0;
+		}
+	}
 }
 
-#remember-me,
-#form-login-remember {
-  @include display(flex);
-  @include align-items(center);
-  .control-label {
-    margin: 0 0.5rem 0 0;
-    label {
-      margin: 0;
-    }
-  }
+#footer-menu {
+	padding-left: $content-padding;
+	padding-right: $content-padding;
+	text-align: center;
+	li {
+		margin-right: 0.5rem;
+		&::before {
+			margin-right: 0.5rem;
+			font-family: 'Font Awesome 5 Free';
+			font-weight: 900;
+			content: '\f08b';
+		}
+		&.g-menu-item- {
+			&153 {
+				&::before {
+					content: '\f129';
+				}
+			}
+			&154 {
+				&::before {
+					content: '\f201';
+				}
+			}
+			&155 {
+				&::before {
+					content: '\f02a';
+				}
+			}
+			&159 {
+				&::before {
+					content: '\f2b5';
+				}
+			}
+			&160 {
+				&::before {
+					content: '\f0d1';
+				}
+			}
+			&161 {
+				&::before {
+					content: '\f02c';
+				}
+			}
+			&162 {
+				&::before {
+					content: '\f2bd';
+				}
+			}
+			&163 {
+				&::before {
+					content: '\f15c';
+				}
+			}
+			&164 {
+				&::before {
+					content: '\f07a';
+				}
+			}
+			&167 {
+				&::before {
+					content: '\f291';
+				}
+			}
+			&173 {
+				&::before {
+					content: '\f2b5';
+				}
+			}
+		}
+		.g-menu-item-container {
+			display: inline-block;
+		}
+	}
+	@include breakpoint(no-mobile) {
+		text-align: left;
+	}
+}
+// > Footer
+
+// > Layout Sections overrides
+
+// Logo
+.is-logo {
+	@include display(flex);
+	@include align-items(center);
+	margin-left: -0.25rem;
+	.g {
+		&-content {
+			@include flex-basis(100%);
+			padding-top: 0;
+			padding-bottom: 0;
+			@include breakpoint(no-mobile) {
+				padding-top: $content-padding;
+				padding-bottom: $content-padding;
+				padding-right: 0;
+			}
+
+			a {
+				display: block;
+				margin: auto;
+				max-width: 12rem;
+				@include breakpoint(no-mobile) {
+					margin-left: 0;
+					max-width: 15rem;
+				}
+				@include breakpoint(large-desktop-range) {
+					margin-top: -5px;
+				}
+
+				.visible-phone {
+					position: relative;
+					top: 0.25rem;
+				}
+
+				svg {
+					#g-navigation & {
+						max-height: 3rem;
+					}
+				}
+			}
+		}
+	}
+}
+// > Logo
+
+// User Login
+.login,
+.reset,
+.reset-confirm,
+.reset-complete,
+.registration,
+.reset-create {
+	.button {
+		@extend %userButtons;
+	}
+}
+.reset-create > ul > li {
+	display: block;
+	@include breakpoint(no-mobile) {
+		display: inline-block;
+	}
+}
+#remember-me {
+	@include display(flex);
+	@include align-items(center);
+	.control-label {
+		margin: 0 0.5rem 0 0;
+		label {
+			margin: 0;
+		}
+	}
 }
 #remember {
 	display: block;
 	margin: 0;
 }
-#modlgn-remember {
-  float: none;
-  margin: 0;
+// > User Login
+
+.contact-category {
+	.row-striped {
+		.row-fluid {
+			width: auto;
+		}
+	}
+}
+
+.our-address {
+	text-align: center;
+	&.g-block {
+		padding-left: $content-padding;
+		padding-right: $content-padding;
+	}
+	h3,
+	h4,
+	p {
+		margin-bottom: 0.25em;
+		line-height: normal;
+		&.contact-information {
+			&--phone,
+			&--email {
+				margin: 0.5rem 0;
+			}
+		}
+	}
+	@include breakpoint(no-mobile) {
+		text-align: left;
+	}
+
+	.g-social {
+		margin-top: 0.5rem;
+		margin-left: -0.25rem;
+		a {
+			font-size: 1.5rem;
+			padding: 0;
+		}
+	}
+}
+
+.contact-information {
+	&--phone,
+	&--email {
+		white-space: nowrap;
+		p& {
+			margin: 0;
+			white-space: unset;
+		}
+		.fa {
+			width: 1.5rem;
+		}
+	}
+	&--email {
+		margin-left: 1rem;
+		.our-address & {
+			margin-left: 0;
+			white-space: nowrap;
+		}
+	}
+}
+
+.teaser {
+	.g-content {
+		padding-top: 0;
+		@include breakpoint(no-mobile) {
+			padding-top: $content-padding;
+		}
+	}
+	h5 {
+		margin: 0;
+		* {
+			display: inline-block;
+		}
+	}
+}
+#g-intro {
+	padding-top: 0;
+	#is-homepage-header {
+		.g-content {
+			margin-bottom: $content-padding;
+			padding-bottom: $content-padding;
+		}
+	}
 }

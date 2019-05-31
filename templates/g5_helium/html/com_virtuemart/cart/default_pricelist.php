@@ -102,8 +102,8 @@ foreach ($this->cart->products as $pkey => $prow) {
 
 	<input type="text" onblur="Virtuemart.checkQuantityInCart(this,<?php echo $step ?>,<?php echo $available ?>,'<?php echo  $wrong_amount_message ?>', '<?php echo $over_available_message; ?>');" onsubmit="Virtuemart.checkQuantityInCart(this,<?php echo $step ?>,<?php echo $available ?>,'<?php echo  $wrong_amount_message ?>', '<?php echo $over_available_message; ?>');" title="<?php echo vmText::_('COM_VIRTUEMART_CART_UPDATE') ?>" class="quantity-input js-recalculate" size="3" maxlength="4" name="quantity[<?php echo $pkey; ?>]" value="<?php echo $prow->quantity ?>" min="<?php echo $step; ?>" />
 
-	<button type="submit" class="update-button fa fa-refresh button button-bevel button-outline button-xsmal" name="updatecart.<?php echo $pkey ?>" title="<?php echo vmText::_('COM_VIRTUEMART_CART_UPDATE') ?>" data-dynamic-update="1"></button>
-	<button type="submit" class="delete-button fa fa-trash button button-bevel button-outline button-xsmal" name="delete.<?php echo $pkey ?>" title="<?php echo vmText::_('COM_VIRTUEMART_CART_DELETE') ?>"></button>
+	<button type="submit" class="update-button fas fa-sync-alt button button-bevel button-outline button-xsmal" name="updatecart.<?php echo $pkey ?>" title="<?php echo vmText::_('COM_VIRTUEMART_CART_UPDATE') ?>" data-dynamic-update="1"></button>
+	<button type="submit" class="delete-button fas fa-trash-alt button button-bevel button-outline button-xsmal" name="delete.<?php echo $pkey ?>" title="<?php echo vmText::_('COM_VIRTUEMART_CART_DELETE') ?>"></button>
 
 	<?php
 	echo '<div>';

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * sublayout products
  *
@@ -74,6 +75,9 @@ foreach ($viewData['products'] as $type => $products) {
 
     echo '<div class="is-product-info-wrapper">';
     echo '<div class="is-vm-product-descr-container">' . '<h2>' . JHtml::link($product->link . $ItemidStr, $product->product_name) . '</h2>';
+    if (!$user_registered) {
+      echo JHtml::link(JRoute::_('index.php?option=com_users&view=login'), vmText::_('IS2019_LEARN_PRICE'), array('title' => vmText::_('IS2019_LEARN_PRICE'), 'class' => 'learn-price'));
+    }
     if (!empty($product->product_s_desc) && $product->product_parent_id != 0) {
       echo shopFunctionsF::limitStringByWord($product->product_s_desc, 60, ' ...');
     }

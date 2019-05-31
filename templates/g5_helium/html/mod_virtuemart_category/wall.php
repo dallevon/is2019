@@ -3,7 +3,7 @@ defined('_JEXEC') or die('Restricted access');
 $categoryModel->addImages($categories);
 $categories_per_row = vmConfig::get('categories_per_row');
 $col_width = floor(100 / $categories_per_row);
-$itemId = 165; // Dummy child of Catalog menu item
+$itemId = 131; // Catalog menu item
 
 ?>
 
@@ -14,7 +14,7 @@ $itemId = 165; // Dummy child of Catalog menu item
       $caturl = JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_category_id=' . $category->virtuemart_category_id . '&Itemid=' . $itemId);
       $catname = vmText::_(mb_convert_case($category->category_name, MB_CASE_TITLE, "UTF-8"));;
       ?>
-      <div class="is-category g-block size-<?php echo $col_width; ?>">
+      <div class="is-category size-is g-block size-<?php echo $col_width; ?>">
         <div class="is-spacer">
           <h2>
             <a href="<?php echo $caturl; ?>" title="<?php echo $category->category_name; ?> ">

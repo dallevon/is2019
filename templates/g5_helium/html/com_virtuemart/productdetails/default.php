@@ -128,7 +128,7 @@ echo '<div class="is-vm-product-details-container vm-product-details-container">
 
 // Product Description
 if (!empty($this->product->product_desc)) {
-	echo '<div class="is-product-description"><span class="title">' . vmText::_('COM_VIRTUEMART_PRODUCT_DESC_TITLE') . ': </span>' . $this->product->product_desc . '</div>';
+	echo '<div class="is-product-description"><span class="title">' . vmText::_('COM_VIRTUEMART_PRODUCT_DESC_TITLE') . ': </span>' .  trim($this->product->product_desc, ':') . '</div>';
 } // Product Description END
 
 echo shopFunctionsF::renderVmSubLayout('customfields', array('product' => $this->product, 'position' => 'normal'));
@@ -178,7 +178,7 @@ echo '</div>';
 
 // Ask a question about this product
 if (VmConfig::get('ask_question', 0) == 1) {
-	$askquestion_url =  JRoute::_('index.php?option=com _ virtuemart&view=productdetails&task=askquestion&virtuemart_product_id=' . $this->product->virtuemart_product_id . '&virtuemart_category_id=' . $this->product->virtuemart_category_id  . '&tmpl=component', false);
+	$askquestion_url =  JRoute::_('index.php?option=com_virtuemart&view=productdetails&task=askquestion&virtuemart_product_id=' . $this->product->virtuemart_product_id . '&virtuemart_category_id=' . $this->product->virtuemart_category_id  . '&tmpl=component', false);
 	echo '<div class="is-ask-a-question"><a class="is-ask-a-question-link-- button button-outline button-xsmall button-bevel" target="new" href=".' . $askquestion_url . '" rel="nofollow">' . vmText::_('COM_VIRTUEMART_PRODUCT_ENQUIRY_LBL') . '</a></div>';
 }
 // Ask a question about this product END

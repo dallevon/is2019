@@ -1,12 +1,12 @@
 .g-home-particles {
-	&.g-helium-style {
-		// Navigation Section
-		#g-navigation {
-			@include breakpoint(no-mobile) {
-				background: $navigation-background;
+  &.g-helium-style {
+    // Navigation Section
+    #g-navigation {
+      @include breakpoint(no-mobile) {
+        background: $navigation-background;
 
-				// Logo Particle
-				/* .g-logo {
+        // Logo Particle
+        /* .g-logo {
 					color: $white;
 
 					&.g-logo-helium {
@@ -15,10 +15,10 @@
 						}
 					}
 				} */
-			}
+      }
 
-			// Social Particle
-			/* .g-social {
+      // Social Particle
+      /* .g-social {
 				a {
 					color: fadeout($white, 50%);
 
@@ -35,25 +35,26 @@
 					}
 				}
 			} */
-		}
+    }
 
-		// Header Section
-		#g-header {
-			text-align: center;
-			padding: 0;
-			background-image: none;
+    // Header Section
+    #g-header {
+      text-align: center;
+      font-size: 1.5rem;
+      padding: 0;
+      background-image: none;
 
-			@include breakpoint(no-mobile) {
-				margin-top: 0;
-				padding: 0;
-			}
+      @include breakpoint(no-mobile) {
+        margin-top: 0;
+        padding: 0;
+      }
 
-			@include breakpoint(large-mobile-range) {
-				padding-top: 2rem;
-			}
+      @include breakpoint(large-mobile-range) {
+        padding-top: 2rem;
+      }
 
-			// Button Outline
-			/* .button {
+      // Button Outline
+      /* .button {
 				&.button-outline {
 					background: transparent;
 					color: $white;
@@ -68,115 +69,260 @@
 				}
       } */
 
-			.g-owlcarousel {
-				.owl-dots {
-					top: 5%;
-					right: 0;
-					width: auto;
-					text-align: right;
-					.owl-dot {
-						width: 0.75rem;
-						height: 0.75rem;
-						@include breakpoint(small-mobile-range) {
-							width: 0.35rem;
-							height: 0.35rem;
-						}
-					}
-				}
-				.g-owlcarousel-item-content-container {
-					width: auto;
-					.g-owlcarousel-item-content-wrapper {
-						display: block;
-						margin: 0;
-						padding: 0;
-					}
-					.g-owlcarousel-item-content {
-						margin: 0;
-						padding: 0.5rem 1rem;
-						text-align: left;
-					}
-					.g-owlcarousel-item-title,
-					.g-owlcarousel-item-desc {
-						margin: 0;
-						padding: 0;
-						text-align: left;
+      .g-owlcarousel {
+        img[src*="data:image"] {
+          height: 1px;
+        }
+        .owl-dots {
+          top: 5%;
+          right: 2.5%;
+          width: auto;
+          text-align: right;
+          .owl-dot {
+            width: 0.75rem;
+            height: 0.75rem;
+            @include breakpoint(small-mobile-range) {
+              width: 0.35rem;
+              height: 0.35rem;
+            }
+          }
+        }
+        .g-owlcarousel-item-content-container {
+          width: auto;
+          .g-owlcarousel-item {
+            &-content-wrapper {
+              display: block;
+              margin: 0;
+              padding: 0;
+            }
+            &-content {
+              margin: 0;
+              padding: 0.5rem 1rem;
+              text-align: left;
+            }
+            &-title,
+            &-desc {
+              margin: 0;
+              padding: 0;
+              text-align: left;
 
-						span {
-							display: inline-block;
+              span {
+                display: inline-block;
 
-							@include breakpoint(no-mobile) {
-								display: block;
-							}
-						}
-					}
-					.g-owlcarousel-item-title {
-						line-height: 1;
-						text-transform: uppercase;
-						font-size: 5vw;
-						font-weight: 900;
-						color: $white;
-						text-shadow: 0 0 5px darken($navigation-background, 25%);
-						span {
-							display: block;
-						}
-					}
-					.g-owlcarousel-item {
-						&-link {
-							padding: 0;
-							text-align: left;
-							z-index: 1;
-						}
-						&-button {
-							padding: 0.75rem 2.125rem;
-							font-size: 1rem;
-							box-shadow: 0 0 5px $white;
-							@include breakpoint(mobile-only) {
-								display: initial;
-								font-size: 0.6rem;
-							}
-							@include breakpoint(small-mobile-range) {
-								display: none;
-							}
-						}
-					}
-				}
-				.own-production {
-					.g-owlcarousel-item-desc {
-						box-sizing: border-box;
-						display: inline-block;
-						margin: 0.25rem 0 0.75rem -0.75rem;
-						padding: 0.25rem 1rem;
-						line-height: normal;
-						border-radius: 5px;
-						background: rgba(0, 0, 0, 0.25);
-						color: $white;
-						font-size: 3vw;
-						font-weight: bold;
-						text-shadow: 0 0 10px rgba(0, 0, 0, 0.75);
-						@include breakpoint(small-mobile-range) {
-							padding: 0.25rem 0.5rem;
-							font-size: 4vw;
-						}
-					}
-				}
-				.awards {
-					.g-owlcarousel-item-title {
-						box-sizing: border-box;
-						position: absolute;
-						bottom: 0;
-						width: 100%;
-						margin: 0 -1rem;
-						padding: 0.25rem;
-						text-align: center;
-						text-transform: lowercase;
-						font-weight: bold;
-						background: rgba(0, 0, 0, 0.25);
-					}
-				}
-			}
-		}
+                @include breakpoint(no-mobile) {
+                  // display: block;
+                }
+              }
+            }
+            &-title {
+              line-height: 1;
+              text-transform: uppercase;
+              font-size: 4vw;
+              font-weight: 900;
+              color: $white;
+              text-shadow: 0 0 5px darken($navigation-background, 25%);
+              span {
+                display: inline-block;
 
-		/* 	// Intro Section
+                @include breakpoint(no-mobile) {
+                  display: block;
+                }
+              }
+            }
+            &-link {
+              padding: 0;
+              text-align: left;
+              z-index: 1;
+            }
+            &-button {
+              padding: 0.75rem 2.125rem;
+              font-size: 1rem;
+              background: rgba(0, 0, 0, 0.25);
+              box-shadow: 0 0 5px $white;
+              @include breakpoint(mobile-only) {
+                display: initial;
+                font-size: 0.6rem;
+              }
+              @include breakpoint(small-mobile-range) {
+                display: none;
+              }
+            }
+          }
+        }
+
+        .joint-sales-katri {
+          .g-owlcarousel-item {
+            &-title {
+              color: rgb(223, 98, 14);
+              //*position: right;
+              bottom: 0;
+              padding-top: 3%;
+              line-height: 113%;
+              width: 100%;
+              text-align: right;
+              text-transform: none;
+              font-size: rem;
+              font-weight: bolder;
+              -webkit-text-stroke: 2px $black;
+              text-shadow: 3px -2px 0.5px $black, 0 0 1rem $white;
+              font-weight: bold;
+              @include breakpoint(mobile-only) {
+                padding-top: 6.75%;
+                font-size: 0.7rem;
+                -webkit-text-stroke: 1px $black;
+                text-shadow: none;
+              }
+            }
+            &-link {
+              padding-top: 1rem;
+              text-align: right;
+              @include breakpoint(mobile-only) {
+                display: none;
+              }
+            }
+            &-button {
+              margin-top: 1rem;
+              padding: 0.6rem 1.25rem;
+              color: rgb(0, 0, 0);
+              font-weight: 650;
+              background: rgba(223, 98, 14, 0.815);
+              &:hover {
+                color: saturate($black, 5%);
+                background: rgb(223, 98, 14);
+              }
+            }
+          }
+        }
+
+        .own-production {
+          .g-owlcarousel-item-desc {
+            padding-left: 10rem;
+            box-sizing: border-box;
+            display: inline-block;
+            margin: 0.35rem 0 0.75rem -0.75rem;
+            padding: 0.25rem 1rem;
+            line-height: normal;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.25);
+            color: $white;
+            font-size: 2.5vw;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.75);
+            @include breakpoint(small-mobile-range) {
+              padding: 0.25rem 0.5rem;
+              font-size: 4vw;
+            }
+          }
+        }
+        .awards {
+          .g-owlcarousel-item-title {
+            box-sizing: border-box;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            margin: 0 -1rem;
+            padding: 0.25rem;
+            text-align: center;
+            text-transform: none;
+            font-size: 3vw;
+            font-weight: bold;
+            background: rgba(0, 0, 0, 0.25);
+          }
+        }
+        .trend {
+          .g-owlcarousel-item-content {
+            padding: 3% 0 0;
+            margin: auto;
+            width: 35%;
+            .g-owlcarousel-item-title,
+            .g-owlcarousel-item-desc {
+              text-align: center;
+            }
+            .g-owlcarousel-item-title {
+              font-size: 7vw;
+            }
+
+            .g-owlcarousel-item-desc {
+              display: block;
+              color: $black;
+              text-shadow: 0 0 10px rgba(255, 255, 255, 0.75);
+              text-transform: uppercase;
+              font-weight: bold;
+              font-size: 3vw;
+              line-height: 4vw;
+              span {
+                display: block;
+                &:nth-child(2) {
+                  font-size: 4vw;
+                }
+              }
+            }
+          }
+        }
+        .joint-sales {
+          .g-owlcarousel-item {
+            &-title {
+              margin-bottom: 0.25rem;
+              padding-top: 3%;
+              padding-bottom: 1rem;
+              box-sizing: border-box;
+              text-align: center;
+              text-transform: none;
+              color: saturate($accent-color-2, 35%);
+              text-shadow: 0 0 5px $white inner;
+              text-shadow: 0 0 10px $white;
+              font-family: get-font-family($font-family-serif);
+              font-size: 5vw;
+              font-style: italic;
+              span {
+                display: inline-block;
+                @include breakpoint(mobile-only) {
+                  padding-top: 1%;
+
+                  display: block;
+                }
+              }
+            }
+            &-link {
+              text-align: center;
+              @include breakpoint(mobile-only) {
+                display: none;
+              }
+            }
+            &-button {
+              margin-top: 0.25rem;
+              padding: 0.5rem 2rem;
+              color: saturate($accent-color-2, 35%);
+              background: rgba(255, 255, 255, 0.75);
+              &:hover {
+                color: saturate($accent-color-2, 5%);
+                background: rgba(255, 255, 255, 1);
+              }
+            }
+          }
+        }
+      }
+      .delivery-minorder {
+        line-height: normal;
+        .shop-information--delivery,
+        .shop-information--minorder {
+          display: inline-block;
+          margin: 0.25rem 0;
+          padding: 0 0.5rem;
+          font-size: 0.75em;
+          @include breakpoint(no-mobile) {
+            font-size: 1rem;
+          }
+
+          .fa,
+          .fas {
+            margin-right: 0.5rem;
+          }
+        }
+      }
+    }
+
+    /* 	// Intro Section
 		#g-intro {
 			padding-bottom: 0;
 
@@ -306,5 +452,5 @@
 				}
 			}
 		} */
-	}
+  }
 }
