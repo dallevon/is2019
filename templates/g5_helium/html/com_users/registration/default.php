@@ -93,6 +93,9 @@ $doc->addScriptDeclaration($js);
         <input type="hidden" name="option" value="com_users" />
         <input type="hidden" name="task" value="registration.register" />
       </div>
+      <div class="privacy">
+        <p><?php echo JText::_('IS_OPTIN_DISCLAIMER');?></p>
+      </div>
     </div>
     <?php echo JHtml::_('form.token'); ?>
   </form>
