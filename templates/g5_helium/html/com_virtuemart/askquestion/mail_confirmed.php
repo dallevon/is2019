@@ -19,11 +19,12 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-if (VmConfig::get('usefancy', 1)) {
-	$onclick = 'parent.jQuery.fancybox.close();';
-} else {
-	$onclick = 'parent.jQuery.facebox.close();';
-}
+// if (VmConfig::get('usefancy', 1)) {
+// 	$onclick = 'parent.jQuery.fancybox.close();';
+// } else {
+// 	$onclick = 'parent.jQuery.facebox.close();';
+// }
+$onclick = 'window.close();';
 ?>
 <div class="productdetails-view">
   <p><?php echo vmText::_('COM_VIRTUEMART_ASK_QUESTION_THANK_YOU'); ?></p>
