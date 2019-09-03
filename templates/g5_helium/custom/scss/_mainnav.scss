@@ -16,6 +16,16 @@
 			}
 		}
 	}
+	.g-sublevel {
+		.g-go-back {
+			.g-menu-item-container {
+				&:before {
+					font-family: 'Font Awesome 5 Free';
+					font-weight: 900 !important;
+				}
+			}
+		}
+	}
 }
 
 // VMmenu
