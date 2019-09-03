@@ -1,3 +1,4 @@
+
 #g-aside {
 	padding: $content-padding 0;
 
@@ -39,6 +40,8 @@
 
 					.title {
 						@include flex-basis(90%);
+						font-size: 0.8rem;
+						line-height: normal;
 					}
 					.fa {
 						@include flex-basis(10%);
