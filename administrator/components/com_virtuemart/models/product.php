@@ -2813,8 +2813,14 @@ class VirtueMartModelProduct extends VmModel
         $orderByLink = '';
         $fields = VmConfig::get('browse_orderby_fields');
         if (count($fields) > 1) {
+            $user   = JFactory::getUser();
+            $user_id = ($user->get('id'));
+            $user_registered =  $user_id !== 0;
             $orderByLink = '<div class="orderlist">';
             foreach ($fields as $field) {
+              if (!$user_registered && $field == 'product_price') {
+                continue;
+              }
                 if ($field != $orderby) {
                     $dotps = strrpos($field, '.');
                     if ($dotps !== false) {
