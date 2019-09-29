@@ -14,7 +14,6 @@ jQuery(function($) {
   // the content is being updated.
   Virtuemart.isUpdatingContent = false;
   Virtuemart.recalculate = false;
-  Virtuemart.recalculate = false;
   Virtuemart.setBrowserState = true;
 
   Virtuemart.updateContent = function(url, callback) {

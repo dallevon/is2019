@@ -308,10 +308,12 @@
         .shop-information--minorder {
           display: inline-block;
           margin: 0.25rem 0;
-          padding: 0 0.5rem;
-          font-size: 0.75em;
+          padding: 0.5rem;
+          color: $accent-color-1;
+          font-size: 1.25rem;
           @include breakpoint(no-mobile) {
-            font-size: 1rem;
+            font-size: 1.5rem;
+            padding-top: 1rem;
           }
 
           .fa,
