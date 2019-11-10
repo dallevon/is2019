@@ -22,10 +22,6 @@
 
 ### Таблица *****_virtuemart_products
 
-Таблица rjmkx_virtuemart_products_ru_ru
-virtuemart_product_id = id соответствющего товара в VirtueMart
-product_s_desc = знацение характеристики цвет
-product_name = название товара (или родительского товара) в 1С
 **Заносится основной продукт со следующими значениями полей:**
 
 - `virtuemart_product_id` = id товара в 1С
@@ -40,13 +36,6 @@ product_name = название товара (или родительского 
 - `product_parent_id` = virtuemart_product_id родительского продукта
 - `product_in_stock` = остаток в 1С по этой харакеристике
 
-### Таблица rjmkx_virtuemart_products_ru_ru
-
-2)
-virtuemart_product_id = id соответствющего товара в VirtueMart
-virtuemart_custom_id = 9  
-customfield_value: значение 'product_s_desc'
-### rjmkx_virtuemart_product_categories
 ### *****_virtuemart_product_categories
 
 - `virtuemart_product_id` = id соответствющего товара в VirtueMart
