@@ -13,7 +13,7 @@
  * to the GNU General Public License, and as distributed it includes or
  * is derivative of works licensed under the GNU General Public License or
  * other free or open source software licenses.
- * @version $Id: product.php 10182 2019-10-21 07:13:21Z Milbo $
+ * @version $Id: product.php 10205 2019-11-18 11:26:57Z Milbo $
  */
 
 // Check to ensure this file is included in Joomla!
@@ -644,14 +644,14 @@ class VirtueMartModelProduct extends VmModel {
 					//$limits = $this->setPaginationLimits();
 					if($isSite){
 						$origReturnPrd = $nbrReturnProducts;
-						//$nbrReturnProducts = $nbrReturnProducts * 3;
+						$nbrReturnProducts = $nbrReturnProducts * 3;
 					}
 					break;
 				case 'discontinued':
 					$where[] = 'p.`product_discontinued`="1" ';
 					if($isSite){
 						$origReturnPrd = $nbrReturnProducts;
-						//$nbrReturnProducts = $nbrReturnProducts * 3;
+						$nbrReturnProducts = $nbrReturnProducts * 3;
 					}
 					break;
 				case 'latest':
@@ -676,7 +676,7 @@ class VirtueMartModelProduct extends VmModel {
 // 			$joinLang = false;
 		}
 
-		if($group!='discontinued' and !VmConfig::get('discontinuedPrdsBrowseable',1)){
+		if($group!='discontinued' and !VmConfig::get('discontinuedPrdsBrowseable',1) and $isSite){
 			$where[] = ' p.`product_discontinued` = "0" ';
 		}
 
@@ -1848,7 +1848,7 @@ class VirtueMartModelProduct extends VmModel {
 		return $products;
 	}
 
-	public function getProductsListing ($group = FALSE, $nbrReturnProducts = FALSE, $withCalc = TRUE, $onlyPublished = TRUE, $single = FALSE, $filterCategory = TRUE, $category_id = 0, $filterManufacturer = TRUE, $manufacturer_id = 0, $omit = 0) {
+	static public function getProductsListing ($group = FALSE, $nbrReturnProducts = FALSE, $withCalc = TRUE, $onlyPublished = TRUE, $single = FALSE, $filterCategory = TRUE, $category_id = 0, $filterManufacturer = TRUE, $manufacturer_id = 0, $omit = 0) {
 
 		$productModel = VmModel::getModel('Product');
 		$products = array();
@@ -2542,7 +2542,65 @@ class VirtueMartModelProduct extends VmModel {
 	 * @param int $virtuemart_product_id
 	 */
 
-	public function createClone ($id) {
+	public function createCloneWithChildren ($id) {
+
+		$relation = array();
+
+		$newId = $this->createClone($id);
+		$relation[$id] = $newId;
+		if(empty($newId)) return false;
+
+		if($children = $this->getProductChildIds($id)){
+			foreach($children as $pid){
+				$relation[$pid] = $this->createClone($pid, $newId);
+			}
+		}
+vmdebug('createCloneWithChildren relation',$relation);
+		$cM = VmModel::getModel('customfields');
+		$customfields = $cM->getCustomEmbeddedProductCustomFields( array($newId), 0, -1, true);
+
+
+		if ($customfields) {
+			foreach ($customfields as $i=>$customfield) {
+				if($customfield->field_type == 'C'){
+					//$product = $this->getProductSingle ($newId, FALSE, 1, false, 0, false);
+
+					//foreach ($product->customfields as $i=>$customfield) {
+						if($customfield->field_type == 'C') {
+							if(!empty($customfield->options)){
+								$newOptions = array();
+								foreach($customfield->options as $optKey=>$opt){
+									$newOptions[$relation[$optKey]] = $opt;
+								}
+								$customfield->options = $newOptions;
+
+								$data = get_object_vars($customfield);
+
+								vmdebug('storeProductCustomfield in product model indChecknStore',$data['field'][$customfield->virtuemart_customfield_id]);
+								$cM->storeProductCustomfield ('product', $data);
+							}
+							break;
+						}
+					//}
+					break;
+				}
+			}
+		}
+		return $newId;
+	}
+
+	function map_old_to_new_indeces($n, $m) {
+		return [$n => $m];
+	}
+
+	/**
+	 * Creates a clone of a given product id
+	 *
+	 * @author Max Milbers
+	 * @param int $virtuemart_product_id
+	 */
+
+	public function createClone ($id, $parentId = 0) {
 
 		if(!vmAccess::manager('product.create')){
 			vmWarn('Insufficient permission to create product');
@@ -2561,7 +2619,8 @@ class VirtueMartModelProduct extends VmModel {
 		$product->mprices = $this->productPricesClone ($id);
 		$product->virtuemart_shoppergroup_id = $product->shoppergroups;
 
-
+		//We clone a child of a just cloned parent, keep the relation.
+		if(!empty($parentId)) $product->product_parent_id = $parentId;
 
 		$product->created_on = "0000-00-00 00:00:00";
 		$product->created_by = 0;
@@ -2587,13 +2646,13 @@ class VirtueMartModelProduct extends VmModel {
 				//Disables the language fallback
 				$langTable->_ltmp = true;
 				$langTable->load($id);
-				if($langTable->_loaded){
+
+				if($langTable->_loaded and !$langTable->_loadedWithLangFallback){
 					if(!empty($langTable->virtuemart_product_id)){
 						$langTable->virtuemart_product_id = $newId;
 						$langTable->created_on = "0000-00-00 00:00:00";
 						$langTable->created_by = 0;
 						$langTable->slug = $langTable->slug . '-' . $id;
-
 						$langTable->bindChecknStore($langTable, false, true);
 					}
 				}
@@ -3142,7 +3201,6 @@ class VirtueMartModelProduct extends VmModel {
 	/**
 	 * Check if the product has any children
 	 *
-	 * @author RolandD
 	 * @author Max Milbers
 	 * @param int $virtuemart_product_id Product ID
 	 * @return bool True if there are child products, false if there are no child products
