@@ -13,7 +13,7 @@
  * to the GNU General Public License, and as distributed it includes or
  * is derivative of works licensed under the GNU General Public License or
  * other free or open source software licenses.
- * @version $Id: product.php 10320 2020-05-12 11:09:56Z Milbo $
+ * @version $Id: product.php 10331 2020-06-16 14:28:50Z Milbo $
  */
 
 // Check to ensure this file is included in Joomla!
@@ -1380,17 +1380,19 @@ class VirtueMartModelProduct extends VmModel {
 			}
 		}
 
+		$emptySpgrpPrice = 0;
 		$pbC = VmConfig::get('pricesbyCurrency',false);
 		if($front and $pbC){
 			$app = JFactory::getApplication();
 
 			$calculator = calculationHelper::getInstance();
 			$cur = (int)$app->getUserStateFromRequest( 'virtuemart_currency_id', 'virtuemart_currency_id',$calculator->vendorCurrency );
+			$emptySpgrpPrice = null;
 		}
 
 		$product->selectedPrice = null;
 		if(!empty($product->allPrices) and is_array($product->allPrices)){
-			$emptySpgrpPrice = 0;
+
 			$product->has_prices = count($product->allPrices);
 			foreach($product->allPrices as $k=>$price){
 
@@ -1415,21 +1417,35 @@ class VirtueMartModelProduct extends VmModel {
 					$quantityFits = false;
 				}
 
-				if(empty($price['virtuemart_shoppergroup_id']) and empty($emptySpgrpPrice) and $quantityFits ){
-					$emptySpgrpPrice = $k;
-				} else if( $quantityFits ){
-					$product->selectedPrice = $k;
+				$currency = true;
+				if($front and $pbC==2){
+					$currency = false;
+
+					if($cur and $cur==$price['product_currency']){
+						$currency = true;
+						//$product->selectedPrice = $k;
+						//break;
+					}
 				}
 
-				if($front and $pbC){
+				if(empty($price['virtuemart_shoppergroup_id']) and empty($emptySpgrpPrice) and $quantityFits and $currency){
+					$emptySpgrpPrice = $k;
+					//vmdebug('Set default price',(int)$k);
+				} else if( $quantityFits and $currency ){
+					$product->selectedPrice = $k;
+					//vmdebug('Set price by quantity/currency',(int)$k);
+				}
+
+				if($front and $pbC==1){
 					if($cur and $cur==$price['product_currency']){
 						$product->selectedPrice = $k;
+						//vmdebug('Set price by currency',(int)$k);
 						break;
 					}
 				}
 			}
 
-			if(!isset($product->selectedPrice)){
+			if(!isset($product->selectedPrice) and isset($emptySpgrpPrice)){
 				$product->selectedPrice = $emptySpgrpPrice;
 			}
 
