@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
 
 function cmp($a, $b)
 {
-	return strcmp($a->text, $b->text);
+	return strcmp($a->name, $b->name);
 }
 class VirtueMartCustomFieldRenderer
 {
@@ -313,23 +313,25 @@ class VirtueMartCustomFieldRenderer
 
 
 					$parentStock = 0;
+					$imageAspect = 3/4;
+					$width = 210;
 					if ($uncatChildren) {
 						foreach ($uncatChildren as $k => $child) {
 							/*if(!isset($child[$customfield->customfield_value])){
 								vmdebug('The child has no value at index '.$customfield->customfield_value,$customfield,$child);
 							} else {*/
-
+								
 							$productChild = $productModel->getProduct((int)$child, true);
 
 							$productModel->addImages($productChild, 1);
 
 							// print_r($productChild->images[0]);
-							$productChildThumb = $productChild->images[0]->getFileUrlThumb(240, 480);
+							$productChildThumb = $productChild->images[0]->getFileUrlThumb($width, $width / $imageAspect);
 							$media_path = VMPATH_ROOT . DS . str_replace('/', DS, $productChildThumb);
 
 							if ((empty($productChildThumb) || !file_exists($media_path)) && is_a($productChild->images[0], 'VmImage')) {
-								$productChild->images[0]->createThumb(240, 480);
-								$productChildThumb = $productChild->images[0]->getFileUrlThumb(240, 480);
+								$productChild->images[0]->createThumb($width, $width / $imageAspect);
+								$productChildThumb = $productChild->images[0]->getFileUrlThumb($width, $width / $imageAspect);
 							}
 
 							if (!$productChild) continue;
@@ -349,7 +351,8 @@ class VirtueMartCustomFieldRenderer
 								$priceStr =  ' (' . $currency->priceDisplay($productPrices['salesPrice']) . ')';
 							}
 							$value = JRoute::_('index.php?option=com_virtuemart&view=' . $view . '&virtuemart_category_id=' . $virtuemart_category_id . '&virtuemart_product_id=' . $productChild->virtuemart_product_id, false);
-							$tmp = array('id' => VmHtml::ensureUniqueId('radio' . $virtuemart_category_id . $productChild->virtuemart_product_id), 'value' => $value, 'text' => '<span class="variant"><img src="' . $productChildThumb . '" alt="' . $productChild->{$customfield->customfield_value} . '" /><span>' . $productChild->{$customfield->customfield_value} . $priceStr . '</span></span>', 'selected' => $productChild->virtuemart_product_id);
+							$name = $productChild->{$customfield->customfield_value};
+							$tmp = array('id' => VmHtml::ensureUniqueId('radio' . $virtuemart_category_id . $productChild->virtuemart_product_id), 'value' => $value, 'text' => '<span class="variant"><img src="' . $productChildThumb . '" alt="' . $name  . '" /><span>' . $productChild->{$customfield->customfield_value} . $priceStr . '</span></span>', 'selected' => $productChild->virtuemart_product_id, 'name' => $name);
 
 							$options[] = (object)$tmp;
 
@@ -399,7 +402,6 @@ class VirtueMartCustomFieldRenderer
 							$product->product_in_stock = $parentStock;
 						}
 					}
-
 
 					usort($options, "cmp");
 
