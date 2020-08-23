@@ -49,9 +49,9 @@ if (!empty($this->product->images)) {
 		$width = VmConfig::get('img_width_full', 0);
 		$height = VmConfig::get('img_height_full', 0);
 		if (!empty($width) or !empty($height)) {
-			echo $image->displayMediaThumb("", true, "rel='is-vm-additional-images'", false, false, false, $width, $height);
+			echo $image->displayMediaThumb("", true, "rel='is-vm-main-image'", true, false, false, $width, $height);
 		} else {
-			echo $image->displayMediaFull("", false, "rel='is-vm-additional-images'", false);
+			echo $image->displayMediaFull("", false, "rel='is-vm-main-image'", false);
 		}
 		?>
 </div>
