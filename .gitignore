@@ -67,9 +67,6 @@ administrator/language/ru-RU/*
 
 /.vscode/*
 !/images/sources
-!/components/com_users
-/components/com_users/*
-!/components/com_users/controllers
 
 # end of Joomla core
 
