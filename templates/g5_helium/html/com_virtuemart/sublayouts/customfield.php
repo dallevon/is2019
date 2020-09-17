@@ -352,7 +352,7 @@ class VirtueMartCustomFieldRenderer
 							}
 							$value = JRoute::_('index.php?option=com_virtuemart&view=' . $view . '&virtuemart_category_id=' . $virtuemart_category_id . '&virtuemart_product_id=' . $productChild->virtuemart_product_id, false);
 							$name = $productChild->{$customfield->customfield_value};
-							$tmp = array('id' => VmHtml::ensureUniqueId('radio' . $virtuemart_category_id . $productChild->virtuemart_product_id), 'value' => $value, 'text' => '<span class="variant"><img src="' . $productChildThumb . '" alt="' . $name  . '" /><span>' . $productChild->{$customfield->customfield_value} . $priceStr . '</span></span>', 'selected' => $productChild->virtuemart_product_id, 'name' => $name);
+							$tmp = array('id' => VmHtml::ensureUniqueId('radio' . $virtuemart_category_id . $productChild->virtuemart_product_id), 'value' => $value, 'text' => '<div class="variant"><img src="' . $productChildThumb . '" alt="' . $name  . '" /><span>' . $productChild->{$customfield->customfield_value} . $priceStr . '</span></div>', 'selected' => $productChild->virtuemart_product_id, 'name' => $name);
 
 							$options[] = (object)$tmp;
 
