@@ -13,7 +13,7 @@
  * to the GNU General Public License, and as distributed it includes or
  * is derivative of works licensed under the GNU General Public License or
  * other free or open source software licenses.
- * @version $Id: product.php 10331 2020-06-16 14:28:50Z Milbo $
+ * @version $Id: product.php 10367 2020-11-02 18:17:14Z Milbo $
  */
 
 // Check to ensure this file is included in Joomla!
@@ -175,7 +175,7 @@ class VirtueMartModelProduct extends VmModel {
 
 			}
 			$filter_order_Dir = strtoupper (vRequest::getCmd ('dir', VmConfig::get('prd_brws_orderby_dir', 'ASC')));
-
+			$filter_order_Dir = $this->checkFilterDir($filter_order_Dir);
 			$this->product_parent_id = vRequest::getInt ('product_parent_id', FALSE);
 			$this->virtuemart_manufacturer_id = vRequest::getInt ('virtuemart_manufacturer_id', FALSE);
 			//$this->virtuemart_category_id = vRequest::getInt ('virtuemart_category_id', FALSE);
@@ -222,7 +222,7 @@ class VirtueMartModelProduct extends VmModel {
 			$valid_search_fields = array_unique(array_merge($this->valid_BE_search_fields, $valid_search_fields));
 
 			$view = vRequest::getCmd ('view');
-			$stateTypes = array('virtuemart_category_id'=>'int','virtuemart_manufacturer_id'=>'int',/*'product_parent_id'=>'int',*/'filter_product'=>'string','search_type'=>'string','search_order'=>'string','search_date'=>'string','virtuemart_vendor_id' => 'int');
+			$stateTypes = array('virtuemart_category_id'=>'int','virtuemart_manufacturer_id'=>'int',/*'product_parent_id'=>'int',*/'filter_product'=>'string','search_type'=>'string','search_order'=>'string','search_date'=>'string','virtuemart_vendor_id' => 'int', 'published' => 'int');
 
 			$this->product_parent_id = vRequest::getInt ('product_parent_id', FALSE);
 			foreach($stateTypes as $type => $filter){
@@ -304,7 +304,7 @@ class VirtueMartModelProduct extends VmModel {
 
 		$app = JFactory::getApplication ();
 		$db = JFactory::getDbo();
-		//$this->setDebugSql(1);
+		//$this->setDebugSql(1); //VmConfig::$echoDebug = true;
 		//vmdebug('sortSearchListQuery '.$group,$nbrReturnProducts);
 		//User Q.Stanley said that removing group by is increasing the speed of product listing in a bigger shop (10k products) by factor 60
 		//So what was the reason for that we have it? TODO experiemental, find conditions for the need of group by
@@ -320,7 +320,7 @@ class VirtueMartModelProduct extends VmModel {
 		$joinCustom = FALSE;
 		$joinShopper = FALSE;
 		$joinChildren = FALSE;
-		$virtuemart_category_id = (int)$virtuemart_category_id;
+		//$virtuemart_category_id = (int)$virtuemart_category_id;
 		//$joinLang = false;
 
 
@@ -458,20 +458,42 @@ class VirtueMartModelProduct extends VmModel {
 			$virtuemart_category_id = false;
 		}
 
-		if ($virtuemart_category_id > 0) {
+		if (!empty($virtuemart_category_id )) {
 			$joinCategory = TRUE;
 			if(VmConfig::get('show_subcat_products',false)){
 				/*GJC add subcat products*/
 				$catmodel = VmModel::getModel ('category');
 				$childcats = $catmodel->getChildCategoryList(1, $virtuemart_category_id,null, null, true);
-				$cats = $virtuemart_category_id;
-				foreach($childcats as $childcat){
-					$cats .= ','.$childcat->virtuemart_category_id;
+				$cats = '';
+				foreach($childcats as $k=>$childcat){
+					if(!empty($childcat->virtuemart_category_id)){
+						$cats = $childcat->virtuemart_category_id .',';
+					}
 				}
-				$joinCategory = TRUE;
-				$where[] = ' `pc`.`virtuemart_category_id` IN ('.$cats.') ';
+                if(!empty($cats)){
+                    $joinCategory = TRUE;
+					$cats .= $virtuemart_category_id;
+                    $where[] = ' `pc`.`virtuemart_category_id` IN ('.$cats.') ';
+                } else {
+					$where[] = ' `pc`.`virtuemart_category_id` = ' . $virtuemart_category_id;
+				}
 			} else {
-				$where[] = ' `pc`.`virtuemart_category_id` = ' . $virtuemart_category_id;
+			    if(is_array($virtuemart_category_id)){
+                    $cats = false;
+                    foreach($virtuemart_category_id as $k=>$cat){
+						if(empty($cat)){
+							unset($virtuemart_category_id[$k]);
+						}
+                    }
+					if(!empty($virtuemart_category_id)){
+                        $where[] = ' `pc`.`virtuemart_category_id` IN ('.implode(',',$virtuemart_category_id).') ';
+                    }
+                } else {
+                    $where[] = ' `pc`.`virtuemart_category_id` = ' . $virtuemart_category_id;
+                }
+
+
+
 			}
 		} else if ($isSite) {
 			if (!VmConfig::get('show_uncat_parent_products',TRUE)) {
@@ -672,7 +694,7 @@ class VirtueMartModelProduct extends VmModel {
 // 			$joinLang = false;
 		}
 
-		if($group!='discontinued' and !VmConfig::get('discontinuedPrdsBrowseable',1) and $isSite){
+		if($group!='discontinued' and !VmConfig::get('discontinuedPrdsBrowseable',1) /*and $isSite*/){
 			$where[] = ' p.`product_discontinued` = "0" ';
 		}
 
@@ -682,6 +704,18 @@ class VirtueMartModelProduct extends VmModel {
 		if(!empty($onlyPublished) and $isSite){
 			$where[] = ' p.`published`="1" ';
 		}
+
+		//It would be of course better to use the %onlyPublished Parameter, but maybe widely used, so for BC, we use this quickndirty solution
+		$published = vRequest::getInt('published',false);
+		if(!$isSite and $published!==false){
+
+		    if($this->published==1){
+                $where[] = ' p.`published`="1" ';
+            } else if($this->published==0){
+                $where[] = ' p.`published`="0" ';
+            }
+        }
+
 
 		if(VmConfig::get('multix','none')!='none'){
 			if(!empty($this->virtuemart_vendor_id)){
@@ -1943,6 +1977,7 @@ vmSetStartTime('letsUpdateProducts');
 		else {
 			$this->virtuemart_category_id = FALSE;
 		}
+
 		if ($filterManufacturer === TRUE) {
 			if ($manufacturer_id) {
 				$this->virtuemart_manufacturer_id = $manufacturer_id;
@@ -2213,6 +2248,8 @@ vmSetStartTime('letsUpdateProducts');
 	function saveorder ($cid = array(), $order, $filter = NULL) {
 		vRequest::vmCheckToken();
 		$virtuemart_category_id = vRequest::getInt ('virtuemart_category_id', 0);
+		if(is_array($virtuemart_category_id)) $virtuemart_category_id = reset($virtuemart_category_id);
+
 //		quorvia if no category could be found do not update anything for sequence
 		if ($virtuemart_category_id) {
 
@@ -2996,6 +3033,7 @@ vmdebug('createCloneWithChildren relation',$relation);
 		$orderDirLink = '';
 		$orderDirConf = VmConfig::get ('prd_brws_orderby_dir');
 		$orderDir = vRequest::getCmd ('dir', $orderDirConf);
+		$orderDir = $this->checkFilterDir($orderDir);
 		if ($orderDir != $orderDirConf ) {
 			$orderDirLink .= '&dir=' . $orderDir;	//was '&order='
 		}
@@ -3179,7 +3217,7 @@ vmdebug('createCloneWithChildren relation',$relation);
 
 
 	public function updateStockInDB ($product, $amount, $signInStock, $signOrderedStock) {
-
+		vmdebug('updateStockInDB start ', $signInStock, $signOrderedStock);
 		$validFields = array('=', '+', '-');
 		if (!in_array ($signInStock, $validFields)) {
 			return FALSE;
@@ -3219,18 +3257,20 @@ vmdebug('createCloneWithChildren relation',$relation);
 
 			$db = JFactory::getDbo();
 			$db->setQuery ($q);
-			$db->query ();
-
+			$db->execute ();
+			//vmdebug('updateStockInDB executed query ', $q);
 			//The low on stock notification comes now, when the people ordered.
 			//You need to know that the stock is going low before you actually sent the wares, because then you ususally know it already yourself
 			//note by Max Milbers
-			if ($signInStock == '+') {
+			if ($signInStock == '+' or $signOrderedStock == '+') {
 
-				$db->setQuery ('SELECT (IFNULL(`product_in_stock`,"0")+IFNULL(`product_ordered`,"0")) < IFNULL(`low_stock_notification`,"0") '
+				$q = 'SELECT (IFNULL(`product_in_stock`,"0")-IFNULL(`product_ordered`,"0")) < IFNULL(`low_stock_notification`,"0") '
 				. 'FROM `#__virtuemart_products` '
-				. 'WHERE `virtuemart_product_id` = ' . (int)$productId
-				);
+				. 'WHERE `virtuemart_product_id` = ' . (int)$productId;
+				$db->setQuery ( $q );
+				//vmdebug('Check for low stock ',$q);
 				if ($db->loadResult () == 1) {
+					vmdebug('Check for low stock said therre is a low stock ');
 					$this->lowStockWarningEmail( $productId) ;
 				}
 			}
@@ -3248,7 +3288,7 @@ vmdebug('createCloneWithChildren relation',$relation);
 			$db = JFactory::getDbo();
 			$db->setQuery ($q);
 			$vars = $db->loadAssoc ();
-
+			vmdebug('lowStockWarningEmail query result',$q,$vars);
 			$url = JURI::root () . 'index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=' . $virtuemart_product_id;
 			$link = '<a href="'. $url.'">'. $vars['product_name'].'</a>';
 			$vars['subject'] = vmText::sprintf('COM_VIRTUEMART_PRODUCT_LOW_STOCK_EMAIL_SUBJECT',$vars['product_name']);
@@ -3269,7 +3309,7 @@ vmdebug('createCloneWithChildren relation',$relation);
 
 			$vars['user'] =  $vendor->vendor_store_name ;
 			shopFunctionsF::renderMail ('productdetails', $vars['vendorEmail'], $vars, 'productdetails', TRUE) ;
-
+			vmdebug('lowStockWarningEmail email sent ',$q,$vars);
 			return TRUE;
 		} else {
 			return FALSE;

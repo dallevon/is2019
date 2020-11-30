@@ -5,15 +5,15 @@
  *
  * @package	VirtueMart
  * @subpackage User
- * @author Oscar van Eijk
+ * @author Max Milbers, Maik Künnemann,StAn
  * @link https://virtuemart.net
- * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
+ * @copyright Copyright (c) 2004 - 2020 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
  * VirtueMart is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
  * is derivative of works licensed under the GNU General Public License or
  * other free or open source software licenses.
- * @version $Id: user.php 10194 2019-11-04 20:15:34Z Milbo $
+ * @version $Id: user.php 10347 2020-11-02 12:59:07Z Milbo $
  */
 
 // Check to ensure this file is included in Joomla!
@@ -207,20 +207,17 @@ class VirtueMartControllerUser extends JControllerLegacy
 				$cartObj->setCartIntoSession(true);
 			}
 		} else {
-
-			if($currentUser->guest==1 and ($register or !$cartObj )){
-				if($this->checkCaptcha('index.php?option=com_virtuemart&view=user&task=editaddresscart&addrtype=BT') == FALSE) {
-					$msg = vmText::_('PLG_RECAPTCHA_ERROR_INCORRECT_CAPTCHA_SOL');
+					//find URL to redirect if captcha is wrong:
 					if($cartObj and $cartObj->_fromCart) {
-						$this->redirect( JRoute::_('index.php?option=com_virtuemart&view=user&task=editaddresscart&addrtype=BT'), $msg );
-					} else if($cartObj and $cartObj->getInCheckOut()) {
-						$this->redirect( JRoute::_('index.php?option=com_virtuemart&view=user&task=editaddresscheckout&addrtype=BT'), $msg );
+						$redirect_url = 'index.php?option=com_virtuemart&view=user&task=editaddresscart&addrtype=BT';
+					} elseif($cartObj and $cartObj->getInCheckOut()) {
+						$redirect_url = 'index.php?option=com_virtuemart&view=user&task=editaddresscheckout&addrtype=BT';
 					} else {
-						$this->redirect( JRoute::_('index.php?option=com_virtuemart&view=user&task=edit&addrtype=BT'), $msg );
+						$redirect_url = 'index.php?option=com_virtuemart&view=user&task=edit&addrtype=BT';
 					}
-					return $msg;
-				}
-			}
+					//redirect is done in checkCaptcha via setRedirect
+					if(!$this->checkCaptcha($redirect_url)) return;
+			
 
 			if($currentUser->guest!=1 or !$cartObj or ($currentUser->guest==1 and $register) ){
 
@@ -328,21 +325,17 @@ class VirtueMartControllerUser extends JControllerLegacy
 	 * Check the Joomla ReCaptcha Plg
 	 *
 	 * @author Maik Künnemann
+	 * @Stan
 	 */
 	function checkCaptcha($retUrl){
-		if(JFactory::getUser()->guest==1 and VmConfig::get ('reg_captcha')){
 
-			$filled = vRequest::getVar ('g-recaptcha-response',false);
-			if(!$filled){
-				vmInfo('COM_VM_FILL_CAPTCHA');
-				return false;
-			}
+		
+			$msg = shopFunctionsF::checkCaptcha('reg_captcha');
+			//stAn - strict checking for captcha:
+			if($msg !== TRUE){
 
-			$recaptcha = vRequest::getVar ('recaptcha_response_field');
-			JPluginHelper::importPlugin('captcha');
-			$dispatcher = JDispatcher::getInstance();
-			$res = $dispatcher->trigger('onCheckAnswer',$recaptcha);
-			if(!$res[0]){
+				//timeout or wrong captcha detected
+				//in j3.8+ joomla core captchas trigger an exception instead of FALSE
 				$data = vRequest::getPost();
 				$data['address_type'] = vRequest::getVar('addrtype','BT');
 
@@ -352,15 +345,16 @@ class VirtueMartControllerUser extends JControllerLegacy
 					$prefix = 'shipto_';
 				}
 				$cart->saveAddressInCart($data, $data['address_type'],true,$prefix);
-				$errmsg = vmText::_('PLG_RECAPTCHA_ERROR_INCORRECT_CAPTCHA_SOL');
-				$this->setRedirect (JRoute::_ ($retUrl . '&captcha=1', FALSE), $errmsg);
+				//$errmsg = vmText::_('PLG_RECAPTCHA_ERROR_INCORRECT_CAPTCHA_SOL');
+				//$errmsg = $e->getMessage();
+				$this->setRedirect (JRoute::_ ($retUrl . '&captcha=1', FALSE), $msg);
 				return FALSE;
-			} else {
-				return TRUE;
+
 			}
-		} else {
-			return TRUE;
-		}
+		
+		//no captcha enabled
+		return TRUE;
+
 	}
 
 }
