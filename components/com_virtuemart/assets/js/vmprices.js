@@ -111,7 +111,7 @@ Virtuemart.cartEffect = function(form) {
 			} else if (datas.stat == 2) {
 				var txt = datas.msg;
 			} else {
-				var txt = "<H4>" + vmCartError + "</H4>" + datas.msg;
+				var txt = "<H4>" + Virtuemart.vmCartError + "</H4>" + datas.msg;
 			}
 			if (usefancy) {
 				jQuery.fancybox({
