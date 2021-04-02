@@ -38,6 +38,7 @@
 - `product_sku` = значение родителского product_sku + номер характеристики в 1С
 - `product_parent_id` = virtuemart_product_id родительского продукта
 - `product_in_stock` = остаток в 1С по этой харакеристике
+- ***`has_medias` = 1***
 
 ### **\***\_virtuemart_product_categories
 
