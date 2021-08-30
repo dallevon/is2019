@@ -12,6 +12,7 @@
 - `products_per_row`=0
 - `limit_list_step`=NULL
 - `limit_list_initial`=NULL
+- `has_medias`=1
 
 ### Таблица **\***\_virtuemart_product_prices
 
