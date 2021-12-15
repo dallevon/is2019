@@ -1,42 +1,42 @@
 // Main Nav
 .g-main-nav,
 #g-mobilemenu-container {
-	.g-toplevel {
-		> li {
-			> .g-menu-item-container {
-				white-space: nowrap;
-			}
-			&.g-parent {
-				.g-menu-parent-indicator {
-					&:after {
-						font-family: 'Font Awesome 5 Free';
-						font-weight: 900 !important;
-					}
-				}
-			}
-		}
-	}
-	.g-sublevel {
-		.g-go-back {
-			.g-menu-item-container {
-				&:before {
-					font-family: 'Font Awesome 5 Free';
-					font-weight: 900 !important;
-				}
-			}
-		}
-	}
+  .g-toplevel {
+    > li {
+      > .g-menu-item-container {
+        white-space: nowrap;
+      }
+      &.g-parent {
+        .g-menu-parent-indicator {
+          &:after {
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900 !important;
+          }
+        }
+      }
+    }
+  }
+  .g-sublevel {
+    .g-go-back {
+      .g-menu-item-container {
+        &:before {
+          font-family: "Font Awesome 5 Free";
+          font-weight: 900 !important;
+        }
+      }
+    }
+  }
 }
 
 // VMmenu
 
 .VMmenu {
-	li {
-		margin-bottom: 0.5rem;
-		&.VmOpen {
-			a {
-				box-shadow: 0 2px 0 fadeout($navigation-text-color, 80%);
-			}
-		}
-	}
+  li {
+    margin-bottom: 0.5rem;
+    &.VmOpen {
+      a {
+        box-shadow: 0 2px 0 fadeout($navigation-text-color, 0.8);
+      }
+    }
+  }
 }
