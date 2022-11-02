@@ -14,6 +14,11 @@
 - `limit_list_initial`=NULL
 - `has_medias`=1
 
+### Таблица **\***\_virtuemart_category_medias
+
+![image](https://user-images.githubusercontent.com/14219112/199608474-0a3d6132-e117-4834-8eda-dabf8e859472.png)
+
+
 ### Таблица **\***\_virtuemart_product_prices
 
 Цены на продукты, импортируемые из 1С в таблицу **\***\_virtuemart_product_prices должны иметь значения:
