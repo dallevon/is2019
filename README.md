@@ -15,8 +15,8 @@
 - `has_medias`=1
 
 ### Таблица **\***\_virtuemart_category_medias
+![image](https://user-images.githubusercontent.com/14219112/199749952-2a9d7ae9-fc44-484a-be01-a36cdcb04810.png)
 
-![image](https://user-images.githubusercontent.com/14219112/199608474-0a3d6132-e117-4834-8eda-dabf8e859472.png)
 ```
 UPDATE `rjmkx_virtuemart_category_medias` SET `virtuemart_media_id` = '2388' WHERE `rjmkx_virtuemart_category_medias`.`virtuemart_category_id` = 1;
 UPDATE `rjmkx_virtuemart_category_medias` SET `virtuemart_media_id` = '2393' WHERE `rjmkx_virtuemart_category_medias`.`virtuemart_category_id` = 2;
