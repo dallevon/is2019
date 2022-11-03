@@ -17,7 +17,18 @@
 ### Таблица **\***\_virtuemart_category_medias
 
 ![image](https://user-images.githubusercontent.com/14219112/199608474-0a3d6132-e117-4834-8eda-dabf8e859472.png)
-
+```
+UPDATE `rjmkx_virtuemart_category_medias` SET `virtuemart_media_id` = '2388' WHERE `rjmkx_virtuemart_category_medias`.`virtuemart_category_id` = 1;
+UPDATE `rjmkx_virtuemart_category_medias` SET `virtuemart_media_id` = '2393' WHERE `rjmkx_virtuemart_category_medias`.`virtuemart_category_id` = 2;
+UPDATE `rjmkx_virtuemart_category_medias` SET `virtuemart_media_id` = '2389' WHERE `rjmkx_virtuemart_category_medias`.`virtuemart_category_id` = 3;
+UPDATE `rjmkx_virtuemart_category_medias` SET `virtuemart_media_id` = '2385' WHERE `rjmkx_virtuemart_category_medias`.`virtuemart_category_id` = 4;
+UPDATE `rjmkx_virtuemart_category_medias` SET `virtuemart_media_id` = '2392' WHERE `rjmkx_virtuemart_category_medias`.`virtuemart_category_id` = 5;
+UPDATE `rjmkx_virtuemart_category_medias` SET `virtuemart_media_id` = '2390' WHERE `rjmkx_virtuemart_category_medias`.`virtuemart_category_id` = 6;
+UPDATE `rjmkx_virtuemart_category_medias` SET `virtuemart_media_id` = '2391' WHERE `rjmkx_virtuemart_category_medias`.`virtuemart_category_id` = 7;
+UPDATE `rjmkx_virtuemart_category_medias` SET `virtuemart_media_id` = '2382' WHERE `rjmkx_virtuemart_category_medias`.`virtuemart_category_id` = 8;
+UPDATE `rjmkx_virtuemart_category_medias` SET `virtuemart_media_id` = '2383' WHERE `rjmkx_virtuemart_category_medias`.`virtuemart_category_id` = 9;
+UPDATE `rjmkx_virtuemart_category_medias` SET `virtuemart_media_id` = '2384' WHERE `rjmkx_virtuemart_category_medias`.`virtuemart_category_id` = 10;
+```
 
 ### Таблица **\***\_virtuemart_product_prices
 
