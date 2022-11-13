@@ -170,7 +170,7 @@ class VmImage extends VmMediaHandler {
 		$this->checkPathCreateFolders(vRequest::filterPath($this->file_url_folder_thumb));
 
 		if ($exists) {
-			if(!file_exists($resizedFilenamePath)) {
+			if(!file_exists($resizedFilenamePath) || $this->expiredThumb($fullSizeFilenamePath, $resizedFilenamePath)) {
 				$createdImage = new Img2Thumb( $fullSizeFilenamePath, (int)$width, (int)$height, $resizedFilenamePath, $maxsize, $bgred, $bggreen, $bgblue );
 				if(!$createdImage){
 						return 0;
@@ -211,6 +211,19 @@ class VmImage extends VmMediaHandler {
 		$button .= '<br />' . $text.'</a>';
 		echo $button;
 
+	}
+
+	/**
+	 * This function compares modification dates for thumbnail and image.
+	 * and when image is newer than thumbnail will return true
+	 *
+	 * @author Levon Dallakyan
+	 * @param string $image
+	 * @param string $thumbnail
+	 * @return boolean
+	 */
+	public function expiredThumb($image, $thumbnail) {
+		return filemtime($image) > filemtime($thumbnail);
 	}
 
 }

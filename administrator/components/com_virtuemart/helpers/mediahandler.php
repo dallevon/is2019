@@ -563,7 +563,7 @@ class VmMediaHandler {
 			$file_alt = $this->file_meta;
 		}
 
-		if ((empty($file_url_thumb) || !file_exists($media_path)) && is_a($this,'VmImage')) {
+		if ((empty($file_url_thumb) || !file_exists($media_path) || $this->expiredThumb($toChk, $media_path)) && is_a($this,'VmImage')) {
 			$file_url_thumb = $this->createThumb($width,$height);
 			$media_path = VMPATH_ROOT.DS.str_replace('/',DS,$file_url_thumb);
 		}
