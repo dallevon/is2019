@@ -10,6 +10,10 @@ administrator/components/com_virtuemart/models/*
 !/administrator/components/com_virtuemart/tables/
 /administrator/components/com_virtuemart/tables/*
 !/administrator/components/com_virtuemart/tables/userinfos.php
+!/administrator/components/com_virtuemart/helpers/
+/administrator/components/com_virtuemart/helpers/*
+!/administrator/components/com_virtuemart/helpers/mediahandler.php
+!/administrator/components/com_virtuemart/helpers/image.php
 /administrator/help/*
 /administrator/includes/*
 /administrator/language/*
@@ -93,4 +97,3 @@ templates/g5_helium/js/*
 !/templates/g5_helium/scss
 /templates/g5_helium/scss/*
 !/templates/g5_helium/scss/is2019
-
