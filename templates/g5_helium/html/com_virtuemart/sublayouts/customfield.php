@@ -325,11 +325,11 @@ class VirtueMartCustomFieldRenderer
 
 							$productModel->addImages($productChild, 1);
 
-							// print_r($productChild->images[0]);
+							$productChildImage = VMPATH_ROOT . DS . str_replace('/', DS, $productChild->images[0]->file_url);
 							$productChildThumb = $productChild->images[0]->getFileUrlThumb($width, $width / $imageAspect);
 							$media_path = VMPATH_ROOT . DS . str_replace('/', DS, $productChildThumb);
 
-							if ((empty($productChildThumb) || !file_exists($media_path)) && is_a($productChild->images[0], 'VmImage')) {
+							if ((empty($productChildThumb) || !file_exists($media_path) || $productChild->images[0]->expiredThumb($productChildImage, $media_path)) && is_a($productChild->images[0], 'VmImage')) {
 								$productChild->images[0]->createThumb($width, $width / $imageAspect);
 								$productChildThumb = $productChild->images[0]->getFileUrlThumb($width, $width / $imageAspect);
 							}
