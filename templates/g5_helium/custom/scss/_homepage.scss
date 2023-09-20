@@ -74,6 +74,7 @@
           height: 1px;
         }
         .owl-dots {
+          display: none;
           top: 5%;
           right: 2.5%;
           width: auto;
@@ -153,6 +154,7 @@
         .joint-sales-katri {
           .g-owlcarousel-item {
             &-title {
+              display: none;
               color: rgb(223, 98, 14);
               //*position: right;
               bottom: 0;
@@ -174,6 +176,7 @@
               }
             }
             &-link {
+              display: none;
               padding-top: 1rem;
               text-align: right;
               @include breakpoint(mobile-only) {
@@ -181,6 +184,7 @@
               }
             }
             &-button {
+              display: none;
               margin-top: 1rem;
               padding: 0.6rem 1.25rem;
               color: rgb(0, 0, 0);
@@ -216,6 +220,7 @@
         }
         .awards {
           .g-owlcarousel-item-title {
+            display: none;
             box-sizing: border-box;
             position: absolute;
             bottom: 0;
@@ -236,6 +241,7 @@
             width: 35%;
             .g-owlcarousel-item-title,
             .g-owlcarousel-item-desc {
+              display: none;
               text-align: center;
             }
             .g-owlcarousel-item-title {
@@ -243,7 +249,7 @@
             }
 
             .g-owlcarousel-item-desc {
-              display: block;
+              display: none;
               color: $black;
               text-shadow: 0 0 10px rgba(255, 255, 255, 0.75);
               text-transform: uppercase;
